@@ -1,0 +1,48 @@
+{
+  "justforyou": [
+    {
+      "id": "jstfy1",
+      "name": "ASUS FHD Gaming Laptop",
+      "price": 700,
+      "discount-price": 570,
+      "discount-percentage": "20%",
+      "img": "/flash-sales-img/laptop.png",
+      "alt": "laptop",
+      "stars": 4.65,
+      "times rated": 325
+    },
+    {
+      "id": "jstfy2",
+      "name": "IPS LCD Gaming Monitor",
+      "price": 400,
+      "discount-price": 370,
+      "discount-percentage": "50%",
+      "img": "/flash-sales-img/monitor.png",
+      "alt": "monitor",
+      "stars": 5,
+      "times rated": 99
+    },
+    {
+      "id": "jstfy3",
+      "name": "HAVIT HV-G92 Gamepad",
+      "price": 160,
+      "discount-price": 126,
+      "discount-percentage": "40%",
+      "img": "/flash-sales-img/game-pad.png",
+      "alt": "game pad",
+      "stars": 5,
+      "times rated": 88
+    },
+    {
+      "id": "jstfy4",
+      "name": "AK-900 Wired Keyboard",
+      "price": 1160,
+      "discount-price": 960,
+      "discount-percentage": "35%",
+      "img": "/flash-sales-img/keyboard.png",
+      "alt": "keyboard",
+      "stars": 5,
+      "times rated": 75
+    }
+  ]
+}

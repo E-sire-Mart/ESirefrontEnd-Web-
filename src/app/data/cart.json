@@ -1,0 +1,16 @@
+{
+    "cartproducts": [
+        {
+            "name": "LCD Monitor",
+            "price": 650,
+            "img": "public/flash-sales-img/monitor.png",
+            "alt": "LCD Monitor"
+         },
+         {
+            "name": "HI Gamepad",
+            "price": 1960,
+            "img": "public/flash-sales-img/game-pad.png",
+            "alt": "Hi Gamepad"
+          }
+    ]
+  }

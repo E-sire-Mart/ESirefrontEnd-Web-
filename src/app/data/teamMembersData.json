@@ -1,0 +1,78 @@
+{
+    "teamMembers": [
+      {
+        "name": "Tom Cruise",
+        "role": "Founder and Chairman",
+        "img": "/assets/tomcruise.png",
+        "alt": "a picture of tom cruise",
+        "id": 1,
+        "socialMedia": {
+          "twitter": "twitter.com/tomcruise",
+          "instagram": "instagram.com/tomcruise",
+          "linkedIn": "linkedin.com/tomcruise"
+        }
+      },
+      {
+        "name": "Emma Watson",
+        "role": "Managing Director",
+        "img": "/assets/emmawatson.png",
+        "alt": "a picture of emma watson",
+        "id": 2,
+        "socialMedia": {
+          "twitter": "twitter.com/emmawatson",
+          "instagram": "instagram.com/emmawatson",
+          "linkedIn": "linkedin.com/emmawatson"
+        }
+      },
+      {
+        "name": "Will Smith",
+        "role": "Product Designer",
+        "img": "/assets/willsmith.png",
+        "alt": "a picture of will smith",
+        "id": 3,
+        "socialMedia": {
+          "twitter": "twitter.com/willsmith",
+          "instagram": "instagram.com/willsmith",
+          "linkedIn": "linkedin.com/willsmith"
+        }
+      }, 
+     
+      {
+        "name": "Tom Cruise",
+        "role": "Founder and Chairman",
+        "img": "/assets/tomcruise.png",
+        "alt": "a picture of tom cruise",
+        "id": 4,
+        "socialMedia": {
+          "twitter": "twitter.com/tomcruise",
+          "instagram": "instagram.com/tomcruise",
+          "linkedIn": "linkedin.com/tomcruise"
+        }
+      },
+      {
+        "name": "Emma Watson",
+        "role": "Managing Director",
+        "img": "/assets/emmawatson.png",
+        "alt": "a picture of emma watson",
+        "id": 5,
+        "socialMedia": {
+          "twitter": "twitter.com/emmawatson",
+          "instagram": "instagram.com/emmawatson",
+          "linkedIn": "linkedin.com/emmawatson"
+        }
+      }, 
+      {
+        "name": "Will Smith",
+        "role": "Product Designer",
+        "img": "/assets/willsmith.png",
+        "alt": "a picture of will smith",
+        "id": 6,
+        "socialMedia": {
+          "twitter": "twitter.com/willsmith",
+          "instagram": "instagram.com/willsmith",
+          "linkedIn": "linkedin.com/willsmith"
+        }
+      }
+    ]
+  }
+  

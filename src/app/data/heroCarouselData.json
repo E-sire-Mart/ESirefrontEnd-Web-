@@ -1,0 +1,29 @@
+{
+  "heroCarouselData": [
+    {
+      "id": "hrocd1",
+      "product": "iPhone 14 Series",
+      "logo": "/hero-carousel-img/hero-carousel-iphone-logo.png",
+      "img": "/hero-carousel-img/hero-carousel-iphone.png",
+      "alt": "iPhone device",
+      "discount": "Up to 10% off Voucher",
+      "quickLink": "/"
+    },
+    {
+      "id": "hrocd2",
+      "product": "JBL music player",
+      "img": "/hero-carousel-img/hero-carousel-music-box.png",
+      "alt": "JBL music player",
+      "discount": "Enhance Your Music Experience",
+      "quickLink": "/"
+    },
+    {
+      "id": "hrocd3",
+      "product": "Women’s Collections",
+      "img": "/hero-carousel-img/hero-carousel-hat-w.png",
+      "alt": "women hat",
+      "discount": "Featured woman collections that give you another vibe.",
+      "quickLink": "/"
+    }
+  ]
+}

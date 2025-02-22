@@ -1,0 +1,65 @@
+{
+    "bestSellingProducts": [
+      {
+        "id": "bs1",
+        "name": "The north coat",
+        "price": 364,
+        "discount-price": 245,
+        "img": "/best-selling-img/coat.svg",
+        "alt": "game pad",
+        "stars": 5,
+        "times rated": 88
+      },
+      {
+        "id": "bs2",
+        "name": "Gucci duffle bag",
+        "price": 1160,
+        "discount-price": 960,
+        "img": "/best-selling-img/duffle-bag.svg",
+        "alt": "keyboard",
+        "stars": 3.5,
+        "times rated": 75
+      },
+      {
+        "id": "bs3",
+        "name": "IPS LCD Gaming Monitor",
+        "price": 400,
+        "discount-price": 370,
+        "img": "/flash-sales-img/monitor.png",
+        "alt": "monitor",
+        "stars": 4.5,
+        "times rated": 99
+      },
+      {
+        "id": "bs4",
+        "name": "RGB liquid CPU Cooler",
+        "price": 400,
+        "discount-price": 375,
+        "img": "/best-selling-img/cpu-cooler.svg",
+        "alt": "chair",
+        "stars": 5,
+        "times rated": 99
+      },
+      {
+        "id": "bs5",
+        "name": "Small BookSelf",
+        "price": 660,
+        "discount-price": 470,
+        "img": "/best-selling-img/bookshelf.svg",
+        "alt": "jacket",
+        "stars": 5,
+        "times rated": 55
+      },
+      {
+        "id": "bs6",
+        "name": "ASUS FHD Gaming Laptop",
+        "price": 700,
+        "discount-price": 570,
+        "img": "/flash-sales-img/laptop.png",
+        "alt": "laptop",
+        "stars": 5,
+        "times rated": 325
+      }
+    ]
+  }
+  

@@ -1,0 +1,24 @@
+{
+    "payment": [
+        {
+            "id": 1,
+            "name": "Bkash",
+            "img": "/assets/Bkash.png"
+        },
+        {
+            "id": 2,
+            "name": "Visa",
+            "img": "/assets/Visa.png"
+        },
+        {
+            "id": 3,
+            "name": "Mastercard",
+            "img": "/assets/Mastercard.png"
+        },
+        {
+            "id": 4,
+            "name": "Nagad",
+            "img": "/assets/Nagad.png"
+        }
+    ]
+}

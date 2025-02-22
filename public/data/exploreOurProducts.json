@@ -1,0 +1,119 @@
+{
+    "exploreOurProducts": [
+      {
+        "id": "explr1",
+        "name": "Breed Dry Dog Food",
+        "price": 100,
+        "new": "new",
+        "img": "/explore-products-img/dog-food.svg",
+        "alt": "dog food",
+        "stars": 5,
+        "times rated": 34
+      },
+      {
+        "id": "explr2",
+        "name": "GP11 Shooter USB Gamepad",
+        "price": 660,
+        "new": "new",
+        "img": "/explore-products-img/game-pad-b.svg",
+        "alt": "game pad",
+        "stars": 4,
+        "times rated": 88
+      },
+      {
+        "id": "explr3",
+        "name": "CANON EOS DSLR Camera",
+        "price": 1160,
+        "img": "/explore-products-img/camera.svg",
+        "alt": "keyboard",
+        "stars": 5,
+        "times rated": 75
+      },
+      {
+        "id": "explr4",
+        "name": "Curology Product Set ",
+        "price": 554,
+        "new": "new",
+        "img": "/explore-products-img/product-set.svg",
+        "alt": "keyboard",
+        "stars": 4.5,
+        "times rated": 75
+      },
+      {
+        "id": "explr5",
+        "name": "IPS LCD Gaming Monitor",
+        "price": 400,
+        "img": "/flash-sales-img/monitor.png",
+        "alt": "monitor",
+        "stars": 5,
+        "times rated": 99
+      },
+      {
+        "id": "explr6",
+        "name": "S-Series Comfort Chair",
+        "price": 400,
+        "img": "/flash-sales-img/chair.png",
+        "alt": "chair",
+        "stars": 5,
+        "times rated": 99
+      },
+      {
+        "id": "explr7",
+        "name": "Kids Electric Car",
+        "price": 940,
+        "img": "/explore-products-img/car.svg",
+        "alt": "chair",
+        "stars": 5,
+        "times rated": 99
+      },
+      {
+        "id": "explr8",
+        "name": "Quilted Satin Jacket",
+        "price": 660,
+        "img": "/flash-sales-img/jacket.png",
+        "alt": "jacket",
+        "stars": 3.8,
+        "times rated": 55
+      },
+      {
+        "id": "explr9",
+        "name": "Jr. Zoom Soccer Cleats",
+        "price": 500,
+        "new": "new",
+        "img": "/explore-products-img/football-boots.svg",
+        "alt": "game pad",
+        "stars": 5,
+        "times rated": 88
+      },
+      {
+        "id": "explr10",
+        "name": "HAVIT HV-G92 Gamepad",
+        "price": 160,
+        "new": "new",
+        "img": "/flash-sales-img/game-pad.png",
+        "alt": "game pad",
+        "stars": 5,
+        "times rated": 88
+      },
+      {
+        "id": "explr11",
+        "name": "AK-900 Wired Keyboard",
+        "price": 1160,
+        "new": "new",
+        "img": "/flash-sales-img/keyboard.png",
+        "alt": "keyboard",
+        "stars": 5,
+        "times rated": 75
+      },
+      {
+        "id": "explr12",
+        "name": "ASUS FHD Gaming Laptop",
+        "price": 700,
+        "img": "/flash-sales-img/laptop.png",
+        "alt": "laptop",
+        "stars": 5,
+        "times rated": 325
+      }
+    ]
+  }
+  

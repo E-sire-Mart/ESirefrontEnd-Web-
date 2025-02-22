@@ -1,0 +1,70 @@
+{
+  "flashSalesProducts": [
+    {
+      "id": "flsp1",
+      "name": "HAVIT HV-G92 Gamepad",
+      "price": 160,
+      "discount-price": 126,
+      "discount-percentage": "40%",
+      "img": "/flash-sales-img/game-pad.png",
+      "alt": "game pad",
+      "stars": 4.8,
+      "times rated": 88
+    },
+    {
+      "id": "flsp2",
+      "name": "AK-900 Wired Keyboard",
+      "price": 1160,
+      "discount-price": 960,
+      "discount-percentage": "35%",
+      "img": "/flash-sales-img/keyboard.png",
+      "alt": "keyboard",
+      "stars": 5,
+      "times rated": 93
+    },
+    {
+      "id": "flsp3",
+      "name": "IPS LCD Gaming Monitor",
+      "price": 400,
+      "discount-price": 370,
+      "discount-percentage": "50%",
+      "img": "/flash-sales-img/monitor.png",
+      "alt": "monitor",
+      "stars": 4.7,
+      "times rated": 98
+    },
+    {
+      "id": "flsp4",
+      "name": "S-Series Comfort Chair",
+      "price": 400,
+      "discount-price": 375,
+      "discount-percentage": "40%",
+      "img": "/flash-sales-img/chair.png",
+      "alt": "chair",
+      "stars": 4.3,
+      "times rated": 99
+    },
+    {
+      "id": "flsp5",
+      "name": "Quilted Satin Jacket",
+      "price": 660,
+      "discount-price": 470,
+      "discount-percentage": "42%",
+      "img": "/flash-sales-img/jacket.png",
+      "alt": "jacket",
+      "stars": 4.2,
+      "times rated": 55
+    },
+    {
+      "id": "flsp6",
+      "name": "ASUS FHD Gaming Laptop",
+      "price": 700,
+      "discount-price": 570,
+      "discount-percentage": "20%",
+      "img": "/flash-sales-img/laptop.png",
+      "alt": "laptop",
+      "stars": 4.7,
+      "times rated": 325
+    }
+  ]
+}
