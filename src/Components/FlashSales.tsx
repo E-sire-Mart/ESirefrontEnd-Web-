@@ -1,7 +1,7 @@
 "use client";
 
 import { HiArrowRight, HiArrowLeft, HiOutlineHeart, HiOutlineEye } from "react-icons/hi";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import StarRatings from "react-star-ratings";
@@ -9,21 +9,7 @@ import { useCart } from "../context/cart-context";
 import { useWishlist } from "../context/wishlist-context";
 import ItemSkeleton from "../app/skeletons/ItemSkeleton";
 import { Product } from "@/types/product";
-// interface Product {
-//   id: number;
-//   img: string;
-//   alt: string;
-//   name: string;
-//   price: number;
-//   discountPrice: number;
-//   discountPercentage: string;
-//   stars: number;
-//   timesRated: number;
-// }
 
-interface FlashSalesProps {
-  products: Product[];
-}
 
 export default function FlashSales() {
   const [loading, setLoading] = useState(true);
@@ -40,7 +26,7 @@ export default function FlashSales() {
   });
 
   // Function to calculate time left for the countdown
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(() => {
     const difference = +targetDate - +new Date();
     if (difference > 0) {
       return {
@@ -51,14 +37,14 @@ export default function FlashSales() {
       };
     }
     return { days: "00", hours: "00", minutes: "00", seconds: "00" };
-  };
+  }, [targetDate]);
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
     const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [calculateTimeLeft]);
 
   // Fetch products data
   async function getProducts() {

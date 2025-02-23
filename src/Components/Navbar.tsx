@@ -2,27 +2,28 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+// import { useRouter } from "next/navigation";
 import { HiOutlineSearch, HiOutlineHeart, HiOutlineMenu } from "react-icons/hi";
 import { CgClose } from "react-icons/cg";
 import { CiUser } from "react-icons/ci";
 import { useCart } from "../context/cart-context";
 import { useWishlist } from "../context/wishlist-context";
 import { useAuth } from "../context/auth-context";
-import { useRouter } from "next/navigation";
 import allProductsStore from "../app/data/allProductsStore.json";
-import { Product } from "@/types/product";
+import { Product } from "../types/product";
 
 export default function Navbar() {
   const { user } = useAuth();
   const { cart } = useCart();
   const { wishlist } = useWishlist();
-  const router = useRouter();
+  // const router = useRouter();
 
   const inputValueRef = useRef<HTMLInputElement>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [dropDown, setDropDown] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
-  const [searchedProducts, setSearchedProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [dropDown, setDropDown] = useState<boolean>(false);
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean>(false);
+  const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     setIsLargeScreen(window.innerWidth >= 1024);
@@ -40,9 +41,9 @@ export default function Navbar() {
   useEffect(() => {
     if (searchQuery) {
       const filteredProducts = allProductsStore.allProductsStore.filter((product) =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        (product as unknown as Product).name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setSearchedProducts(filteredProducts);
+      setSearchedProducts(filteredProducts as unknown as Product[]);
     } else {
       setSearchedProducts([]);
     }
@@ -88,8 +89,8 @@ export default function Navbar() {
             <ul className="absolute top-full right-0 bg-secondary w-[20rem] max-h-[32rem] overflow-y-scroll z-20 p-4 rounded-b-md">
               {searchedProducts.map((product) => (
                 <li key={product._id}>
-                  <Link className="flex gap-4 items-center hover:text-action hover:underline" href={`/product/${product.id}`}>
-                    <img className="w-6 h-6" src={product.img} alt={product.alt} />
+                  <Link className="flex gap-4 items-center hover:text-action hover:underline" href={`/product/${product._id}`}>
+                    <Image src={product.image} alt={product.alt}  className="w-6 h-6"/>
                     {product.name}
                   </Link>
                 </li>
@@ -115,7 +116,7 @@ export default function Navbar() {
           {user ? (
             <Link className="rounded-full hover:bg-action transition-all" href="/my-account">
               {user.avatar_url ? (
-                <img src={user.avatar_url} alt="User" className="w-8 h-8 rounded-full" />
+                <Image src={user.avatar_url} alt="User" className="w-8 h-8 rounded-full" />
               ) : (
                 <CiUser className="w-8 h-8 p-1 bg-red-500 rounded-full text-white" />
               )}

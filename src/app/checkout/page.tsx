@@ -1,8 +1,8 @@
 // src/app/checkout/page.tsx
-
-import { useCart } from "../../context/cart-context";
+"use client";
 import { useState } from "react";
-import { formatCurrency } from "../../lib/formatCurrency";
+import { useCart } from "../../context/cart-context";
+import formatCurrency  from "../../lib/formatCurrency";
 
 export default function CheckoutPage() {
   const { cart } = useCart();
@@ -37,7 +37,7 @@ export default function CheckoutPage() {
           <h2 className="text-xl">Order Summary</h2>
           <ul>
             {cart.map((item) => (
-              <li key={item.id} className="flex justify-between">
+              <li key={item._id} className="flex justify-between">
                 <span>{item.name}</span>
                 <span>{formatCurrency(item.price)}</span>
               </li>

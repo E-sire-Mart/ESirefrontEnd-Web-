@@ -2,8 +2,9 @@
 
 import { HiArrowRight, HiArrowLeft, HiOutlineHeart, HiOutlineEye } from "react-icons/hi";
 import Link from "next/link";
+import Image from "next/image";
 import StarRatings from "react-star-ratings";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "../context/cart-context";
 import { useWishlist } from "../context/wishlist-context";
 import { ItemSkeleton2 } from "../app/skeletons/ItemSkeleton";
@@ -62,7 +63,7 @@ export default function ExploreOurProducts() {
           : products.map((product) => (
               <div className="flex flex-col gap-1 w-[14rem] max-sm:w-[9rem]" key={product._id}>
                 <div className="group overflow-hidden flex flex-col items-center justify-center w-full h-[13rem] max-sm:h-[10rem] rounded-md p-4 bg-secondary relative">
-                  <img
+                  <Image
                     className="hover:scale-[1.2] transition-all"
                     src={product.image}
                     alt={product.name}

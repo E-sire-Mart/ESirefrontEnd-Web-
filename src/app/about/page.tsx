@@ -1,5 +1,7 @@
 // src/app/about/page.tsx
 
+"use client";
+
 export default function AboutPage() {
   return (
     <div className="container mx-auto p-4">

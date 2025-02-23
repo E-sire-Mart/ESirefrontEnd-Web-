@@ -1,7 +1,7 @@
 // src/app/login/page.tsx
 
 "use client"
-import react, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../context/auth-context";
 
 export default function LoginPage() {
@@ -11,7 +11,10 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    login({ username: email });
+    login({
+      username: "",
+      avatar_url: ""
+    });
   };
 
   return (

@@ -1,20 +1,22 @@
+
+
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import Navbar from "../Components/Navbar";
-import HeroCarousel from "../Components/HeroCarousel";
-import heroCarouselData from "./data/heroCarouselData.json";
-import Footer from "../Components/Footer";
+import { useState, useEffect, useCallback } from "react";
 import { MdNavigateNext } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
+import Navbar from "../Components/Navbar";
+import HeroCarousel from "../Components/HeroCarousel";
+import Footer from "../Components/Footer";
 import FlashSales from "../Components/FlashSales";
 import Categories from "../Components/Categories";
 import BestSellingProducts from "../Components/BestSellingProducts";
 import ExploreOurProducts from "../Components/ExploreOurProducts";
 import NewArrivals from "../Components/NewArrivals";
 import OurServices from "../Components/OurServices";
+import heroCarouselData from "./data/heroCarouselData.json";
 
 
 export default function Home() {
@@ -24,6 +26,7 @@ export default function Home() {
     initialDate.setSeconds(initialDate.getSeconds() - 45);
     return initialDate;
   });
+
 
   const [showSecondaryNav, setShowSecondaryNav] = useState<boolean>(false);
   const [isMediumScreen, setIsMediumScreen] = useState<boolean>(typeof window !== "undefined" && window.innerWidth >= 640);
@@ -51,7 +54,7 @@ export default function Home() {
     }
   };
 
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(()=> {
     const difference = +targetDate - +new Date();
     let timeLeft = {
       days: "00",
@@ -77,7 +80,7 @@ export default function Home() {
       };
     }
     return timeLeft;
-  };
+  }, [targetDate]);
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
@@ -86,11 +89,11 @@ export default function Home() {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, [targetDate, calculateTimeLeft]);
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <section className="flex px-[7%] mb-6 gap-[7rem] w-full justify-between max-lg:flex-col max-lg:gap-4 max-lg:items-center relative">
         <button
           type="button"

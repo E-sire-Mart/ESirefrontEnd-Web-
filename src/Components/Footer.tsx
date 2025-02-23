@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { AiOutlineSend } from "react-icons/ai";
 import { HiOutlineQrcode } from "react-icons/hi";
 
@@ -80,10 +81,10 @@ export default function Footer() {
             </span>
             <div className="flex flex-col gap-2 w-1/2 h-[5rem] justify-between">
               <Link className="h-max w-full hover:border-2 rounded-md hover:border-action" href="#">
-                <img className="w-full h-full" src="/icons/GooglePlay.svg" alt="Google Play Store" />
+                <Image src="/icons/GooglePlay.svg" alt="Google Play Store" className="w-full h-full" width={150} height={50}/>
               </Link>
               <Link className="h-max w-full hover:border-2 rounded-md hover:border-action" href="#">
-                <img className="w-full h-full" src="/icons/app-store.svg" alt="Apple App Store" />
+                <Image className="w-full h-full" src="/icons/app-store.svg" alt="Apple App Store" width={150} height={50}/>
               </Link>
             </div>
           </div>

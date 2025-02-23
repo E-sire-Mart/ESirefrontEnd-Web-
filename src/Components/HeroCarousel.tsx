@@ -6,12 +6,13 @@ import Link from "next/link";
 import { HiArrowRight } from "react-icons/hi";
 
 interface CarouselItem {
+  id: string;
   logo?: string;
   product: string;
   discount: string;
   img: string;
   alt: string;
-  quickLink: string;
+  quickLink: string; // Ensure this matches your data source
 }
 
 interface HeroCarouselProps {
@@ -35,7 +36,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
       {heroCarouselData.map((item, index) => (
         <div
           className={slide === index ? "flex gap-3 w-full h-full shrink-0" : "hidden"}
-          key={index}
+          key={item.id} // Use item.id for a unique key
         >
           <div className="w-1/2 h-full text-primary flex flex-col justify-center gap-5 p-4">
             <div className="flex gap-3 items-center">
@@ -58,7 +59,7 @@ export default function HeroCarousel({ data }: HeroCarouselProps) {
             </h2>
             <Link
               className="flex items-center gap-3 max-sm:text-[0.8rem] hover:text-action hover:underline transition-all w-max"
-              href={item.quickLink}
+              href={item.quickLink} // Provide a fallback if quickLink is undefined
             >
               Shop Now <HiArrowRight />
             </Link>

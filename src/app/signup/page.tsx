@@ -1,5 +1,7 @@
 // src/app/signup/page.tsx
 
+"use client"
+
 import { useState } from "react";
 import { useAuth } from "../../context/auth-context";
 
@@ -10,7 +12,10 @@ export default function SignupPage() {
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    login({ username: email });
+    login({
+      username: email,
+      avatar_url: ""
+    });
   };
 
   return (

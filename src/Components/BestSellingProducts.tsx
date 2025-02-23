@@ -2,6 +2,7 @@
 
 import { HiOutlineHeart, HiOutlineEye } from "react-icons/hi";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import StarRatings from "react-star-ratings";
 import { useCart } from "@/context/cart-context";
@@ -59,10 +60,10 @@ export default function BestSellingProducts() {
           : bestSellingProducts.map((product) => (
               <div className="flex flex-col gap-1 w-[14rem] max-sm:w-[9rem]" key={product._id}>
                 <div className="group overflow-hidden flex flex-col items-center justify-center w-full h-[13rem] max-sm:h-[10rem] rounded-md p-4 bg-secondary relative">
-                  <img
+                  <Image
                     className="hover:scale-[1.2] transition-all"
                     src={product.image}
-                    alt={product.name}
+                    alt={product.alt}
                     loading="lazy"
                   />
                   <div className="absolute top-2 right-3 flex flex-col gap-4">

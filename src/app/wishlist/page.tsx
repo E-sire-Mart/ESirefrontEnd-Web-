@@ -1,5 +1,5 @@
 // src/app/wishlist/page.tsx
-
+"use client";
 import { useWishlist } from "../../context/wishlist-context";
 import ProductCard from "../../Components/ProductCard";
 
@@ -14,7 +14,7 @@ export default function WishlistPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
           {wishlist.map((product) => (
-            <ProductCard key={product.id} {...product} />
+            <ProductCard key={product._id} id={product._id} name={product.name} description={product.description} price={product.price}/>
           ))}
         </div>
       )}

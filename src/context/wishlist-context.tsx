@@ -22,7 +22,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   };
 
   const removeFromWishlist = (id: string) => {
-    setWishlist((prev) => prev.filter((item) => item.id !== id));
+    setWishlist((prev) => prev.filter((item) => item._id !== id));
   };
 
   return (
