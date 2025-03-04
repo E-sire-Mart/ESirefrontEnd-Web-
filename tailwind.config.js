@@ -1,12 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
-    "./src/**/*.{js,ts,jsx,tsx}", // All files in src folder
-    "./pages/**/*.{js,ts,jsx,tsx}", // If you use pages directory
-    "./components/**/*.{js,ts,jsx,tsx}", // Components folder
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors : {
+        "primary-200" : "#ffbf00",
+        "primary-100" : "#ffc929",
+        "secondary-200" : "#00b050",
+        "secondary-100" : "#0b1a78"
+      }
+    },
   },
   plugins: [],
-};
+}
+
