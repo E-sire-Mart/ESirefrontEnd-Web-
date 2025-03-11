@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { useForm } from "react-hook-form"
+import { useDispatch, useSelector } from 'react-redux'
 import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
 import toast from 'react-hot-toast'
@@ -7,7 +8,8 @@ import AxiosToastError from '../utils/AxiosToastError'
 import { IoClose } from "react-icons/io5";
 import { useGlobalContext } from '../provider/GlobalProvider'
 
-const AddAddress = ({close}) => {
+const AddAddress = ({ close }) => {
+    const user = useSelector((state)=> state.user)
     const { register, handleSubmit,reset } = useForm()
     const { fetchAddress } = useGlobalContext()
 
@@ -41,6 +43,7 @@ const AddAddress = ({close}) => {
             AxiosToastError(error)
         }
     }
+
   return (
     <section className='bg-black fixed top-0 left-0 right-0 bottom-0 z-50 bg-opacity-70 h-screen overflow-auto'>
         <div className='bg-white p-4 w-full max-w-lg mt-8 mx-auto rounded'>
@@ -100,12 +103,12 @@ const AddAddress = ({close}) => {
                     <label htmlFor='mobile'>Mobile No. :</label>
                     <input
                         type='text'
-                        id='mobile' 
+                          id='mobile' 
+                          value={user.mobile?user.mobile:""}
                         className='border bg-blue-50 p-2 rounded'
                         {...register("mobile",{required : true})}
                     />
                 </div>
-
                 <button type='submit' className='bg-primary-200 w-full  py-2 font-semibold mt-4 hover:bg-primary-100'>Submit</button>
             </form>
         </div>

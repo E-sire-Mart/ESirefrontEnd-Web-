@@ -4,7 +4,7 @@ import productReducer from "./productSlice";
 import cartReducer from "./cartProduct";
 import addressReducer from "./addressSlice";
 import orderReducer from "./orderSlice";
-import registerUserReducer from "./registerUser";
+import registerReducer from "./registerSlice";
 export const store = configureStore({
   reducer: {
     user: userReducer,
@@ -12,6 +12,6 @@ export const store = configureStore({
     cartItem: cartReducer,
     addresses: addressReducer,
     orders: orderReducer,
-    user: registerUserReducer,
+    registerEmail: registerReducer
   },
 });

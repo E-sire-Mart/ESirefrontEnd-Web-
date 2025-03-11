@@ -20,7 +20,7 @@ const Profile = () => {
     })
     const [loading,setLoading] = useState(false)
     const dispatch = useDispatch()
-
+    
     useEffect(()=>{
         setUserData({
             name : user.name,
@@ -28,7 +28,7 @@ const Profile = () => {
             mobile : user.mobile,
         })
     },[user])
-
+    console.log(user);
     const handleOnChange  = (e)=>{
         const { name, value} = e.target 
 

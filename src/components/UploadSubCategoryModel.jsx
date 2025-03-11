@@ -14,6 +14,10 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
         image : "",
         category : []
     })
+    // useEffect(() => {
+    //     getCurrentSubCategory();
+    // }, [subCategoryData]);
+
     const allCategory = useSelector(state => state.product.allCategory)
 
     const handleChange = (e)=>{
@@ -54,7 +58,20 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
             }
         })
     }
-
+    // const getCurrentSubCategory = async() => {
+    //     try {
+    //         const response = await Axios({
+    //             ...SummaryApi.getSubCategory
+    //         })
+    //         const { data : responseData } = response
+    
+    //         if(responseData.success){
+    //            dispatch(setAllSubCategory(responseData.data.sort((a, b) => a.name.localeCompare(b.name)))) 
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
     const handleSubmitSubCategory = async(e)=>{
         e.preventDefault()
 
@@ -63,10 +80,9 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
                 ...SummaryApi.createSubCategory,
                 data : subCategoryData
             })
-
             const { data : responseData } = response
 
-            console.log("responseData",responseData)
+            console.log("responseData: ",responseData)
             if(responseData.success){
                 toast.success(responseData.message)
                 if(close){

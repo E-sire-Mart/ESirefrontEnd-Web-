@@ -33,10 +33,6 @@ const SummaryApi = {
     url: "/api/user/user-details",
     method: "get",
   },
-  registeruserDetail: {
-    url: "/api/user/registeruser-details",
-    method: "post",
-  },
   logout: {
     url: "/api/user/logout",
     method: "get",

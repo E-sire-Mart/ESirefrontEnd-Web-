@@ -32,7 +32,6 @@ const UploadProduct = () => {
   const [selectCategory,setSelectCategory] = useState("")
   const [selectSubCategory,setSelectSubCategory] = useState("")
   const allSubCategory = useSelector(state => state.product.allSubCategory)
-
   const [openAddField,setOpenAddField] = useState(false)
   const [fieldName,setFieldName] = useState("")
 
@@ -50,7 +49,7 @@ const UploadProduct = () => {
 
   const handleUploadImage = async(e)=>{
     const file = e.target.files[0]
-
+    console.log(file);
     if(!file){
       return 
     }

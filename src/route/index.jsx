@@ -24,7 +24,7 @@ import CartMobile from "../pages/CartMobile";
 import CheckoutPage from "../pages/CheckoutPage";
 import Success from "../pages/Success";
 import Cancel from "../pages/Cancel";
-
+import MemberShip from "../pages/Membership";
 const router = createBrowserRouter([
     {
         path : "/",
@@ -97,6 +97,10 @@ const router = createBrowserRouter([
                     {
                         path : 'product',
                         element : <AdminPermision><ProductAdmin/></AdminPermision>
+                    },
+                    {
+                        path: 'membership',
+                        element: <AdminPermision><MemberShip/></AdminPermision>
                     }
                 ]
             },

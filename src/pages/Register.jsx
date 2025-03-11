@@ -67,6 +67,7 @@ const Register = () => {
 
             if(response.data.success){
                 toast.success(response.data.message)
+                localStorage.setItem("registerEmail", JSON.stringify(data.email));
                 setData({
                     name : "",
                     email : "",

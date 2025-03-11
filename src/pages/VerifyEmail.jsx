@@ -7,9 +7,8 @@ import SummaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import fetchUserDetails from '../utils/fetchUserDetails';
-import { useDispatch } from 'react-redux';
-import { setRegisterUserDetails } from '../store/registerUser';
 import { setUserDetails } from '../store/userSlice';
+import { useDispatch } from 'react-redux';
 
 const VerifyEmail = () => {
     const [data, setData] = useState(["", "", "", "", "", ""])
@@ -25,24 +24,23 @@ const VerifyEmail = () => {
     //         navigate("/register")
     //     }
     // },[])
-    useEffect(() => {
-        const registerUser = fetchUserDetails();
-        dispatch(setRegisterUserDetails(registerUser.data))
-    }, []);
+    // useEffect(() => {
+
+    // }, []);
     const valideValue = data.every(el => el)
-
+    const registeremail = JSON.parse(localStorage.getItem('registerEmail'))
     const handleSubmit = async(e)=>{
+        console.log(registeremail);
         e.preventDefault()
-
         try {
             const response = await Axios({
                 ...SummaryApi.verifyEmail,
                 data : {
-                    code : data.join(""),
-                    // email : location?.state?.email
+                    code: data.join(""),
+                    email: registeremail
                 }
             })
-            
+            console.log(response);
             if(response.data.error){
                 toast.error(response.data.message)
             }
@@ -66,9 +64,6 @@ const VerifyEmail = () => {
             console.log('error',error)
             AxiosToastError(error)
         }
-
-
-
     }
 
     return (
