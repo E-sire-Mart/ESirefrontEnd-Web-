@@ -26,7 +26,10 @@ const AddAddress = ({ close }) => {
                     country : data.country,
                     pincode : data.pincode,
                     mobile : data.mobile
-                }
+                },
+                headers: {
+                    "Content-Type": "application/json",
+                  },
             })
 
             const { data : responseData } = response

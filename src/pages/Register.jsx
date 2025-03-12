@@ -58,7 +58,10 @@ const Register = () => {
         try {
             const response = await Axios({
                 ...SummaryApi.register,
-                data : data
+                data : data,
+                headers: {
+                    "Content-Type": "application/json",
+                  },
             })
             
             if(response.data.error){
