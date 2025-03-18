@@ -81,14 +81,18 @@ const Header = () => {
           </div>
 
           {/**Search */}
-          <div className="lg:block xl:block hidden">
+          <div className="md:block xl:block hidden">
             <Search />
           </div>
-          <div className="hidden">
-            <GoSearch />
-          </div>
+
           {/**login and my cart */}
-          <div className="">
+          <div className="flex justify-center gap-5 items-center">
+            <div
+              className="md:hidden lg:hidden sm:block flex justify-center items-center"
+              onClick={() => showSearchModal()}
+            >
+              <GoSearch />
+            </div>
             {/**user icons display in only mobile version**/}
             <button
               className="text-neutral-600 lg:hidden"
