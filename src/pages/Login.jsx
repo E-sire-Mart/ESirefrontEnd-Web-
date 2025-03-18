@@ -9,8 +9,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import fetchUserDetails from '../utils/fetchUserDetails';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../store/userSlice';
+import Loading from '../components/Loading';
 
 const Login = () => {
+    const [loginStatus, setLoginStatus] = useState(false);
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -29,7 +31,6 @@ const Login = () => {
             }
         })
     }
-
     const valideValue = Object.values(data).every(el => el)
 
 
@@ -37,6 +38,7 @@ const Login = () => {
         e.preventDefault()
 
         try {
+            setLoginStatus(true);
             const response = await Axios({
                 ...SummaryApi.login,
                 data : data
@@ -44,6 +46,7 @@ const Login = () => {
             
             if(response.data.error){
                 toast.error(response.data.message)
+            setLoginStatus(false);
             }
 
             if(response.data.success){
@@ -59,10 +62,12 @@ const Login = () => {
                     password : "",
                 })
                 navigate("/")
+                setLoginStatus(false);
             }
 
         } catch (error) {
             AxiosToastError(error)
+                setLoginStatus(false);
         }
 
 
@@ -109,8 +114,10 @@ const Login = () => {
                         </div>
                         <Link to={"/forgot-password"} className='block ml-auto hover:text-primary-200'>Forgot password ?</Link>
                     </div>
-    
+                    {
+                        loginStatus? <Loading/>:
                     <button disabled={!valideValue} className={` ${valideValue ? "bg-green-800 hover:bg-green-700" : "bg-gray-500" }    text-white py-2 rounded font-semibold my-3 tracking-wide`}>Login</button>
+    }
 
                 </form>
 

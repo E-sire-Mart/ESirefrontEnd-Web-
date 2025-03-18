@@ -54,7 +54,7 @@ function App() {
            dispatch(setAllSubCategory(responseData.data.sort((a, b) => a.name.localeCompare(b.name)))) 
         }
     } catch (error) {
-        
+        console.log(error);
     }finally{
     }
   }
@@ -69,7 +69,7 @@ function App() {
   return (
     <GlobalProvider> 
       <Header/>
-      <main className='min-h-[78vh] yellow-100'>
+      <main className='min-h-[78vh] pt-10 white-100 '>
           <Outlet/>
       </main>
       <Footer/>
