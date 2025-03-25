@@ -57,9 +57,9 @@ const Header = () => {
   // },[cartItem])
 
   return (
-    <header className="sticky top-0 z-40 flex justify-center items-center gap-1">
+    <header className="sticky top-0 z-40 shadow-md flex justify-center items-center gap-1 w-full bg-gradient-to-r from-violet-600 to-indigo-600">
       {!(isSearchPage && isMobile) && (
-        <div className="container lg:h-20 h-24 lg:shadow-md mx-auto flex items-center px-2 pr-[40px] pl-[40px] justify-between bg-yellow-100 rounded-[60px] mr-[20px] mt-[10px] ml-[20px]">
+        <div className="container lg:h-20 h-24 flex md:block-inline sm:block-inline items-center px-2 pr-[40px] pl-[40px] justify-between ">
           {/**logo */}
           <div className="h-full">
             <Link to={"/"} className="h-full flex justify-center items-center">
@@ -125,7 +125,10 @@ const Header = () => {
                   )}
                 </div>
               ) : (
-                <button onClick={redirectToLoginPage} className="text-lg px-2">
+                <button
+                  onClick={redirectToLoginPage}
+                  className="text-lg px-2 text-white"
+                >
                   Login
                 </button>
               )}

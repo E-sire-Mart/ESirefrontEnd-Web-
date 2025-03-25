@@ -158,5 +158,4 @@ const SummaryApi = {
     method: "get",
   },
 };
-
 export default SummaryApi;
