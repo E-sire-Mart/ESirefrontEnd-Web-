@@ -17,21 +17,18 @@
 }
 
 @media (max-width: 1024px) {
-  .first-carousel,
-  .categories-lists {
+  .first-carousel {
     max-width: 1024px;
   }
 }
 
 @media (max-width: 768px) {
-  .first-carousel,
-  .categories-lists {
+  .first-carousel {
     max-width: 768px;
   }
 }
 @media (max-width: 640px) {
-  .first-carousel,
-  .categories-lists {
+  .first-carousel {
     max-width: 640px;
   }
 }

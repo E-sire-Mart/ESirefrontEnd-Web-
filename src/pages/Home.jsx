@@ -9,6 +9,7 @@ import CarouselComponents from "../components/Carousel";
 import HomeCarouselData from "../common/homeFirstCarousel";
 import ListsCarousel from "../components/ProductsListsCarousel";
 import CategoriesData from "../common/categoriesData";
+import ExitingOffer from "../components/ExitingOffer";
 
 const Home = () => {
   const loadingCategory = useSelector((state) => state.product.loadingCategory);
@@ -37,8 +38,12 @@ const Home = () => {
   return (
     <section className="bg-blown-100">
       <CarouselComponents data={HomeCarouselData} />
-      <ListsCarousel listData={CategoriesData} />
+      <ListsCarousel listData={CategoriesData} preferWord={""} />
+      <ExitingOffer />
       <div className="container mx-auto pt-5 w-full">
+        <p className="mx-auto w-full flex justify-start pl-5 items-center">
+          Exiting offers
+        </p>
         <div
           className={`w-full h-full min-h-48 flex justify-center items-center rounded ${
             !banner && "animate-pulse my-2"
@@ -56,7 +61,6 @@ const Home = () => {
           />
         </div>
       </div>
-
       <div className="container mx-auto px-4 my-2 grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2 pt-5">
         {loadingCategory
           ? new Array(12).fill(null).map((c, index) => {
@@ -89,7 +93,6 @@ const Home = () => {
               );
             })}
       </div>
-
       {/***display category product */}
       {categoryData?.map((c, index) => {
         return (

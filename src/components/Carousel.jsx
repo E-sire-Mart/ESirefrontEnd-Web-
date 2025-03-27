@@ -26,7 +26,7 @@ const CarouselComponents = ({ data }) => {
   };
   return (
     <>
-      <div className="relative w-full h-[400px] mx-auto first-carousel">
+      <div className="relative w-full lg:h-[30vw] h-[50vw]">
         <div className="absolute h-full w-full">
           {data.map((item, index) => (
             <div

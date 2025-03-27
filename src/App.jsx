@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import fetchUserDetails from "./utils/fetchUserDetails";
 import { setUserDetails } from "./store/userSlice";
+
 import {
   setAllCategory,
   setAllSubCategory,
@@ -19,6 +20,7 @@ import GlobalProvider from "./provider/GlobalProvider";
 import { FaCartShopping } from "react-icons/fa6";
 import CartMobileLink from "./components/CartMobile";
 
+import NavBar from "./components/Navbar";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -79,7 +81,8 @@ function App() {
   return (
     <GlobalProvider>
       <Header />
-      <main className="min-h-[78vh] pt-5 white-100 ">
+      <NavBar />
+      <main className="min-h-[78vh] white-100 ">
         <Outlet />
       </main>
       <Footer />

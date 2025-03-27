@@ -28,6 +28,20 @@ const CategoriesData = [
     description: "",
     price: 200,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "2",
@@ -37,6 +51,12 @@ const CategoriesData = [
     description: "",
     price: 200,
     link: "",
+    subcategory: [
+      {
+        title: "watch",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "3",
@@ -46,6 +66,7 @@ const CategoriesData = [
     description: "",
     price: 120,
     link: "",
+    subcategory: [],
   },
   {
     id: "4",
@@ -55,6 +76,20 @@ const CategoriesData = [
     description: "",
     price: 150,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "5",
@@ -64,6 +99,20 @@ const CategoriesData = [
     descriptin: "",
     price: 140,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "6",
@@ -73,6 +122,20 @@ const CategoriesData = [
     description: "",
     price: 200,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "7",
@@ -82,6 +145,20 @@ const CategoriesData = [
     description: "",
     price: 200,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "8",
@@ -91,6 +168,20 @@ const CategoriesData = [
     description: "",
     price: 120,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "9",
@@ -100,6 +191,20 @@ const CategoriesData = [
     descriptin: "",
     price: 140,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "10",
@@ -109,6 +214,20 @@ const CategoriesData = [
     descriptin: "",
     price: 140,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "11",
@@ -118,6 +237,20 @@ const CategoriesData = [
     description: "",
     price: 200,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "12",
@@ -127,6 +260,20 @@ const CategoriesData = [
     description: "",
     price: 200,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "13",
@@ -136,6 +283,20 @@ const CategoriesData = [
     description: "",
     price: 120,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "14",
@@ -145,6 +306,20 @@ const CategoriesData = [
     description: "",
     price: 150,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "15",
@@ -154,6 +329,20 @@ const CategoriesData = [
     descriptin: "",
     price: 140,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "16",
@@ -163,6 +352,20 @@ const CategoriesData = [
     description: "",
     price: 200,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "17",
@@ -172,6 +375,20 @@ const CategoriesData = [
     description: "",
     price: 200,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "18",
@@ -181,6 +398,20 @@ const CategoriesData = [
     description: "",
     price: 120,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "19",
@@ -190,6 +421,20 @@ const CategoriesData = [
     description: "",
     price: 150,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
   {
     id: "20",
@@ -199,6 +444,20 @@ const CategoriesData = [
     descriptin: "",
     price: 140,
     link: "",
+    subcategory: [
+      {
+        title: "watch1",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch2",
+        details: ["expensive watch", "poor watch"],
+      },
+      {
+        title: "watch3",
+        details: ["expensive watch", "poor watch"],
+      },
+    ],
   },
 ];
 export default CategoriesData;

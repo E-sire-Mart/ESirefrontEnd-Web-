@@ -57,9 +57,9 @@ const Header = () => {
   // },[cartItem])
 
   return (
-    <header className="sticky top-0 z-40 shadow-md flex justify-center items-center gap-1 w-full bg-gradient-to-r from-violet-600 to-indigo-600">
+    <header className="sticky top-0 z-40 shadow-md flex justify-center items-center gap-1 px-2 w-full bg-gradient-to-r from-violet-600 to-indigo-600">
       {!(isSearchPage && isMobile) && (
-        <div className="container lg:h-20 h-24 flex md:block-inline sm:block-inline items-center px-2 pr-[40px] pl-[40px] justify-between ">
+        <div className="container lg:h-20 h-16 flex md:block-inline sm:block-inline items-center justify-between ">
           {/**logo */}
           <div className="h-full">
             <Link to={"/"} className="h-full flex justify-center items-center">
@@ -88,21 +88,21 @@ const Header = () => {
           {/**login and my cart */}
           <div className="flex justify-center gap-5 items-center">
             <div
-              className="md:hidden lg:hidden sm:block flex justify-center items-center"
+              className="md:hidden lg:hidden sm:block text-white flex justify-center items-center"
               onClick={() => showSearchModal()}
             >
               <GoSearch />
             </div>
             {/**user icons display in only mobile version**/}
             <button
-              className="text-neutral-600 lg:hidden"
+              className="text-neutral-600 lg:hidden text-white"
               onClick={handleMobileUser}
             >
               <FaRegCircleUser size={26} />
             </button>
 
             {/**Desktop**/}
-            <div className="hidden lg:flex  items-center gap-10">
+            <div className="hidden lg:flex items-center gap-10">
               {user?._id ? (
                 <div className="relative">
                   <div
@@ -127,29 +127,33 @@ const Header = () => {
               ) : (
                 <button
                   onClick={redirectToLoginPage}
-                  className="text-lg px-2 text-white"
+                  className="text-lg px-2 text-white hover:bg-white hover:text-indigo-600 hover:rounded-[5px] hover:pt-[5px] hover:pb-[5px]"
                 >
                   Login
                 </button>
               )}
               <button
                 onClick={() => setOpenCartSection(true)}
-                className="flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-2 rounded text-white rounded-[12px]"
+                className="flex items-center gap-2 
+                 px-3 py-2 rounded text-white rounded-[12px]"
               >
                 {/**add to card icons */}
-                <div className="animate-bounce">
-                  <BsCart4 size={26} />
+                <div className=" hover:bg-white px-[10px] pt-[5px] pb-[5px] hover:rounded-[5px]">
+                  <BsCart4
+                    size={26}
+                    className="hover:text-indigo-600 hover:animate-bounce"
+                  />
                 </div>
-                <div className="font-semibold text-sm">
+                {/* <div className="font-semibold text-sm">
                   {cartItem[0] ? (
                     <div>
                       <p>{totalQty} Items</p>
                       <p>{DisplayPriceInRupees(totalPrice)}</p>
                     </div>
                   ) : (
-                    <p>My Cart</p>
+                    <></>
                   )}
-                </div>
+                </div> */}
               </button>
             </div>
           </div>
