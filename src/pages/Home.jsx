@@ -201,7 +201,7 @@ const Home = () => {
       <PopularProducts type="Cookware" data={Cookware} />
       <PopularProducts type="Storage Organization" data={StorageOrganization} />
       <PopularProducts type="Glassware Drinkware" data={GlasswareDrinkware} />
-      <div className="container mx-auto px-4 my-2 grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2 pt-5">
+      {/*<div className="container mx-auto px-4 my-2 grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-2 pt-5">
         {loadingCategory
           ? new Array(12).fill(null).map((c, index) => {
             return (
@@ -233,7 +233,7 @@ const Home = () => {
             );
           })}
       </div>
-      {/***display category product */}
+        
       {categoryData?.map((c, index) => {
         return (
           <CategoryWiseProductDisplay
@@ -243,7 +243,7 @@ const Home = () => {
           />
         );
       })}
-
+    */}
     </section>
   );
 };
