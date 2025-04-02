@@ -92,7 +92,7 @@ const Home = () => {
       <CarouselComponents data={HomeCarouselData} />
       <ListsCarousel listData={CategoriesDatas} preferWord={""} />
       <ExitingOffer />
-      <div className="mx-auto px-5 w-full mx-auto first-carousel">
+      <div className="mx-auto px-5 lg:pt-10 pt-5 w-full mx-auto first-carousel">
         <div
           className={`w-full h-full min-h-48 mx-auto flex justify-center items-center rounded ${!banner && "animate-pulse"
             } `}
@@ -110,7 +110,7 @@ const Home = () => {
         </div>
       </div>
       <DealOfTheDay />
-      <div className="mx-auto px-5 w-full mx-auto first-carousel">
+      <div className="mx-auto px-5 lg:pt-10 pt-5 w-full mx-auto first-carousel">
         <div
           className={`w-full h-full min-h-48 mx-auto flex justify-center items-center rounded ${!banner1 && "animate-pulse my-2"
             } `}
@@ -128,7 +128,7 @@ const Home = () => {
         </div>
       </div>
       <PopularProducts type="Mobile Phones" data={MobilePhones} />
-      <div className="mx-auto px-5 w-full mx-auto first-carousel">
+      <div className="mx-auto px-5 lg:pt-10 pt-5 w-full mx-auto first-carousel">
         <div
           className={`w-full h-full min-h-48 mx-auto flex justify-center items-center rounded ${!banner2 && "animate-pulse my-2"
             } `}
@@ -148,7 +148,7 @@ const Home = () => {
       <PromotionalBanners />
       <TopSeller data={TopSellerData} />
       <BundleDeals data={BundleDealsData} />
-      <div className="mx-auto px-5 w-full mx-auto first-carousel">
+      <div className="mx-auto px-5 lg:pt-10 pt-5 w-full mx-auto first-carousel">
         <div
           className={`w-full h-full min-h-48 mx-auto flex justify-center items-center rounded ${!banner3 && "animate-pulse my-2"
             } `}
@@ -166,7 +166,7 @@ const Home = () => {
         </div>
       </div>
       <TopPicks bannerDatas={TopPicksBannerData} topPicksDatas={TopPicksData} />
-      <div className="mx-auto px-5 w-full mx-auto first-carousel">
+      <div className="mx-auto px-5 lg:pt-10 pt-5 w-full mx-auto first-carousel">
         <div
           className={`w-full h-full min-h-48 mx-auto flex justify-center items-center rounded ${!banner4 && "animate-pulse my-2"
             } `}
