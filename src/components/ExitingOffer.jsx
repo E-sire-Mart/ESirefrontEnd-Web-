@@ -178,7 +178,7 @@ const ExitingOffer = () => {
 
   return (
     <div className="mx-auto relative first-carousel px-5">
-      <p className="text-xl pb-10 pt-4">Exiting Offer</p>
+      <p className="text-xl sm:text-2xl font-bold text-gray-800 pb-10 pt-4">Exiting Offer</p>
       <div className="relative">
         <button
           onClick={scrollLeft}

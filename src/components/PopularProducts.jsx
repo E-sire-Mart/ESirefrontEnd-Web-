@@ -65,7 +65,7 @@ const PopularProducts = ({type, data}) => {
     <div className=" mx-auto py-8 px-5 first-carousel">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-800">{type}</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{type}</h2>
         <button className="text-[#ff4747] hover:underline cursor-pointer">
           View All
         </button>
