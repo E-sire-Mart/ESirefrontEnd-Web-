@@ -1,4 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import image1 from "../assets/home_transfer_images/6.png";
+import image2 from "../assets/home_transfer_images/7.png";
+import image3 from "../assets/home_transfer_images/9.png";
+import image4 from "../assets/home_transfer_images/11.png";
+import image5 from "../assets/home_transfer_images/14.png";
+import image6 from "../assets/home_transfer_images/18.png";
+import image7 from "../assets/home_transfer_images/20.png";
+import image8 from "../assets/home_transfer_images/21.png";
 
 const newsItems = [
   {
@@ -6,42 +14,142 @@ const newsItems = [
     category: "Politics",
     date: "25",
     month: "May",
-    image:
-      "https://media.gettyimages.com/photos/at-the-the-network-tolo-televised-debate-dr-abdullah-abdullah-with-picture-id1179614034?k=6&m=1179614034&s=612x612&w=0&h=WwIX3RMsOQEn5DovD9J3e859CZTdxbHHD3HRyrgU3A8=",
+    timer: Date.now(),
+    discountedPrice: "399",
+    originalPrice: "698",
+    discount: "43%",
+    image: image1,
   },
   {
     title: "Afghanistan's President Ashraf Ghani Speaks At The Council",
     category: "Politics",
     date: "10",
     month: "Mar",
-    image:
-      "https://media.gettyimages.com/photos/ashraf-ghani-afghanistans-president-speaks-at-the-council-on-foreign-picture-id850794338?k=6&m=850794338&s=612x612&w=0&h=b_XBw5S38Cioslqr6VL3e36cWQU205IsInqDXZpDOD4=",
+    timer: Date.now(),
+    discountedPrice: "399",
+    originalPrice: "698",
+    discount: "43%",
+    image: image2,
   },
   {
     title: "Middle East Participants Gather In Warsaw",
     category: "Politics",
     date: "20",
     month: "Jan",
-    image:
-      "https://media.gettyimages.com/photos/afghan-president-ashraf-ghani-arrives-to-the-welcoming-ceremony-the-picture-id694155252?k=6&m=694155252&s=612x612&w=0&h=IIJPetzJL-hAgPkE4hm2wUKvO4YOav8jJp484CgLEUs=",
+    timer: Date.now(),
+    discountedPrice: "399",
+    originalPrice: "698",
+    discount: "43%",
+    image: image3,
   },
   {
     title: "Afghan President Ashraf Ghani Visits Jalalabad",
     category: "Politics",
     date: "25",
     month: "May",
-    image:
-      "https://media.gettyimages.com/photos/afghan-president-ashraf-ghani-speaks-during-a-gathering-in-jalalabad-picture-id1205021905?k=6&m=1205021905&s=612x612&w=0&h=nwAH1XuZxF_H4f6LfHv-lgqtZe0h1tVFXfzhpMwFqao=",
+    timer: Date.now(),
+    discountedPrice: "399",
+    originalPrice: "698",
+    discount: "43%",
+    image: image4
   },
   {
     title: "Afghan President Ashraf Ghani Visits Jalalabad",
     category: "Politics",
     date: "25",
     month: "May",
-    image:
-      "https://media.gettyimages.com/photos/afghan-president-ashraf-ghani-speaks-during-a-gathering-in-jalalabad-picture-id1205021905?k=6&m=1205021905&s=612x612&w=0&h=nwAH1XuZxF_H4f6LfHv-lgqtZe0h1tVFXfzhpMwFqao=",
+    timer: Date.now(),
+    discountedPrice: "399",
+    originalPrice: "698",
+    discount: "43%",
+    image: image5
+  },
+  {
+    title: "Afghan President Ashraf Ghani Visits Jalalabad",
+    category: "Politics",
+    date: "25",
+    month: "May",
+    timer: Date.now(),
+    discountedPrice: "399",
+    originalPrice: "698",
+    discount: "43%",
+    image: image6,
+  },
+  {
+    title: "Afghan President Ashraf Ghani Visits Jalalabad",
+    category: "Politics",
+    date: "25",
+    month: "May",
+    timer: Date.now(),
+    discountedPrice: "399",
+    originalPrice: "698",
+    discount: "43%",
+    image: image7,
+  },
+  {
+    title: "Afghan President Ashraf Ghani Visits Jalalabad",
+    category: "Politics",
+    date: "25",
+    month: "May",
+    timer: Date.now(),
+    discountedPrice: "399",
+    originalPrice: "698",
+    discount: "43%",
+    image: image8,
   },
 ];
+
+const Timer = () => {
+  const [time, setTime] = useState({
+    hours: 29,
+    minutes: 57,
+    seconds: 28
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(prevTime => {
+        let { hours, minutes, seconds } = prevTime;
+
+        if (seconds > 0) {
+          seconds--;
+        } else {
+          seconds = 59;
+          if (minutes > 0) {
+            minutes--;
+          } else {
+            minutes = 59;
+            if (hours > 0) {
+              hours--;
+            } else {
+              // Timer completed
+              clearInterval(timer);
+              return prevTime;
+            }
+          }
+        }
+
+        return {
+          hours,
+          minutes,
+          seconds
+        };
+      });
+    }, 1000);
+
+    // Cleanup on component unmount
+    return () => clearInterval(timer);
+  }, []);
+
+  // Format numbers to always show two digits
+  const formatNumber = (num) => num.toString().padStart(2, '0');
+
+  return (
+    <div className="text-white text-sm font-medium">
+      {formatNumber(time.hours)}: {formatNumber(time.minutes)}: {formatNumber(time.seconds)}
+    </div>
+  );
+};
 
 const ExitingOffer = () => {
   const carouselRef = useRef(null);
@@ -69,16 +177,15 @@ const ExitingOffer = () => {
   };
 
   return (
-    <div className="mx-auto p-5 sm:p-10 md:p-16 relative first-carousel">
-      <p className="">Exiting Offer</p>
+    <div className="mx-auto relative first-carousel px-5">
+      <p className="text-xl pb-10 pt-4">Exiting Offer</p>
       <div className="relative">
         <button
           onClick={scrollLeft}
-          className="absolute left-5 md:left-20 top-1/2 transform -translate-y-1/2 p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-900 z-10"
+          className="absolute left-5 md:left-20 top-1/2 transform -translate-y-1/2 p-3 bg-gray-200 text-grey-800 rounded-full shadow-lg hover:bg-gray-100 z-10"
         >
           ◀
         </button>
-
         <div
           ref={carouselRef}
           className="flex gap-5 overflow-x-auto scroll-smooth scrollbar-hide"
@@ -86,23 +193,39 @@ const ExitingOffer = () => {
           {newsItems.map((item, index) => (
             <div
               key={index}
-              className="relative flex-none w-80 h-[250px] bg-cover bg-center rounded-lg shadow-lg"
-              style={{ backgroundImage: `url(${item.image})` }}
+              className="relative flex-none w-80 h-[250px] bg-pink-500 rounded-lg shadow-lg p-5"
+              style={{
+                background: 'linear-gradient(to right, #e94c89,rgb(121, 3, 218))'
+              }}
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900"></div>
-              <div className="absolute top-0 right-0 left-0 mx-5 mt-2 flex justify-between items-center">
-                <span className="text-xs bg-indigo-600 text-white px-5 py-2 uppercase hover:bg-white hover:text-indigo-600 transition">
-                  {item.category}
-                </span>
-                <div className="text-white flex flex-col">
-                  <span className="text-3xl font-semibold">{item.date}</span>
-                  <span className="-mt-3">{item.month}</span>
+              {/* Replace the static timer with the Timer component */}
+              <Timer />
+
+              {/* Price and Discount Info */}
+              <div className="mt-4">
+                <div className="text-white text-2xl font-bold">
+                  AED {item.discountedPrice || "399"}
+                </div>
+                <div className="text-white/80 line-through text-sm">
+                  AED {item.originalPrice || "698"}
+                </div>
+                <div className="text-white text-xl font-bold mt-1">
+                  {item.discount || "43%"} Off
                 </div>
               </div>
-              <div className="p-5 absolute bottom-0">
-                <a href="#" className="text-md text-white hover:underline">
-                  {item.title}
-                </a>
+
+              {/* Product Title */}
+              <div className="text-white text-sm mt-2 truncate max-w-[150px]">
+                {item.title}
+              </div>
+
+              {/* Product Image */}
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-40 h-40 rounded-lg p-2">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
           ))}
@@ -110,7 +233,7 @@ const ExitingOffer = () => {
 
         <button
           onClick={scrollRight}
-          className="absolute right-5 md:right-20 top-1/2 transform -translate-y-1/2 p-3 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-900 z-10"
+          className="absolute right-5 md:right-20 top-1/2 transform -translate-y-1/2 p-3 bg-gray-200 text-gray-800 rounded-full shadow-lg hover:bg-gray-200 z-10"
         >
           ▶
         </button>

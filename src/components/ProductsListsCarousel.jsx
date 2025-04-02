@@ -5,7 +5,7 @@ const ListsCarousel = ({ listData, preferWord }) => {
   return (
     <>
       <div
-        className="overflow-x-scroll scrollbar-hide relative px-0.5 pt-5 w-full m-auto categories-lists"
+        className="overflow-x-scroll scrollbar-hide relative px-5 pt-5 w-full m-auto categories-lists"
         style={{ overflowY: "hidden" }}
       >
         <div
@@ -24,7 +24,7 @@ const ListsCarousel = ({ listData, preferWord }) => {
                   className="lg:h-[120px] h-[90px] px-[5px] object-cover md:rounded-[50%] rounded-[49%] bg-gradient-to-r from-violet-600 to-indigo-600"
                 />
                 <div className="p-2">
-                  <h3 className="md:text-[14px] text-[9px] text-gray-900 text-center w-full">
+                  <h3 className="md:text-[10px] text-[9px] text-gray-900 text-center w-full">
                     {card.title ? card.title : ""}
                   </h3>
                   <p className="text-gray-600 mt-2 text-sm">
