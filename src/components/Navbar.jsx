@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import  {CategoriesDatas}  from "../common/categoriesData";
+import { CategoriesDatas } from "../common/categoriesData";
 
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -9,13 +9,41 @@ const Navbar = () => {
   const [isSubcategoryDetailsVisible, setIsSubcategoryDetailsVisible] =
     useState(false);
   const [activeDetail, setActiveDetail] = useState(null);
-  console.log(CategoriesDatas);
-  
+
+  const toggleNav = () => setIsNavOpen(!isNavOpen);
+
+  const toggleCategory = (categoryId) => {
+    setActiveCategory((prev) => (prev === categoryId ? null : categoryId));
+  };
+
+  const toggleSubcategory = (subIndex) => {
+    setActiveSubcategory((prev) => (prev === subIndex ? null : subIndex));
+  };
+
+  const renderArrow = (isOpen) => (
+    <svg
+      className="w-4 h-4 transform transition-transform"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 6 10"
+      style={{ transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="m1 9 4-4-4-4"
+      />
+    </svg>
+  );
+
   return (
     <nav className="sticky bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 mx-auto lg:top-20 top-16 z-40 shadow-md flex justify-center items-center gap-1 w-full">
       <div className="container sticky w-full flex flex-wrap items-center justify-between">
         <button
-          onClick={() => setIsNavOpen(!isNavOpen)}
+          onClick={toggleNav}
           type="button"
           className="inline-flex items-center p-2 ms-3 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-800"
         >
@@ -31,11 +59,62 @@ const Navbar = () => {
           </svg>
         </button>
 
-        <div
-          className={`${
-            isNavOpen ? "block" : "hidden"
-          } w-full md:block md:w-auto`}
-        >
+        {/* Modal for mobile screens */}
+        {isNavOpen && (
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white w-full h-full p-4 rounded-lg shadow-lg relative overflow-y-auto">
+              <button
+                onClick={toggleNav}
+                className="absolute top-2 right-2 text-gray-500 hover:text-black"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <ul className="flex flex-col">
+                {CategoriesDatas.map((category) => (
+                  <li key={category.id} className="py-2 border-b">
+                    <button
+                      className="flex justify-between items-center w-full text-left  hover:bg-blue-200 px-2 py-1"
+                      onClick={() => toggleCategory(category.id)}
+                    >
+                      <span className="text-black hover:text-blue-400">{category.title}</span>
+                      {renderArrow(activeCategory === category.id)}
+                    </button>
+                    {activeCategory === category.id && category.subcategory && (
+                      <ul className="pl-4 mt-2">
+                        {category.subcategory.map((subcategory, subIndex) => (
+                          <li key={subIndex} className="py-1">
+                            <button
+                              className="flex justify-between items-center w-full text-left hover:bg-blue-200 px-2 py-1"
+                              onClick={() => toggleSubcategory(subIndex)}
+                            >
+                              <span className="text-black hover:text-blue-400 after:text-blue-200">• {subcategory.title}</span>
+                              {renderArrow(activeSubcategory === subIndex)}
+                            </button>
+                            {activeSubcategory === subIndex && subcategory.details && (
+                              <ul className="pl-4 mt-2">
+                                {subcategory.details.map((detail, detailIndex) => (
+                                  <li key={detailIndex} className="py-1  hover:bg-blue-200 px-2 py-1">
+                                    <span className="text-black hover:text-blue-400">
+                                      - {detail}
+                                      </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        <div className="hidden md:block w-full md:w-auto">
           <ul className="flex flex-col md:flex-row dark:bg-gray-900 dark:border-gray-700">
             <li
               className="relative"
@@ -71,24 +150,22 @@ const Navbar = () => {
                           onMouseEnter={() => setActiveCategory(index)}
                         >
                           <button className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 w-full">
-                            {category.title}
-                            {category.subcategory && category.subcategory.length > 0 && (
-                              <svg
-                                className="w-2.5 h-2.5 ms-3"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 6 10"
-                              >
-                                <path
-                                  stroke="currentColor"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="m1 9 4-4-4-4"
-                                />
-                              </svg>
-                            )}
+                            <span className="text-black hover:text-blue-400">{category.title}</span>
+                            <svg
+                              className="w-4 h-4 transform transition-transform"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 6 10"
+                            >
+                              <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="m1 9 4-4-4-4"
+                              />
+                            </svg>
                           </button>
                         </li>
                       ))}
@@ -110,25 +187,23 @@ const Navbar = () => {
                                   })
                                 }
                               >
-                                <button className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 w-full text-black">
-                                  {subcategory.title}
-                                  {subcategory.details?.length > 0 && (
-                                    <svg
-                                      className="w-2.5 h-2.5 ms-3"
-                                      aria-hidden="true"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      fill="none"
-                                      viewBox="0 0 6 10"
-                                    >
-                                      <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="m1 9 4-4-4-4"
-                                      />
-                                    </svg>
-                                  )}
+                                <button className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 w-full text-black text-left">
+                                • {subcategory.title}
+                                  <svg
+                                    className="w-4 h-4 transform transition-transform"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 6 10"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="m1 9 4-4-4-4"
+                                    />
+                                  </svg>
                                 </button>
                                 {activeSubcategory?.subIndex === subIndex &&
                                   activeSubcategory?.activeCategory === activeCategory &&
@@ -140,7 +215,7 @@ const Navbar = () => {
                                             key={`${CategoriesDatas[activeCategory].id}-${subIndex}-${index}`}
                                             className="px-4 py-2 hover:bg-gray-100"
                                           >
-                                            {detail}
+                                            - {detail}
                                           </li>
                                         ))}
                                       </ul>
