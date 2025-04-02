@@ -107,7 +107,7 @@ export const HealthBeautyData = [
     {
         id: 1,
         title: "Cosmetics",
-        image: "/assets/category/healthBeauty/1.jpg",
+        image: "/assets/category/healthBeauty/1.png",
     },
     {
         id: 2,

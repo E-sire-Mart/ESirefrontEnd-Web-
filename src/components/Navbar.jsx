@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CategoriesData from "../common/categoriesData";
+import  {CategoriesDatas}  from "../common/categoriesData";
 
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -9,7 +9,8 @@ const Navbar = () => {
   const [isSubcategoryDetailsVisible, setIsSubcategoryDetailsVisible] =
     useState(false);
   const [activeDetail, setActiveDetail] = useState(null);
-
+  console.log(CategoriesDatas);
+  
   return (
     <nav className="sticky bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 mx-auto lg:top-20 top-16 z-40 shadow-md flex justify-center items-center gap-1 w-full">
       <div className="container sticky w-full flex flex-wrap items-center justify-between">
@@ -63,15 +64,15 @@ const Navbar = () => {
                 <div className="absolute z-10 flex bg-white shadow-md">
                   <div className="w-[250px]">
                     <ul className="py-2 text-xs">
-                      {CategoriesData.map((category, index) => (
+                      {CategoriesDatas.map((category, index) => (
                         <li
-                          key={index}
+                          key={category.id}
                           className="relative"
                           onMouseEnter={() => setActiveCategory(index)}
                         >
                           <button className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 w-full">
                             {category.title}
-                            {category.subcategory.length > 0 ? (
+                            {category.subcategory && category.subcategory.length > 0 && (
                               <svg
                                 className="w-2.5 h-2.5 ms-3"
                                 aria-hidden="true"
@@ -87,8 +88,6 @@ const Navbar = () => {
                                   d="m1 9 4-4-4-4"
                                 />
                               </svg>
-                            ) : (
-                              <></>
                             )}
                           </button>
                         </li>
@@ -96,13 +95,13 @@ const Navbar = () => {
                     </ul>
                   </div>
                   {activeCategory !== null &&
-                    CategoriesData[activeCategory].subcategory.length > 0 && (
+                    CategoriesDatas[activeCategory]?.subcategory?.length > 0 && (
                       <div className="w-[230px] border-l">
                         <ul className="py-2 text-sm">
-                          {CategoriesData[activeCategory].subcategory.map(
+                          {CategoriesDatas[activeCategory].subcategory.map(
                             (subcategory, subIndex) => (
                               <li
-                                key={subIndex}
+                                key={`${CategoriesDatas[activeCategory].id}-${subIndex}`}
                                 className="relative"
                                 onMouseEnter={() =>
                                   setActiveSubcategory({
@@ -111,9 +110,9 @@ const Navbar = () => {
                                   })
                                 }
                               >
-                                <button className="flex items-center px-4 py-2 hover:bg-gray-100 w-full text-black">
+                                <button className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 w-full text-black">
                                   {subcategory.title}
-                                  {subcategory.details.length > 0 ? (
+                                  {subcategory.details?.length > 0 && (
                                     <svg
                                       className="w-2.5 h-2.5 ms-3"
                                       aria-hidden="true"
@@ -129,26 +128,21 @@ const Navbar = () => {
                                         d="m1 9 4-4-4-4"
                                       />
                                     </svg>
-                                  ) : (
-                                    <></>
                                   )}
                                 </button>
                                 {activeSubcategory?.subIndex === subIndex &&
-                                  activeSubcategory?.activeCategory ===
-                                    activeCategory &&
-                                  subcategory.details.length > 0 && (
+                                  activeSubcategory?.activeCategory === activeCategory &&
+                                  subcategory.details?.length > 0 && (
                                     <div className="absolute left-full w-[230px] top-0 bg-white shadow-lg border-l">
-                                      <ul className="text-sm">
-                                        {subcategory.details.map(
-                                          (detail, index) => (
-                                            <li
-                                              key={index}
-                                              className="px-4 py-2 hover:bg-gray-100"
-                                            >
-                                              {detail}
-                                            </li>
-                                          )
-                                        )}
+                                      <ul className="py-2 text-sm">
+                                        {subcategory.details.map((detail, index) => (
+                                          <li
+                                            key={`${CategoriesDatas[activeCategory].id}-${subIndex}-${index}`}
+                                            className="px-4 py-2 hover:bg-gray-100"
+                                          >
+                                            {detail}
+                                          </li>
+                                        ))}
                                       </ul>
                                     </div>
                                   )}
@@ -162,10 +156,10 @@ const Navbar = () => {
               )}
             </li>
             <li className="cursor-pointer py-2 px-3 text-white hover:underline transition duration-700 ease-in-out">
-              Perfumr Flesta
+              Perfume Fiesta
             </li>
             <li className="cursor-pointer py-2 px-3 text-white hover:underline transition duration-700 ease-in-out">
-              navigation.time-fest
+              Time Fest
             </li>
             <li className="cursor-pointer py-2 px-3 text-white hover:underline transition duration-700 ease-in-out">
               Clearance Sale

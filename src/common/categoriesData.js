@@ -19,445 +19,1182 @@ import img18 from "../assets/categories/18.png";
 import img19 from "../assets/categories/19.png";
 import img20 from "../assets/categories/20.png";
 
-const CategoriesData = [
+export const CategoriesDatas = [
   {
     id: "1",
+    alt: "Mobiles & Tablets",
     image: img1,
-    alt: "Automotive",
-    title: "Automotive",
+    title: "Mobiles & Tablets",
     description: "",
     price: 200,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Mobile Phones",
+        details: ["Smart Phones", "Feature Phone"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Mobile Accessories",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Mobile Photography Accessories",
+        details: []
       },
+      {
+        title: "Tablets",
+        details: []
+      },
+      {
+        title: "Tablet Accessories",
+        details: []
+      },
+      {
+        title: "Power Banks",
+        details: []
+      },
+      {
+        title: "Headphones & Earphones",
+        details: []
+      }
     ],
   },
   {
     id: "2",
+    alt: "Laptops & Computers",
     image: img2,
-    alt: "Clothing, Bags & Shoes",
-    title: "Clothing, Bags & Shoes",
+    title: "Laptops & Computers",
     description: "",
     price: 200,
     link: "",
     subcategory: [
       {
-        title: "watch",
-        details: ["expensive watch", "poor watch"],
+        title: "Laptops",
+        details: ["Gaming Laptops", "MacBooks", "Microsoft Surface", "Chromebooks", "2 in 1 Laptops", "Notebook & Laptops"]
       },
+      {
+        title: "Desktop Computers",
+        details: []
+      },
+      {
+        title: "PC Components",
+        details: []
+      },
+      {
+        title: "Drives & Storage",
+        details: []
+      },
+      {
+        title: "Networking",
+        details: []
+      },
+      {
+        title: "Software",
+        details: []
+      },
+      {
+        title: "Computer Accessories",
+        details: []
+      }
     ],
   },
   {
     id: "3",
+    alt: "Gaming & Accessories",
     image: img3,
-    alt: "Electronics",
-    title: "Electronics",
+    title: "Gaming & Accessories",
     description: "",
     price: 120,
     link: "",
-    subcategory: [],
+    subcategory: [
+      {
+        title: "Gaming Chairs & Desks",
+        details: ["Gaming Chair Accessories", "Gaming Chairs", "Gaming Desks", "Virtual Reality Chair"]
+      },
+      {
+        title: "Gaming PC & Components",
+        details: []
+      },
+      {
+        title: "Gaming PC Accessories",
+        details: []
+      },
+      {
+        title: "Gaming Consoles",
+        details: []
+      },
+      {
+        title: "Gaming Consoles Accessories",
+        details: []
+      },
+      {
+        title: "Video Games",
+        details: []
+      }
+    ],
   },
   {
     id: "4",
+    alt: "Pre Owned",
     image: img4,
-    alt: "Health & Beauty",
-    title: "Health & Beauty",
+    title: "Pre Owned",
     description: "",
     price: 150,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Pre-Owned Mobiles",
+        details: []
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Pre-Owned Laptops",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Pre-Owned Printers",
+        details: []
       },
+      {
+        title: "Pre-Owned Tablets",
+        details: []
+      }
     ],
   },
   {
     id: "5",
+    alt: "Electronics",
     image: img5,
-    alt: "Sports, Fitness & Cycling",
-    title: "Sports, Fitness & Cycling",
-    descriptin: "",
+    title: "Electronics",
+    description: "",
     price: 140,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Speakers & Audio Devices",
+        details: ["Amplifier, PA System & Turntables", "Audio Connectors and Cables", "Blu-ray Players", "DJ Controller", "DVD Players", "Mic Stand & Accessories"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Projector & Accessories",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Television & Accessories",
+        details: []
       },
+      {
+        title: "Torches & Emergency",
+        details: []
+      },
+      {
+        title: "Printers, Scanner & Copiers",
+        details: []
+      },
+      {
+        title: "Printer Accessories",
+        details: []
+      },
+      {
+        title: "Telephones & Communication",
+        details: []
+      },
+      {
+        title: "Musical Instruments",
+        details: []
+      },
+      {
+        title: "Other Office Equipment",
+        details: []
+      },
+      {
+        title: "Smoking Accessories",
+        details: []
+      }
     ],
   },
   {
     id: "6",
+    alt: "Home Appliances",
     image: img6,
-    alt: "Furniture",
-    title: "Furniture",
+    title: "Home Appliances",
     description: "",
     price: 200,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Food Preparation & Kitchenwares",
+        details: ["Food Processor", "Chopper", "Hand Mixer", "Health Grill", "Kitchen Machine", "Rice Cooker"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Heating, Cooling & Air",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Blenders and Juicers",
+        details: []
       },
+      {
+        title: "Coffee,Tea & Espresso",
+        details: []
+      },
+      {
+        title: "Ovens and Toasters",
+        details: []
+      },
+      {
+        title: "Irons and Steamers",
+        details: []
+      },
+      {
+        title: "Vacuums & Floor care",
+        details: []
+      },
+      {
+        title: "Refrigerators & Freezers",
+        details: []
+      },
+      {
+        title: "Washing Machines & Dryers",
+        details: []
+      },
+      {
+        title: "Cooking Ranges & Stoves",
+        details: []
+      },
+      {
+        title: "Fryer",
+        details: []
+      },
+      {
+        title: "Sewing machines",
+        details: []
+      },
+      {
+        title: "Water Dispensers",
+        details: []
+      },
+      {
+        title: "Dishwashers",
+        details: []
+      },
+      {
+        title: "Insects Killer",
+        details: []
+      }
     ],
   },
   {
     id: "7",
+    alt: "Cameras",
+    title: "Cameras",
     image: img7,
-    alt: "Home Essentials, Kitchen & Dining",
-    title: "Home Essentials, Kitchen & Dining",
     description: "",
     price: 200,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "DSLR Cameras",
+        details: []
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Mirrorless Cameras",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Medium Format Cameras",
+        details: []
       },
+      {
+        title: "Action Cameras",
+        details: []
+      },
+      {
+        title: "Action Camera Accessories",
+        details: []
+      },
+      {
+        title: "Instant Cameras",
+        details: []
+      },
+      {
+        title: "VR & 360 Video",
+        details: []
+      },
+      {
+        title: "Surveillance Cameras",
+        details: []
+      },
+      {
+        title: "Point & Shoot Cameras",
+        details: []
+      },
+      {
+        title: "Drones & Aerial Imaging",
+        details: []
+      },
+      {
+        title: "Camcorders",
+        details: []
+      },
+      {
+        title: "Lenses & Accessories",
+        details: []
+      },
+      {
+        title: "Camera Bags & Storage",
+        details: []
+      },
+      {
+        title: "Vehicle Cameras",
+        details: []
+      },
+      {
+        title: "Flashes",
+        details: []
+      }
     ],
   },
   {
     id: "8",
+    alt: "Sports, Fitness & Cycling",
+    title: "Sports, Fitness & Cycling",
     image: img8,
-    alt: "Laptops & Computers",
-    title: "Laptops & Computers",
     description: "",
     price: 120,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Bicycle Accessories",
+        details: ["Cycling Gear", "Cycling Gloves", "Cycling Shoes", "Bike Trainers & Rollers", "Cycling Chamois", "Cycling Power Meters"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Cycling Components & Spares",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Cycling Pumps, Tyre & Tubes",
+        details: []
       },
+      {
+        title: "Cycle Storage & Carriers",
+        details: []
+      },
+      {
+        title: "Cycling Computers & Sensors",
+        details: []
+      },
+      {
+        title: "Climbing, Camping & Hiking",
+        details: []
+      },
+      {
+        title: "Archery, Hunting & Fishing",
+        details: []
+      },
+      {
+        title: "Team Sport",
+        details: []
+      },
+      {
+        title: "Boxing Gloves",
+        details: []
+      },
+      {
+        title: "Boxing Essential",
+        details: []
+      },
+      {
+        title: "Boxing Pads & Protective Gear",
+        details: []
+      },
+      {
+        title: "Racquet Sports",
+        details: []
+      },
+      {
+        title: "Skates & Skateboards",
+        details: []
+      },
+      {
+        title: "Boating & Water Sports",
+        details: []
+      },
+      {
+        title: "Equestrian Sports",
+        details: []
+      }
     ],
   },
   {
     id: "9",
+    alt: "Health & Beauty",
+    title: "Health & Beauty",
+    description: "",
     image: img9,
-    alt: "Tools & Hardware Equipment",
-    title: "Tools & Hardware Equipment",
-    descriptin: "",
-    price: 140,
+    price: 150,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Styling Tools & Accessories",
+        details: ["Hair Dryer", "Hair Trimmer", "Comb & Brushes", "Shaver", "Scissors", "Massagers"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Hair Care",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Skin Care",
+        details: []
       },
-    ],
+      {
+        title: "Oral Care",
+        details: []
+      },
+      {
+        title: "Health Care Products",
+        details: []
+      },
+      {
+        title: "Home Medical Supplies & Equipment",
+        details: []
+      },
+      {
+        title: "Sexual Wellness & Sensuality",
+        details: []
+      },
+      {
+        title: "Perfumes",
+        details: []
+      },
+      {
+        title: "Cosmetics",
+        details: []
+      }
+    ]
   },
   {
     id: "10",
+    alt: "Toys & Games",
+    title: "Toys & Games",
     image: img10,
-    alt: "HomeAppliances",
-    title: "HomeAppliances",
-    descriptin: "",
-    price: 140,
+    description: "",
+    price: 120,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Building Toys",
+        details: ["Stacking Blocks & Games", "Building Sets"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Puzzles",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Pretend Play",
+        details: []
       },
-    ],
+      {
+        title: "Hobbies",
+        details: []
+      },
+      {
+        title: "Novelty Toys",
+        details: []
+      },
+      {
+        title: "Remote Controlled Toys",
+        details: []
+      },
+      {
+        title: "Electronics For Kids",
+        details: []
+      },
+      {
+        title: "Games",
+        details: []
+      },
+      {
+        title: "Baby Products",
+        details: []
+      },
+      {
+        title: "Dolls & Accessories",
+        details: []
+      },
+      {
+        title: "Learning & Education",
+        details: []
+      },
+      {
+        title: "Ride-Ons, Tricycles & Scooters",
+        details: []
+      },
+      {
+        title: "Dressing Up & Costumes",
+        details: []
+      },
+      {
+        title: "Figures & Statues",
+        details: []
+      },
+      {
+        title: "Stuffed Animals & Plush",
+        details: []
+      }
+    ]
   },
   {
     id: "11",
+    alt: "Eyewear, Watches & Clocks",
+    title: "Eyewear, Watches & Clocks",
     image: img11,
-    alt: "Mobile & Tablets",
-    title: "Mobile & Tablets",
     description: "",
     price: 200,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Sunglasses",
+        details: ["Unisex", "Girl", "Boy", "Men", "Women"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Eyeglasses & Frames",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Reading Glasses",
+        details: []
       },
-    ],
+      {
+        title: "Analog Watches",
+        details: []
+      },
+      {
+        title: "Digital Watch",
+        details: []
+      },
+      {
+        title: "Analog Digital Watch",
+        details: []
+      },
+      {
+        title: "Chronograph Watch",
+        details: []
+      },
+      {
+        title: "Clocks",
+        details: []
+      },
+      {
+        title: "Contact Lenses",
+        details: []
+      },
+      {
+        title: "Couple Watch",
+        details: []
+      },
+      {
+        title: "Smart Watch Accessories",
+        details: []
+      },
+      {
+        title: "Smart Watches",
+        details: []
+      },
+      {
+        title: "Watch Accessories",
+        details: []
+      }
+    ]
   },
   {
     id: "12",
-    image: img12,
-    alt: "Gaming & Accessories",
-    title: "Gaming & Accessories",
+    alt: "Clothing, Bags & Shoes",
+    title: "Clothing, Bags & Shoes",
     description: "",
+    image: img12,
     price: 200,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Women Clothings",
+        details: ["Clothing Sets", "Jackets & Coats", "Tops", "Underwear", "Thermals", "T-Shirts & Polos"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Men Clothings",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Boys Clothings",
+        details: []
       },
-    ],
+      {
+        title: "Girls Clothing",
+        details: []
+      },
+      {
+        title: "Footwear",
+        details: []
+      },
+      {
+        title: "Apparel Accessories",
+        details: []
+      },
+      {
+        title: "Jewellery & Accessories",
+        details: []
+      },
+      {
+        title: "Handbags",
+        details: []
+      },
+      {
+        title: "Travel Accessories",
+        details: []
+      },
+      {
+        title: "Maternity Cloths",
+        details: []
+      },
+      {
+        title: "Luggage Sets & Trolley",
+        details: []
+      },
+      {
+        title: "Backpacks",
+        details: []
+      },
+      {
+        title: "Wallets & Card Cases",
+        details: []
+      },
+      {
+        title: "Laptop Bags & Cases",
+        details: []
+      },
+      {
+        title: "Gym & Sports Bags",
+        details: []
+      }
+    ]
   },
   {
     id: "13",
+    alt: "Baby & Mother Care",
+    title: "Baby & Mother Care",
     image: img13,
-    alt: "Toys & Games",
-    title: "Toys & Games",
     description: "",
-    price: 120,
+    price: 150,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Baby Bedding",
+        details: ["Baby Positioners", "Baby Sleeping Bags", "Bassinet Bedding", "Bedding Sets", "Blankets & Swaddling", "Cradle Bedding"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Baby Furniture",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Feeding & Nursing",
+        details: []
       },
-    ],
+      {
+        title: "Baby Health & Care Products",
+        details: []
+      },
+      {
+        title: "Baby Diapers & Wipes",
+        details: []
+      },
+      {
+        title: "Baby Safety Guards & Locks",
+        details: []
+      },
+      {
+        title: "Bathing & Baby Care",
+        details: []
+      },
+      {
+        title: "Infant Clothing & Shoes",
+        details: []
+      },
+      {
+        title: "Food Mills & Storage",
+        details: []
+      },
+      {
+        title: "Highchairs & Booster Seats",
+        details: []
+      },
+      {
+        title: "Baby Transport",
+        details: []
+      },
+      {
+        title: "Infant Activity",
+        details: []
+      },
+      {
+        title: "Breastfeeding",
+        details: []
+      },
+      {
+        title: "Feminine Hygiene",
+        details: []
+      },
+      {
+        title: "Maternity Care",
+        details: []
+      }
+    ]
   },
   {
     id: "14",
+    alt: "Home Essentials, Kitchen & Dining",
+    title: "Home Essentials, Kitchen & Dining",
     image: img14,
-    alt: "Flower & Plants",
-    title: "Flower & Plants",
     description: "",
-    price: 150,
-    link: "",
-    subcategory: [
-      {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
-      },
-      {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
-      },
-      {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
-      },
-    ],
-  },
-  {
-    id: "15",
-    image: img15,
-    alt: "Cameras",
-    title: "Cameras",
-    descriptin: "",
     price: 140,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Flatware & Cutlery",
+        details: ["Spoons", "Peelers", "Graters", "Mandolines & Slicers", "Cutting Board", "Barbecue Tool"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Bakeware & Accessories",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Dinnerware & Serveware",
+        details: []
       },
-    ],
+      {
+        title: "Cookware",
+        details: []
+      },
+      {
+        title: "Storage & Organization",
+        details: []
+      },
+      {
+        title: "Glassware & Drinkware",
+        details: []
+      },
+      {
+        title: "Lamps & Lighting",
+        details: []
+      },
+      {
+        title: "Bath",
+        details: []
+      },
+      {
+        title: "Cleaning Tools",
+        details: []
+      },
+      {
+        title: "Kitchen Essential",
+        details: []
+      },
+      {
+        title: "Disposables",
+        details: []
+      },
+      {
+        title: "Bedding Essential",
+        details: []
+      },
+      {
+        title: "Household Supplies",
+        details: []
+      }
+    ]
+  },
+  {
+    id: "15",
+    alt: "Tools & Hardware Equipments",
+    title: "Tools & Hardware Equipments",
+    image: img15,
+    description: "",
+    price: 140,
+    link: "",
+    subcategory: [
+      {
+        title: "Tools & Hardware",
+        details: ["Bearing Accessories", "Bench Vice", "Caster Wheel", "Chain Pully Block", "Electronic Component", "Glass Holder"]
+      },
+      {
+        title: "Outlets & Accessories",
+        details: []
+      },
+      {
+        title: "Testers",
+        details: []
+      },
+      {
+        title: "Hand Tools",
+        details: []
+      },
+      {
+        title: "Hardware Essential",
+        details: []
+      },
+      {
+        title: "Power Tools",
+        details: []
+      },
+      {
+        title: "Tool Organizers & Storage",
+        details: []
+      },
+      {
+        title: "Door Hardware & Locks",
+        details: []
+      },
+      {
+        title: "Work Safety Equipment & Gear",
+        details: []
+      },
+      {
+        title: "Painting Supplies & Wall Treatments",
+        details: []
+      },
+      {
+        title: "Electrical",
+        details: []
+      },
+      {
+        title: "Pressure Washers",
+        details: []
+      },
+      {
+        title: "Child Safety",
+        details: []
+      },
+      {
+        title: "Fire Safety",
+        details: []
+      }
+    ]
   },
   {
     id: "16",
+    alt: "Home Furniture",
+    title: "Home Furniture",
     image: img16,
-    alt: "Baby & Mother care",
-    title: "Baby & Mother care",
     description: "",
     price: 200,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Bedroom Furniture",
+        details: ["Wardrobes", "Vanities & Vanity Benches", "Night Stand", "Dressing Table", "Chest of Drawers", "Beds & Bed Frames"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Living Room Furniture",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Home Office Furniture",
+        details: []
       },
-    ],
+      {
+        title: "Kids Furniture",
+        details: []
+      },
+      {
+        title: "Kitchen Furniture",
+        details: []
+      },
+      {
+        title: "Entryway Furniture",
+        details: []
+      },
+      {
+        title: "Home Decor",
+        details: []
+      },
+      {
+        title: "Lounge & Recreation Furniture",
+        details: []
+      },
+      {
+        title: "Bathroom Furniture",
+        details: []
+      },
+      {
+        title: "Bar Furniture",
+        details: []
+      },
+      {
+        title: "Outdoor Furniture",
+        details: []
+      },
+      {
+        title: "Dining Furniture",
+        details: []
+      },
+      {
+        title: "Door Furniture",
+        details: []
+      }
+    ]
   },
   {
     id: "17",
+    alt: "Supermarket",
+    title: "Supermarket",
     image: img17,
-    alt: "Pre Owned",
-    title: "Pre Owned",
-    description: "",
-    price: 200,
-    link: "",
-    subcategory: [
-      {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
-      },
-      {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
-      },
-      {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
-      },
-    ],
-  },
-  {
-    id: "18",
-    image: img18,
-    alt: "stationery & Office Supplies",
-    title: "stationery & Office Supplies",
     description: "",
     price: 120,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Beverages",
+        details: ["Cocktail Mixes", "Coffee", "Energy Sports Drinks", "Fresh Juice", "Health Drinks Mixes", "Juices & Smoothies"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Breads & Bakery",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Breakfast & Cereal Bars",
+        details: []
       },
-    ],
+      {
+        title: "Candy & Chocolates",
+        details: []
+      },
+      {
+        title: "Chips & Snacks",
+        details: []
+      },
+      {
+        title: "Dairy, Cheese & Eggs",
+        details: []
+      },
+      {
+        title: "Pantry Staples",
+        details: []
+      },
+      {
+        title: "Laundry",
+        details: []
+      },
+      {
+        title: "Dry Fruits & Nuts",
+        details: []
+      },
+      {
+        title: "Pet Supplies",
+        details: []
+      },
+      {
+        title: "Canned Food & Soups",
+        details: []
+      },
+      {
+        title: "Air Fresheners",
+        details: []
+      },
+      {
+        title: "Baby Choice",
+        details: []
+      },
+      {
+        title: "Ready-To-Cook",
+        details: []
+      },
+      {
+        title: "Cooking Essentials",
+        details: []
+      }
+    ]
+  },
+  {
+    id: "18",
+    alt: "Stationery & Office Supplies",
+    title: "Stationery & Office Supplies",
+    image: img18,
+    description: "",
+    price: 120,
+    link: "",
+    subcategory: [
+      {
+        title: "Education & Crafts",
+        details: ["Adhesives", "Arts & Crafts Supplies", "Early Childhood Education Materials", "Math Materials", "Sewing Supplies", "Social Studies Materials"]
+      },
+      {
+        title: "Writing & Correction Supplies",
+        details: []
+      },
+      {
+        title: "Paper",
+        details: []
+      },
+      {
+        title: "Desk Accessories & Workspace Organizers",
+        details: []
+      },
+      {
+        title: "Labels, Indexes & Stamps",
+        details: []
+      },
+      {
+        title: "Tape, Adhesives & Fasteners",
+        details: []
+      },
+      {
+        title: "Gift Wrapping Supplies",
+        details: []
+      },
+      {
+        title: "Cutting & Measuring Devices",
+        details: []
+      },
+      {
+        title: "Books",
+        details: []
+      },
+      {
+        title: "Staplers & Punches",
+        details: []
+      },
+      {
+        title: "Binders & Binding Systems",
+        details: []
+      },
+      {
+        title: "Envelopes, Mailers & Shipping Supplies",
+        details: []
+      },
+      {
+        title: "Calculators",
+        details: []
+      },
+      {
+        title: "Laminators",
+        details: []
+      },
+      {
+        title: "Presentation Boards",
+        details: []
+      }
+    ]
   },
   {
     id: "19",
+    alt: "Automotive",
+    title: "Automotive",
     image: img19,
-    alt: "Eyeware, Watches & Clock",
-    title: "Eyeware, Watches & Clock",
     description: "",
     price: 150,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Replacement Parts",
+        details: ["All Windshield", "Batteries & Accessories", "Brake Kits", "Brake Pads", "Disc Hardware Kits", "Filters"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Car Care",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Car Accessories",
+        details: []
       },
-    ],
+      {
+        title: "Transmission & Drive Train",
+        details: []
+      },
+      {
+        title: "Towing Products & Winches",
+        details: []
+      },
+      {
+        title: "Exterior Accessories",
+        details: []
+      },
+      {
+        title: "Interior Accessories",
+        details: []
+      },
+      {
+        title: "Engine Cooling & Climate Control",
+        details: []
+      },
+      {
+        title: "Motorcycle & Powersports Accessories",
+        details: []
+      },
+      {
+        title: "Motorcycle Parts",
+        details: []
+      },
+      {
+        title: "Motorcycle Protective Gear",
+        details: []
+      },
+      {
+        title: "Vehicle GPS, Video & Audio",
+        details: []
+      },
+      {
+        title: "Vehicle Tires & Wheels Accessories",
+        details: []
+      },
+      {
+        title: "Tools & Equipment",
+        details: []
+      },
+      {
+        title: "Oils & Fluids",
+        details: []
+      },
+      {
+        title: "Paint, Body & Trim",
+        details: []
+      }
+    ]
   },
   {
     id: "20",
+    alt: "Flowers & Plants",
+    title: "Flowers & Plants",
     image: img20,
-    alt: "Supermarket",
-    title: "Supermarket",
-    descriptin: "",
+    description: "",
     price: 140,
     link: "",
     subcategory: [
       {
-        title: "watch1",
-        details: ["expensive watch", "poor watch"],
+        title: "Outdoor Plants",
+        details: ["Cactus and Succulents", "Herbs & Vegetables", "Fruit Trees", "Shrubs", "Trees", "Palms"]
       },
       {
-        title: "watch2",
-        details: ["expensive watch", "poor watch"],
+        title: "Indoor Plants",
+        details: []
       },
       {
-        title: "watch3",
-        details: ["expensive watch", "poor watch"],
+        title: "Plant Pots & Containers",
+        details: []
       },
-    ],
-  },
+      {
+        title: "Garden Care",
+        details: []
+      },
+      {
+        title: "House of Timber",
+        details: []
+      },
+      {
+        title: "Flower Shop",
+        details: []
+      },
+      {
+        title: "Artificial Plants",
+        details: []
+      }
+    ]
+  }
 ];
-export default CategoriesData;
+

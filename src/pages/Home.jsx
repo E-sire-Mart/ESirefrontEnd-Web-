@@ -4,7 +4,11 @@ import banner1 from "../assets/assets/ruky_web.jpg";
 import banner2 from "../assets/assets/tabby_banner.jpg";
 import banner3 from "../assets/assets/beauty-new.jpg";
 import banner4 from "../assets/assets/clearance_sale.gif";
-import bannerMobile from "../assets/banner-mobile.jpg";
+import bannerMobile from "../assets/assets/today_deal_mobile.gif";
+import bannerMobile1 from "../assets/assets/ruky-m.jpg";
+import bannerMobile2 from "../assets/assets/loveit_m.webp";
+import bannerMobile3 from "../assets/assets/beauty-m.jpg";
+import bannerMobile4 from "../assets/assets/cllearance-sale-m.gif";
 import { useSelector } from "react-redux";
 import { valideURLConvert } from "../utils/valideURLConvert";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,7 +16,7 @@ import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay
 import CarouselComponents from "../components/Carousel";
 import HomeCarouselData from "../common/homeFirstCarousel";
 import ListsCarousel from "../components/ProductsListsCarousel";
-import CategoriesData from "../common/categoriesData";
+import {CategoriesDatas} from "../common/categoriesData";
 import ExitingOffer from "../components/ExitingOffer";
 import DealOfTheDay from "../components/DealOfTheDay";
 import PopularProducts from "../components/PopularProducts";
@@ -86,9 +90,9 @@ const Home = () => {
   return (
     <section className="bg-blown-100">
       <CarouselComponents data={HomeCarouselData} />
-      <ListsCarousel listData={CategoriesData} preferWord={""} />
+      <ListsCarousel listData={CategoriesDatas} preferWord={""} />
       <ExitingOffer />
-      <div className="mx-auto px-5 pt-5 w-full mx-auto first-carousel">
+      <div className="mx-auto px-5 w-full mx-auto first-carousel">
         <div
           className={`w-full h-full min-h-48 mx-auto flex justify-center items-center rounded ${!banner && "animate-pulse"
             } `}
@@ -100,13 +104,13 @@ const Home = () => {
           />
           <img
             src={bannerMobile}
-            className="w-full h-full lg:hidden"
+            className="w-full h-full lg:hidden rounded-[10px]"
             alt="banner"
           />
         </div>
       </div>
       <DealOfTheDay />
-      <div className="mx-auto px-5 pt-10 w-full mx-auto first-carousel">
+      <div className="mx-auto px-5 w-full mx-auto first-carousel">
         <div
           className={`w-full h-full min-h-48 mx-auto flex justify-center items-center rounded ${!banner1 && "animate-pulse my-2"
             } `}
@@ -117,14 +121,14 @@ const Home = () => {
             alt="banner"
           />
           <img
-            src={bannerMobile}
-            className="w-full h-full lg:hidden"
+            src={bannerMobile1}
+            className="w-full h-full lg:hidden rounded-[10px]"
             alt="banner"
           />
         </div>
       </div>
       <PopularProducts type="Mobile Phones" data={MobilePhones} />
-      <div className="mx-auto px-5 pt-10 w-full mx-auto first-carousel">
+      <div className="mx-auto px-5 w-full mx-auto first-carousel">
         <div
           className={`w-full h-full min-h-48 mx-auto flex justify-center items-center rounded ${!banner2 && "animate-pulse my-2"
             } `}
@@ -135,8 +139,8 @@ const Home = () => {
             alt="banner"
           />
           <img
-            src={bannerMobile}
-            className="w-full h-full lg:hidden"
+            src={bannerMobile2}
+            className="w-full h-full lg:hidden rounded-[10px]"
             alt="banner"
           />
         </div>
@@ -155,8 +159,8 @@ const Home = () => {
             alt="banner"
           />
           <img
-            src={bannerMobile}
-            className="w-full h-full lg:hidden"
+            src={bannerMobile3}
+            className="w-full h-full lg:hidden rounded-[10px]"
             alt="banner"
           />
         </div>
@@ -173,8 +177,8 @@ const Home = () => {
             alt="banner"
           />
           <img
-            src={bannerMobile}
-            className="w-full h-full lg:hidden"
+            src={bannerMobile4}
+            className="w-full h-full lg:hidden rounded-[10px]"
             alt="banner"
           />
         </div>
