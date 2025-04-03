@@ -12,7 +12,7 @@ const TopSeller = ({data}) => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {data.map((item, index) => (
-          <div key={index} className="bg-red-300 rounded-lg overflow-hidden">
+          <div key={index} className="bg-customGreen rounded-lg overflow-hidden">
             <div className="p-4">
               <div className="flex justify-between items-start mb-2">
                 <div className="w-1/2 h-full flex flex-col justify-start items-start gap-2">

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import AddToCartButton from './AddToCartButton';
 const ProductCard = ({ product }) => {
   const discountPercentage = Math.round(((product.originalPrice - product.currentPrice) / product.originalPrice) * 100);
 
@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
           className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
         />
         {discountPercentage > 0 && (
-          <span className="absolute top-2 left-2 bg-[#ff4747] text-white text-xs px-2 py-1 rounded">
+          <span className="absolute top-2 left-2 bg-customBlue bg-opacity-80 text-white text-xs px-2 py-1 rounded">
             {discountPercentage}% OFF
           </span>
         )}
@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
         {/* Quick View Button - Hidden by default, shown on hover */}
         <div className="absolute bg-black inset-0 bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button 
-            className="bg-[#ff4747] text-white px-4 py-2 cursor-pointer rounded-full text-sm font-medium transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+            className="bg-customBlue bg-opacity-80 hover:bg-opacity-100 text-white px-4 py-2 cursor-pointer rounded-full text-sm font-medium transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
             onClick={() => {/* Handle quick view */}}
           >
             Quick View
@@ -31,12 +31,12 @@ const ProductCard = ({ product }) => {
 
       {/* Product Details */}
       <div className="space-y-2">
-        <h3 className="text-sm text-gray-700 line-clamp-2 h-10 group-hover:text-[#ff4747] transition-colors duration-300">
+        <h3 className="text-sm text-gray-700 line-clamp-2 h-10 group-hover:text-[#0DABAE] transition-colors duration-300">
           {product.name}
         </h3>
         
         <div className="flex items-center gap-2">
-          <span className="text-[#ff4747] font-semibold">AED {product.currentPrice}</span>
+          <span className="text-customBlue font-semibold">AED {product.currentPrice}</span>
           {product.originalPrice && (
             <span className="text-gray-500 text-sm line-through">
               AED {product.originalPrice}
@@ -47,12 +47,7 @@ const ProductCard = ({ product }) => {
 
       {/* Add to Cart Button - Hidden by default, shown on hover */}
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-white opacity-0 group-hover:opacity-100 transform translate-y-full group-hover:translate-y-0 transition-all duration-300">
-        <button 
-          className="w-full bg-[#ff4747] text-white py-2 rounded text-sm font-medium hover:bg-[#ff3333] cursor-pointer"
-          onClick={() => {/* Handle add to cart */}}
-        >
-          ADD TO CART
-        </button>
+        <AddToCartButton data={product} />
       </div>
     </div>
   );

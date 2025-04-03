@@ -195,7 +195,7 @@ const ExitingOffer = () => {
               key={index}
               className="relative flex-none w-80 h-[250px] bg-pink-500 rounded-lg shadow-lg p-5"
               style={{
-                background: 'linear-gradient(to right, #e94c89,rgb(121, 3, 218))'
+                background: 'linear-gradient(to right,rgb(2, 250, 217),rgb(8, 65, 252))'
               }}
             >
               {/* Replace the static timer with the Timer component */}

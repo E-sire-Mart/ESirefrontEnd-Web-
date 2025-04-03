@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-
+import AddToCartButton from './AddToCartButton';
 const ProductCard = ({ product }) => (
   <div className="bg-white rounded-lg p-3 shadow-sm flex flex-col justify-between">
     <img 
@@ -19,11 +19,9 @@ const ProductCard = ({ product }) => (
           {product.discount}% OFF
         </span>
       </div>
-      <button 
-        className="w-full py-1.5 text-xs sm:text-sm text-blue-600 border border-blue-600 rounded hover:text-white hover:bg-blue-600 transition-colors"
-      >
-        ADD TO CART
-      </button>
+      {
+        <AddToCartButton data={product} />
+      }
     </div>
   </div>
 );
@@ -33,14 +31,14 @@ const BannerCard = ({ banner }) => (
     <img 
       src={banner.image}
       alt={banner.title}
-      className="w-full h-full object-cover rounded-lg"
+      className="w-full h-full object-cover rounded-lg cursor-pointer"
     />
-    <div className="absolute bottom-4 left-4">
+    {/* <div className="absolute bottom-4 left-4">
       <h3 className="text-white text-2xl font-bold mb-2">{banner.title}</h3>
       <button className="bg-white/90 text-black px-4 py-1 rounded-full text-sm hover:bg-white">
         {banner.buttonText}
       </button>
-    </div>
+    </div> */}
   </div>
 );
 
@@ -98,7 +96,7 @@ const TopPicks = ({bannerDatas, topPicksDatas }) => {
     <div className="first-carousel mx-auto px-2 sm:px-4 my-4 sm:my-8">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Top Picks from popular brands</h2>
       
-      <div className="bg-[#ff4747] rounded-xl sm:rounded-2xl p-3 sm:p-4">
+      <div className="bg-[] rounded-xl sm:rounded-2xl p-3 sm:p-4">
         <div className="grid lg:grid-cols-5 grid-cols-1 gap-4">
           {/* Banner Section */}
           <div className="col-span-3 lg:col-span-2">

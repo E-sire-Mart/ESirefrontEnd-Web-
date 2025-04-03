@@ -6,7 +6,7 @@ const CategoryItems = ({ title, data }) => {
     <div className="first-carousel mx-auto px-4 my-8 ">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">{title}</h2>
       
-      <div className="bg-[#d6ecf5] rounded-xl p-4">
+      <div className="bg-customBlue bg-opacity-40 rounded-xl p-4">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {data.map((item) => (
             <Link 

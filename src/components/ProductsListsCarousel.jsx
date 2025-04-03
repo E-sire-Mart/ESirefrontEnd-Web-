@@ -14,14 +14,14 @@ const ListsCarousel = ({ listData, preferWord }) => {
         >
           {listData.map((card) => (
             <div
-              key={card.id}
+              key={card._id}
               className="flex-none md:w-[120px] w-[90px] snap-center b-10 cursor-pointer"
             >
               <div className="overflow-hidden">
                 <img
                   src={card.image ? card.image : ""}
                   alt={card.title ? card.title : ""}
-                  className="lg:h-[120px] h-[90px] px-[5px] object-cover md:rounded-[50%] rounded-[49%] bg-gradient-to-r from-violet-600 to-indigo-600"
+                  className="lg:h-[120px] h-[90px] px-[5px] object-cover md:rounded-[50%] rounded-[49%] bg-gradient-to-t from-customGreen to-customBlue"
                 />
                 <div className="p-2">
                   <h3 className="md:text-[10px] text-[9px] text-gray-900 text-center w-full">
@@ -38,7 +38,7 @@ const ListsCarousel = ({ listData, preferWord }) => {
                         ${card.price.toFixed(2) ? card.price.toFixed(2) : ""}
                       </span>
                       <a
-                        href={card.link}
+                        href={card.link ? card.link : ""}
                         className="text-white bg-fuchsia-950 hover:bg-fuchsia-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                       >
                         <svg

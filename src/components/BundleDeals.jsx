@@ -11,10 +11,10 @@ const BundleDeals = ({ data }) => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {data.map((item, index) => (
-                    <div key={index} className="bg-purple-400 rounded-lg overflow-hidden relative">
+                    <div key={index} className="bg-customBlue bg-opacity-70 rounded-lg overflow-hidden relative">
                         <div className="p-6">
                             {item.badge && (
-                                <div className="absolute top-4 left-4 bg-red-600 text-white rounded-full text-sm px-3 py-1">
+                                <div className="absolute top-4 left-4 bg-customGreen text-white rounded-full text-sm px-3 py-1">
                                     {item.badge}
                                 </div>
                             )}

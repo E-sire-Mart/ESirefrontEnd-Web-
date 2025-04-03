@@ -31,7 +31,7 @@ const AddToCartButton = ({ data }) => {
             })
 
             const { data: responseData } = response
-
+            console.log(responseData.message)
             if (responseData.success) {
                 toast.success(responseData.message)
                 if (fetchCartItem) {
@@ -48,10 +48,10 @@ const AddToCartButton = ({ data }) => {
 
     //checking this item in cart or not
     useEffect(() => {
-        const checkingitem = cartItem.some(item => item.productId._id === data._id)
+        const checkingitem = cartItem.some(item => item.productId.id === data._id)
         setIsAvailableCart(checkingitem)
 
-        const product = cartItem.find(item => item.productId._id === data._id)
+        const product = cartItem.find(item => item.productId.id === data._id)
         setQty(product?.quantity)
         setCartItemsDetails(product)
     }, [data, cartItem])
@@ -61,7 +61,7 @@ const AddToCartButton = ({ data }) => {
         e.preventDefault()
         e.stopPropagation()
     
-       const response = await  updateCartItem(cartItemDetails?._id,qty+1)
+       const response = await  updateCartItem(cartItemDetails?.id,qty+1)
         
        if(response.success){
         toast.success("Item added")
@@ -82,18 +82,18 @@ const AddToCartButton = ({ data }) => {
         }
     }
     return (
-        <div className='w-full max-w-[150px]'>
+        <div className='w-full'>
             {
                 isAvailableCart ? (
-                    <div className='flex w-full h-full'>
-                        <button onClick={decreaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaMinus /></button>
+                    <div className='flex w-full h-full justify-center'>
+                        <button onClick={decreaseQty} className='w-full bg-customBlue bg-opacity-80 hover:bg-opacity-100 hover:text-white text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaMinus /></button>
 
                         <p className='flex-1 w-full font-semibold px-1 flex items-center justify-center'>{qty}</p>
 
-                        <button onClick={increaseQty} className='bg-green-600 hover:bg-green-700 text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaPlus /></button>
+                        <button onClick={increaseQty} className='w-full bg-customBlue bg-opacity-80 hover:bg-opacity-100 hover:text-white text-white flex-1 w-full p-1 rounded flex items-center justify-center'><FaPlus /></button>
                     </div>
                 ) : (
-                    <button onClick={handleADDTocart} className='bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded'>
+                    <button onClick={handleADDTocart} className='w-full bg-customBlue bg-opacity-80 hover:bg-opacity-100 hover:text-white text-white px-2 lg:px-4 py-1 rounded'>
                         {loading ? <Loading /> : "Add"}
                     </button>
                 )

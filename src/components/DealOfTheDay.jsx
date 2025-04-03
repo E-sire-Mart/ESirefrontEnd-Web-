@@ -105,7 +105,7 @@ const ProductCard = ({ product }) => {
 
 const ProductSection = ({ title, products }) => {
   return (
-    <div className="bg-gradient-to-r from-pink-500 to-purple-600 p-4 rounded-xl lg:w-1/2 w-full">
+    <div className="bg-gradient-to-r from-customGreen to-customBlue p-4 rounded-xl lg:w-1/2 w-full">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-white">{title}</h2>

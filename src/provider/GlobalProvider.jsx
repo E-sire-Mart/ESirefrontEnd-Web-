@@ -26,8 +26,9 @@ const GlobalProvider = ({children}) => {
           const response = await Axios({
             ...SummaryApi.getCartItem
           })
+          console.log(response)
           const { data : responseData } = response
-    
+          console.log(responseData.data)
           if(responseData.success){
             dispatch(handleAddItemCart(responseData.data))
             console.log(responseData)
