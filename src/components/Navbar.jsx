@@ -61,7 +61,7 @@ const Navbar = () => {
 
         {/* Modal for mobile screens */}
         {isNavOpen && (
-          <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="fixed inset-0 z-50 top-[50px] bg-black bg-opacity-50 flex justify-center items-center">
             <div className="bg-white w-full h-full p-4 rounded-lg shadow-lg relative overflow-y-auto">
               <button
                 onClick={toggleNav}
