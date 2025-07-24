@@ -1,0 +1,30 @@
+.half-input-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Space between half inputs */
+}
+
+.half-input {
+  flex: 1; /* Allow inputs to grow equally */
+  min-width: 120px; /* Ensure a minimum width */
+}
+
+.sb-title {
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 18px; /* Increased font size for title */
+}
+
+.address-input {
+  height: 40px; /* Increased height for better usability */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 4px; /* Rounded corners for input fields */
+  font-size: 16px; /* Increased font size for readability */
+  padding: 10px; /* Added padding inside input fields */
+  box-sizing: border-box; /* Ensures padding is included in height */
+}
+
+input:focus {
+  outline: none;
+  border-color: #4285f4; /* Highlight border color on focus */
+}

@@ -1,0 +1,54 @@
+/* Footer.css */
+.footer-section {
+    font-family: Arial, sans-serif;
+  }
+  
+  .content-container .faq-item {
+    margin-bottom: 1rem;
+  }
+  
+  .faq-question {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .faq-answer-container {
+    padding: 10px 15px;
+  }
+  
+  .faq-answer {
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .faq-answer ul.list-style {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 5px;
+  }
+  
+  .faq-answer ul.list-style li {
+    margin-bottom: 8px;
+  }
+  
+  .footer-bottom {
+    background-color: #fcfcfc;
+  }
+  
+  .footer-bottom-content {
+    padding-top: 1rem;
+  }
+  
+  .category-link {
+    padding: 5px 10px;
+  }
+  
+  .social-links .social-icon {
+    transition: background 0.3s ease;
+  }
+  
+  .social-links .social-icon:hover {
+    background-color: #333;
+  }
+  

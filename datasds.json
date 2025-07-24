@@ -1,0 +1,122 @@
+[
+  {
+    "address": {
+      "street": "2A Canton Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2950, 114.1738]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "0 Salisbury Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2965, 114.1722]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "10 Salisbury Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2967, 114.1725]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "100 Nathan Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2962, 114.1729]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "63 Nathan Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2968, 114.1715]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "132 Nathan Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2971, 114.1718]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "36–44 Nathan Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2964, 114.1710]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "22 Austin Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2970, 114.1700]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "1881 Heritage, 2A Canton Road",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2950, 114.1738]
+      }
+    }
+  },
+  {
+    "address": {
+      "street": "73–75 Chatham Road South",
+      "city": "Tsim Sha Tsui, Kowloon",
+      "state": "Hong Kong",
+      "postalCode": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [22.2940, 114.1750]
+      }
+    }
+  }
+]
