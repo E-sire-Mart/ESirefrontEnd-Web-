@@ -149,7 +149,7 @@ const Signup: React.FC<SignupProps> = ({
       });
       return;
     }
-
+    // alert(email)
     setResendLoading(true);
     try {
       await resendVerificationEmail(email);
@@ -158,6 +158,7 @@ const Signup: React.FC<SignupProps> = ({
         description: "Please check your email for the verification link.",
       });
       setResendCooldown(60); // 60 seconds cooldown
+      
     } catch (error) {
       console.error("Error resending verification email:", error);
     } finally {

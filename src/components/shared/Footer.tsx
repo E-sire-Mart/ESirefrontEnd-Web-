@@ -181,7 +181,7 @@ const Footer = () => {
                 <div className="flex flex-row py-1 items-center">
                   <FaMapMarkerAlt />
                   <p className="w-full ml-1">
-                    Address : Belandur, Bengaluru – 560035
+                    Adress : Dubai, United Arab Emirates
                   </p>
                 </div>
                 <div className="flex flex-row py-1 items-center">
