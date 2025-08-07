@@ -69,7 +69,30 @@ const Login: React.FC<LoginProps> = ({
         message: "Login successfully",
       });
       dispatch(setLoginStatus(true));
+      // Store access_token for cart integration
+      if (response.access_token) {
+        localStorage.setItem("token", response.access_token);
+      }
       localStorage.setItem("user", JSON.stringify(response));
+
+      // --- Cart Sync Integration Start ---
+      try {
+        // Dynamically import to avoid circular dependency
+        const { syncLocalCartToBackend, fetchCartFromBackend } = await import("../../store/cartThunks");
+        const { loadCartFromLocalStorage } = await import("../../utils/cartUtils");
+        const { useAppDispatch } = await import("../../hooks/useAppDispatch");
+        // Get local cart
+        const localCart = loadCartFromLocalStorage();
+        if (localCart && Object.keys(localCart).length > 0) {
+          await dispatch(syncLocalCartToBackend(localCart));
+        }
+        await dispatch(fetchCartFromBackend());
+        // Optionally clear localStorage cart after sync
+        localStorage.removeItem("cartProducts");
+      } catch (cartSyncError) {
+        console.error("Cart sync after login failed:", cartSyncError);
+      }
+      // --- Cart Sync Integration End ---
 
       toggleLoginModal();
     } catch (error) {
@@ -107,7 +130,10 @@ const Login: React.FC<LoginProps> = ({
         });
 
         dispatch(setLoginStatus(true));
-
+        // Store access_token for cart integration
+        if (tokenData.access_token) {
+          localStorage.setItem("token", tokenData.access_token);
+        }
         localStorage.setItem("user", JSON.stringify(tokenData));
 
         toggleLoginModal();

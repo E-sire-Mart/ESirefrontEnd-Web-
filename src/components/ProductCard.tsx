@@ -87,7 +87,11 @@ const ProductCard = ({ data }: { data: ProductItem }) => {
         <img
           src={`${SERVER_URL}/${image[0]}`}
           alt={name}
-          className="h-full w-full p-2"
+          className="h-full w-full p-2 object-cover"
+          onError={(e) => {
+            // Fallback to a placeholder image if the image fails to load
+            e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='154' height='154' viewBox='0 0 154 154'%3E%3Crect width='154' height='154' fill='%23f0f0f0'/%3E%3Ctext x='77' y='77' text-anchor='middle' dy='.3em' fill='%23999' font-size='14'%3ENo Image%3C/text%3E%3C/svg%3E";
+          }}
         />
       </div>
       <div

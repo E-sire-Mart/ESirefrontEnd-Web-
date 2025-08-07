@@ -2,7 +2,7 @@
 
 import { notification } from "antd";
 import axios from "axios";
-import { FORGOTPASSWORD, LOGIN, REGISTER, BASE_URL } from "../url.js";
+import { FORGOTPASSWORD, LOGIN, REGISTER, BASE_URL, CHANGEPASSWORD } from "../url.js";
 import { jwtDecode } from "jwt-decode";
 import { setLoginStatus } from "../../store/status.js";
 import { useAppDispatch } from "../../hooks/useAppDispatch.js";
@@ -146,13 +146,15 @@ export const resendVerificationEmail = async (email: string) => {
   }
 };
 
+//  {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     }
+
 export const verifyEmail = async (token: string) => {
   try {
-    const response = await axios.post(`${BASE_URL}/auth/verify-email`, { token }, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.get(`${BASE_URL}/auth/verify/${token}`);
 
     if (response && response.data) {
       return response.data.message || "Email verified successfully";
@@ -216,4 +218,50 @@ export const handleGoogleLoginError = () => {
   notification.error({
     message: "Google Login Failed",
   });
+};
+
+// Change password function
+export const changePassword = async (oldPassword: string, newPassword: string) => {
+  try {
+    const userData = localStorage.getItem('user');
+    let token = null;
+
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        token = parsedUser.access_token;
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        throw new Error('Authentication token not found');
+      }
+    } else {
+      throw new Error('User not logged in');
+    }
+
+    const response = await axios.put(
+      CHANGEPASSWORD, 
+      {
+        currentPassword: oldPassword,
+        newPassword
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+      }
+    );
+
+    console.log('Password change response:', response.data);
+    return response.data;
+
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message ||
+      error.response?.data?.errors?.[0]?.detail ||
+      "Failed to change password";
+    
+    console.error("Error changing password:", error.response?.data || error.message);
+    throw new Error(errorMessage);
+  }
 };

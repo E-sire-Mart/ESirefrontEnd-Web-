@@ -4,9 +4,10 @@ import {
   HomeOutlined,
   LoginOutlined,
   LogoutOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { notification } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import image from "../../assets/logo.png";
@@ -20,16 +21,20 @@ import ForgotPassword from "../auth/ForgotPass";
 import "./style.css";
 import "./style1.css";
 import { setLoginStatus } from "../../store/status";
+import { setCartItems, setTotalQuantity, setTotalAmount, setBillAmount } from "../../store/cart";
+import { useCart } from "../../hooks/useCart";
 
 const Header = ({ onSearch }: any) => {
   const dispatch = useAppDispatch();
   const isLogin = useAppSelector((state) => state.status.isLogin);
+  const { handleLogout: clearCart } = useCart();
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isForgotPasswordModalOpen, setISForgotPasswordModalOpen] =
     useState(false);
   const [searchText, setSearchText] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -73,36 +78,57 @@ const Header = ({ onSearch }: any) => {
     notification.success({
       message: "Log-out successfully",
     });
+    
+    // Clear all authentication data
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    
+    // Clear cart data using the cart hook
+    clearCart();
+    
+    // Reset login status
     dispatch(setLoginStatus(false));
+    
+    navigate('/'); // Redirect to home page
   };
 
   return (
     <>
-      <header className="_nav px-2 sm:px-0 z-30">
-        <div className="_header sm:flex h-full">
-          <div className="hidden sm:flex max-w-[150px] md:max-w-[178px] w-full cursor-pointer sm:hover:bg-gray-50 items-center justify-center border-r _border-light">
+      <header className="_nav px-4 sm:px-6 lg:px-8 z-30 bg-white shadow-sm border-b border-gray-100">
+        <div className="_header sm:flex h-full max-w-7xl mx-auto">
+          <div className="hidden sm:flex max-w-[200px] md:max-w-[250px] w-full cursor-pointer sm:hover:bg-gray-50 items-center justify-center border-r _border-light px-4">
             <Link to={"/"}>
-              <span className="font-black text-[32px] md:text-[38px] text-yellow-400 tracking-tight flex justify-center items-center">
-                <img src={image} alt="logo" style={{ width: "170px" }} />
+              <span className="font-black text-[32px] md:text-[38px] text-yellow-400 tracking-tight flex justify-center items-center px-6">
+                <img src={image} alt="logo" style={{ width: "200px" }} />
               </span>
             </Link>
           </div>
-          <div className="w-full sm:w-[240px] xl:w-[320px] py-4 px-1 sm:p-0 _header_loc flex items-center sm:justify-center cursor-pointer sm:hover:bg-gray-50">
+          <div className="w-full sm:w-[240px] xl:w-[320px] py-4 px-4 sm:px-6 _header_loc flex items-center sm:justify-center cursor-pointer sm:hover:bg-gray-50">
             <LocationPicker />
           </div>
-          <div className="flex-1 relative _header_search">
+          <div className="flex-1 relative _header_search px-4 sm:px-6 mr-6">
             <SearchBox onSearch={onSearch} />
           </div>
-          <div className="flex items-center _header_login justify-center cursor-pointer sm:hover:bg-gray-50 max-w-[80px] w-full group">
+          <div className="flex items-center _header_login justify-center cursor-pointer sm:hover:bg-gray-50 max-w-[120px] w-full group px-4">
             <span className="font-medium _text-default block">
               {isLogin ? (
-                <div className="flex justify-center items-center">
-                  <div className="rounded-full flex justify-center items-center bg-white">
+                <div className="flex justify-center items-center relative">
+                  <div className="rounded-full flex justify-center items-center bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
                     <HomeOutlined className="text-[20px] p-2" />
                   </div>
-                  <div className="signin-card hidden group-hover:block absolute bg-white rounded-lg shadow-lg">
+                  <div className="signin-card hidden group-hover:block absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-lg shadow-lg border border-gray-100 z-50 min-w-[180px]">
                     <ul>
+                      <li className="hover:bg-red-500 rounded p-2 transition-colors duration-200">
+                        <p className="p-[5px]">
+                          <Link
+                            to="/profile"
+                            className="text-black flex items-center"
+                          >
+                            <UserOutlined className="mr-1" />
+                            My Profile
+                          </Link>
+                        </p>
+                      </li>
                       <li className="hover:bg-red-500 rounded p-2 transition-colors duration-200">
                         <p className="p-[5px]">
                           <a
@@ -135,7 +161,7 @@ const Header = ({ onSearch }: any) => {
               )}
             </span>
           </div>
-          <div className="py-2 hidden md:flex h-full items-center mr-8 ml-3">
+          <div className="py-2 hidden md:flex h-full items-center mr-4 ml-3 px-4">
             <CartButton />
           </div>
         </div>

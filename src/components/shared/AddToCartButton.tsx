@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { IoAddSharp, IoRemoveSharp } from "react-icons/io5";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { addItem, removeItem } from "../../store/cart";
-import { CartProduct, CartItem } from "../../utils/types";
+import { notification } from "antd";
+import { useCart } from "../../hooks/useCart";
+import { CartItem } from "../../utils/types";
 
 type ButtonProps = {
-  product: CartProduct;
+  product: any;
   size?: "sm" | "lg";
 };
 
 const AddToCartButton = ({ product, size }: ButtonProps) => {
-  const dispatch = useAppDispatch();
-  const { cartItems } = useAppSelector((state) => state.cart);
+  const { cartItems, addToCart, removeFromCart, decreaseQuantity, loading } = useCart();
   const [itemCount, setItemCount] = useState<number>(0);
 
   useEffect(() => {
@@ -23,81 +21,76 @@ const AddToCartButton = ({ product, size }: ButtonProps) => {
     if (storedProduct) {
       setItemCount(storedProduct.quantity);
     } else {
-      setItemCount(0); // Reset to 0 if not found
+      setItemCount(0);
     }
   }, [product.id, cartItems]);
 
-  const updateCart = (action: "add" | "remove") => {
-    const isAdding = action === "add";
-    const newCount = isAdding ? itemCount + 1 : Math.max(itemCount - 1, 0);
-    
-    if (isAdding) {
-      dispatch(addItem({ ...product }));
-    } else {
-      if (itemCount > 0) {
-        dispatch(removeItem({ id: product.id, storeId: product.shopId }));
+  const handleAdd = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (!loading) {
+      try {
+        await addToCart(product);
+        notification.success({
+          message: "Added to Cart",
+          description: `${product.title} has been added to your cart.`,
+          placement: "topRight",
+          duration: 2,
+        });
+      } catch (error) {
+        notification.error({
+          message: "Failed to Add",
+          description: "Unable to add item to cart. Please try again.",
+          placement: "topRight",
+          duration: 3,
+        });
       }
     }
-
-    setItemCount(newCount);
-
-    const storedProducts = localStorage.getItem("cartProducts");
-    let cartProducts: CartProduct[] = storedProducts ? JSON.parse(storedProducts) : [];
-
-    const productIndex = cartProducts.findIndex(
-      (item: CartProduct) => item.id === product.id
-    );
-
-    // if (isAdding) {
-    //   if (productIndex !== -1) {
-    //     cartProducts[productIndex].quantity += 1;
-    //   } else {
-    //     cartProducts.push({ ...product, quantity: 1 });
-    //   }
-    // } else {
-    //   if (productIndex !== -1) {
-    //     if (cartProducts[productIndex].quantity > 1) {
-    //       cartProducts[productIndex].quantity -= 1;
-    //     } else {
-    //       cartProducts.splice(productIndex, 1); // Use splice for better performance
-    //     }
-    //   }
-    // }
-
-    // localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
   };
 
-  const handleItemAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleRemove = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    updateCart("add");
+    if (!loading && itemCount > 0) {
+      try {
+        await decreaseQuantity(product.id, product.shopId);
+        notification.success({
+          message: "Quantity Updated",
+          description: `Quantity of ${product.title} has been decreased.`,
+          placement: "topRight",
+          duration: 2,
+        });
+      } catch (error) {
+        notification.error({
+          message: "Failed to Update",
+          description: "Unable to update item quantity. Please try again.",
+          placement: "topRight",
+          duration: 3,
+        });
+      }
+    }
   };
 
   return itemCount > 0 ? (
     <div
       className={`flex h-full w-full justify-around rounded-lg uppercase font-bold text-sm bg-[#0c831f] cursor-pointer ${
         size === "lg" ? "text-lg" : "text-normal"
-      }`}
+      } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          updateCart("remove");
-        }}
+        onClick={handleRemove}
         type="button"
         className="flex items-center justify-center w-8"
+        disabled={loading}
       >
         <IoRemoveSharp size={18} className="text-white" />
       </button>
       <span className="flex items-center justify-center text-white">
-        {itemCount}
+        {loading ? '...' : itemCount}
       </span>
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          updateCart("add");
-        }}
+        onClick={handleAdd}
         type="button"
         className="flex items-center justify-center w-8"
+        disabled={loading}
       >
         <IoAddSharp size={18} className="text-white" />
       </button>
@@ -105,10 +98,11 @@ const AddToCartButton = ({ product, size }: ButtonProps) => {
   ) : (
     <button
       type="button"
-      className={`_add_to_cart ${size === "lg" ? "text-md" : "text-sm"}`}
-      onClick={(e) => handleItemAdd(e)}
+      className={`_add_to_cart ${size === "lg" ? "text-md" : "text-sm"} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+      onClick={handleAdd}
+      disabled={loading}
     >
-      Add
+      {loading ? 'Adding...' : 'Add'}
     </button>
   );
 };

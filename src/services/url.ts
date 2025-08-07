@@ -20,6 +20,7 @@ export const LIST_PRODUCTS = `${BASE_URL}/product/products`;
 export const LOGIN = `${BASE_URL}/auth/login`;
 export const REGISTER = `${BASE_URL}/auth/userRegister`;
 export const FORGOTPASSWORD = `${BASE_URL}/auth/password-forgot`;
+export const CHANGEPASSWORD = `${BASE_URL}/users/change-password`;
 export const ORDERCREATEURL = `${BASE_URL}/orders/create-order`;
 export const GETORDERS = `${BASE_URL}/orders`
 export const VERIFYPAYMENT = `${BASE_URL}/orders/verify-payment`;

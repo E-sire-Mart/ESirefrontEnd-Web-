@@ -179,3 +179,100 @@
   justify-content: space-between;
   align-items: center;
 }
+
+/* Profile Page Styles */
+.profile-tabs .ant-tabs-tab {
+  padding: 12px 24px;
+  font-weight: 500;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.3s ease;
+}
+
+.profile-tabs .ant-tabs-tab:hover {
+  background-color: #f0f9ff;
+  color: #0c831f;
+}
+
+.profile-tabs .ant-tabs-tab-active {
+  background-color: #0c831f;
+  color: white;
+  border-color: #0c831f;
+}
+
+.profile-tabs .ant-tabs-tab-active:hover {
+  background-color: #0c831f;
+  color: white;
+}
+
+.profile-tabs .ant-tabs-ink-bar {
+  background-color: #0c831f;
+}
+
+/* Card hover effects */
+.ant-card {
+  transition: all 0.3s ease;
+}
+
+.ant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Avatar gradient */
+.ant-avatar {
+  background: linear-gradient(135deg, #0c831f 0%, #10b981 100%);
+}
+
+/* Button styles */
+.ant-btn-primary {
+  background-color: #0c831f;
+  border-color: #0c831f;
+}
+
+.ant-btn-primary:hover {
+  background-color: #059669;
+  border-color: #059669;
+}
+
+/* Input focus styles */
+.ant-input:focus,
+.ant-input-focused {
+  border-color: #0c831f;
+  box-shadow: 0 0 0 2px rgba(12, 131, 31, 0.2);
+}
+
+/* Badge colors */
+.ant-badge-status-success {
+  background-color: #10b981;
+}
+
+.ant-badge-status-warning {
+  background-color: #f59e0b;
+}
+
+.ant-badge-status-error {
+  background-color: #ef4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-tabs .ant-tabs-tab {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .ant-card {
+    margin-bottom: 16px;
+  }
+}
+
+/* Example: Adjust the selector to match your code */
+.button-active, .settings-button.active, .settings-button.selected {
+  color: #fff !important; /* Makes text white */
+}
+
+.profile-tabs .ant-tabs-tab-active,
+.profile-tabs .ant-tabs-tab-active * {
+  color: #fff !important;
+  fill: #fff !important; /* for SVG icons */
+}

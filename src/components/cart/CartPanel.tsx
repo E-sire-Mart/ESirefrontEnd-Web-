@@ -19,17 +19,42 @@ import delivery from "../../assets/fast-delivery.png";
 import gross from "../../assets/gross.png";
 import { getLocation } from "../../services/globalfunctions";
 import { setLoginStatus } from "../../store/status";
+import { useCart } from "../../hooks/useCart";
 
 const CartPanelItem = (props: CartItem) => {
   const { image, title, price, newPrice } = props.product;
+  
+  // Handle image field - it might be an array or string
+  const getImageUrl = () => {
+    if (!image) return '';
+    
+    // If image is an array, take the first one
+    if (Array.isArray(image)) {
+      return image.length > 0 ? `${SERVER_URL}/${image[0]}` : '';
+    }
+    
+    // If image is a string, use it directly
+    if (typeof image === 'string') {
+      return `${SERVER_URL}/${image}`;
+    }
+    
+    return '';
+  };
+
+  const imageUrl = getImageUrl();
+
   return (
     <div className="flex p-4 gap-4 border-t _border-muted">
       <div>
         <div className="h-[72px] w-[72px] border rounded-[4px] overflow-hidden">
           <img
-            src={`${SERVER_URL}/${image}`}
-            alt=""
-            className="h-full w-full"
+            src={imageUrl}
+            alt={title || "Product"}
+            className="h-full w-full object-cover"
+            onError={(e) => {
+              // Fallback to a placeholder image if the image fails to load
+              e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Crect width='72' height='72' fill='%23f0f0f0'/%3E%3Ctext x='36' y='36' text-anchor='middle' dy='.3em' fill='%23999' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E";
+            }}
           />
         </div>
       </div>
@@ -61,8 +86,7 @@ const CartPanelItem = (props: CartItem) => {
 
 const CartPanel = () => {
   const dispatch = useAppDispatch();
-  const { totalQuantity, cartItems, billAmount } =
-    useAppSelector((state) => state.cart);
+  const { totalQuantity, cartItems, billAmount, clearCart } = useCart();
   const { isLogin } = useAppSelector((state) => state.status);
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
@@ -95,12 +119,8 @@ const CartPanel = () => {
     setIsLoginModalOpen(true);
   };
 
-  const clearCart = () => {
-    localStorage.removeItem("cartProducts");
-
-    dispatch(setCartItems([]));
-    dispatch(setTotalQuantity(0));
-    dispatch(setBillAmount(0));
+  const handleClearCart = async () => {
+    await clearCart();
   };
 
   const toggleAddressModal = () => {
@@ -164,7 +184,7 @@ const CartPanel = () => {
       });
     }
 
-    clearCart();
+    await handleClearCart();
 
     // const data = response?.data;
     

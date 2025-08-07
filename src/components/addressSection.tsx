@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import './AddressSelection.css';
 import { GOOGLE_MAP_API_KEY } from "../services/url";
 import axios from "axios";
+import { Input, Button } from "antd";
+import { EnvironmentOutlined } from "@ant-design/icons";
 
 interface MapOptions {
   center: google.maps.LatLngLiteral; // or google.maps.LatLng
@@ -102,61 +104,62 @@ const AddressSelection: React.FC<{ lat: number; lng: number; onAddressSelect: (a
   };
 
   return (
-    <div className="flex flex-row justify-center items-center p-[20px]">
-      <div className="panel bg-white box-border p-[20px] flex flex-col justify-between gap-[15px] w-[400px] rounded-[8px]">
-        <div className="flex items-center">
-          <img
-            className="mr-[8px]"
-            src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg"
-            alt="Address Icon"
-          />
-          <div className="sb-title">Select Address</div>
+    <div className="flex flex-row justify-center items-center p-6">
+      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 w-full max-w-md">
+        <div className="text-center mb-6">
+          <EnvironmentOutlined className="text-3xl text-blue-500 mb-2" />
+          <h3 className="text-xl font-semibold text-gray-800">Select Address</h3>
+          <p className="text-gray-600">Please provide your delivery address</p>
         </div>
-        <input
-          className="address-input"
-          type="text"
-          placeholder="Address"
-          id="location-input"
-          value={formData.location}
-          onChange={handleInputChange}
-        />
-        <input
-          className="address-input"
-          type="text"
-          placeholder="City"
-          id="locality-input"
-          value={formData.locality}
-          onChange={handleInputChange}
-        />
-        <div className="half-input-container">
-          <input
-            type="text"
-            className="half-input address-input"
-            placeholder="State/Province"
-            id="administrative_area_level_1-input"
-            value={formData.administrative_area_level_1}
-            onChange={handleInputChange}
+        
+        <div className="space-y-4">
+          <Input
+            placeholder="Street Address"
+            className="h-11"
+            prefix={<EnvironmentOutlined className="text-gray-400" />}
+            value={formData.location}
+            onChange={(e) => handleInputChange({ target: { id: 'location-input', value: e.target.value } })}
           />
-          <input
-            type="text"
-            className="half-input address-input"
-            placeholder="Zip/Postal code"
-            id="postal_code-input"
-            value={formData.postal_code}
-            onChange={handleInputChange}
+          <Input
+            placeholder="City"
+            className="h-11"
+            prefix={<EnvironmentOutlined className="text-gray-400" />}
+            value={formData.locality}
+            onChange={(e) => handleInputChange({ target: { id: 'locality-input', value: e.target.value } })}
+          />
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              placeholder="State/Province"
+              className="h-11"
+              prefix={<EnvironmentOutlined className="text-gray-400" />}
+              value={formData.administrative_area_level_1}
+              onChange={(e) => handleInputChange({ target: { id: 'administrative_area_level_1-input', value: e.target.value } })}
+            />
+            <Input
+              placeholder="Postal Code"
+              className="h-11"
+              prefix={<EnvironmentOutlined className="text-gray-400" />}
+              value={formData.postal_code}
+              onChange={(e) => handleInputChange({ target: { id: 'postal_code-input', value: e.target.value } })}
+            />
+          </div>
+          <Input
+            placeholder="Country"
+            className="h-11"
+            prefix={<EnvironmentOutlined className="text-gray-400" />}
+            value={formData.country}
+            onChange={(e) => handleInputChange({ target: { id: 'country-input', value: e.target.value } })}
           />
         </div>
-        <input
-          className="address-input"
-          type="text"
-          placeholder="Country"
-          id="country-input"
-          value={formData.country}
-          onChange={handleInputChange}
-        />
-        <button className="checkout-btn bg-blue-500 hover:bg-blue-600 text-white cursor-pointer rounded-[5px] text-[16px] border-none p-[10px] transition-[0.3s]" onClick={handleAddressConfirm}>
+        
+        <Button 
+          type="primary" 
+          onClick={handleAddressConfirm}
+          className="w-full h-12 mt-6 bg-blue-500 border-blue-500"
+          size="large"
+        >
           Confirm Address
-        </button>
+        </Button>
       </div>
     </div>
   );
