@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/v1/user/:match*",
+        "destination": "/api/v1/user/:match*"
+      },
+      {
+        "source": "/api/v1/vendor/:match*",
+        "destination": "https://vendor-side.vercel.app/api/v1/vendor/:match*"
+      }
+    ]
+  }
