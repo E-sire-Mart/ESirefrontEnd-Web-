@@ -97,10 +97,13 @@ const AddressSelection: React.FC<{ lat: number; lng: number; onAddressSelect: (a
     });
   };
 
-  const updateField = (field: string, value: string) => {
-    setFormData({
-      ...formData,
-      [field]: value,
+  const createChangeHandler = (fieldId: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleInputChange({
+      ...e,
+      target: {
+        ...e.target,
+        id: fieldId
+      }
     });
   };
 
@@ -125,14 +128,14 @@ const AddressSelection: React.FC<{ lat: number; lng: number; onAddressSelect: (a
             className="h-11"
             prefix={<EnvironmentOutlined className="text-gray-400" />}
             value={formData.location}
-            onChange={(e) => updateField('location', e.target.value)}
+            onChange={createChangeHandler('location-input')}
           />
           <Input
             placeholder="City"
             className="h-11"
             prefix={<EnvironmentOutlined className="text-gray-400" />}
             value={formData.locality}
-            onChange={(e) => updateField('locality', e.target.value)}
+            onChange={createChangeHandler('locality-input')}
           />
           <div className="grid grid-cols-2 gap-3">
             <Input
@@ -140,14 +143,14 @@ const AddressSelection: React.FC<{ lat: number; lng: number; onAddressSelect: (a
               className="h-11"
               prefix={<EnvironmentOutlined className="text-gray-400" />}
               value={formData.administrative_area_level_1}
-              onChange={(e) => updateField('administrative_area_level_1', e.target.value)}
+              onChange={createChangeHandler('administrative_area_level_1-input')}
             />
             <Input
               placeholder="Postal Code"
               className="h-11"
               prefix={<EnvironmentOutlined className="text-gray-400" />}
               value={formData.postal_code}
-              onChange={(e) => updateField('postal_code', e.target.value)}
+              onChange={createChangeHandler('postal_code-input')}
             />
           </div>
           <Input
@@ -155,7 +158,7 @@ const AddressSelection: React.FC<{ lat: number; lng: number; onAddressSelect: (a
             className="h-11"
             prefix={<EnvironmentOutlined className="text-gray-400" />}
             value={formData.country}
-            onChange={(e) => updateField('country', e.target.value)}
+            onChange={createChangeHandler('country-input')}
           />
         </div>
         

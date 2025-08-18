@@ -25,7 +25,8 @@ import {
   MinusOutlined,
   EyeInvisibleOutlined,
   PlusCircleOutlined,
-  ShoppingCartOutlined
+  ShoppingCartOutlined,
+  ShopOutlined
 } from "@ant-design/icons";
 import { 
   notification, 
@@ -204,6 +205,14 @@ const Profile: React.FC = () => {
   const { addToCart, decreaseQuantity, removeFromCart } = useCart();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const handleRegisterStore = () => {
+    const authServer = (import.meta as any).env?.VITE_AUTH_SERVER_URL || 'http://localhost:3003';
+    const url = `${authServer.replace(/\/$/, '')}/api/v1/auth/gotomyshop`;
+    window.location.href = url;
+  };
+
+  // Membership removed
 
   // Cart item deletion confirmation modal states
   const [deleteCartItemModalVisible, setDeleteCartItemModalVisible] = useState(false);
@@ -911,15 +920,24 @@ const Profile: React.FC = () => {
               <p className="text-gray-500">Member since {new Date().getFullYear()}</p>
             </div>
           </div>
-          <Button
-            type="primary"
-            icon={isEditing ? <SaveOutlined /> : <EditOutlined />}
-            onClick={isEditing ? handleSaveProfile : () => setIsEditing(true)}
-            loading={loading}
-            className="bg-green-600 border-green-600 hover:bg-green-700"
-          >
-            {isEditing ? "Save Changes" : "Edit Profile"}
-          </Button>
+          <div className="flex items-center space-x-3">
+            <Button
+              type="default"
+              icon={<ShopOutlined />}
+              onClick={handleRegisterStore}
+            >
+              Register Your Store
+            </Button>
+            <Button
+              type="primary"
+              icon={isEditing ? <SaveOutlined /> : <EditOutlined />}
+              onClick={isEditing ? handleSaveProfile : () => setIsEditing(true)}
+              loading={loading}
+              className="bg-green-600 border-green-600 hover:bg-green-700"
+            >
+              {isEditing ? "Save Changes" : "Edit Profile"}
+            </Button>
+          </div>
         </div>
 
         <Divider />
@@ -1469,6 +1487,7 @@ const Profile: React.FC = () => {
           onChange={setActiveTab}
           className="profile-tabs"
           tabBarStyle={{ marginBottom: 24 }}
+          tabBarExtraContent={undefined}
         >
           <TabPane 
             tab={

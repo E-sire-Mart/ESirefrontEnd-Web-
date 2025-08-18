@@ -94,7 +94,7 @@ const Header = ({ onSearch }: any) => {
 
   return (
     <>
-      <header className="_nav px-4 sm:px-6 lg:px-8 z-30 bg-white shadow-sm border-b border-gray-100">
+      <header className="_nav px-3 sm:px-6 lg:px-8 z-30 bg-white shadow-sm border-b border-gray-100">
         <div className="_header sm:flex h-full max-w-7xl mx-auto">
           <div className="hidden sm:flex max-w-[200px] md:max-w-[250px] w-full cursor-pointer sm:hover:bg-gray-50 items-center justify-center border-r _border-light px-4">
             <Link to={"/"}>
@@ -103,13 +103,13 @@ const Header = ({ onSearch }: any) => {
               </span>
             </Link>
           </div>
-          <div className="w-full sm:w-[240px] xl:w-[320px] py-4 px-4 sm:px-6 _header_loc flex items-center sm:justify-center cursor-pointer sm:hover:bg-gray-50">
+          <div className="w-full sm:w-[240px] xl:w-[320px] py-3 px-3 sm:px-6 _header_loc flex items-center sm:justify-center cursor-pointer sm:hover:bg-gray-50">
             <LocationPicker />
           </div>
-          <div className="flex-1 relative _header_search px-4 sm:px-6 mr-6">
+          <div className="flex-1 relative _header_search px-3 sm:px-6 mr-0 sm:mr-6">
             <SearchBox onSearch={onSearch} />
           </div>
-          <div className="flex items-center _header_login justify-center cursor-pointer sm:hover:bg-gray-50 max-w-[120px] w-full group px-4">
+          <div className="flex items-center _header_login justify-center cursor-pointer sm:hover:bg-gray-50 max-w-[120px] w-full group px-3">
             <span className="font-medium _text-default block">
               {isLogin ? (
                 <div className="flex justify-center items-center relative">
@@ -161,7 +161,7 @@ const Header = ({ onSearch }: any) => {
               )}
             </span>
           </div>
-          <div className="py-2 hidden md:flex h-full items-center mr-4 ml-3 px-4">
+          <div className="py-2 hidden md:flex h-full items-center mr-2 sm:mr-4 ml-1 sm:ml-3 px-3 sm:px-4">
             <CartButton />
           </div>
         </div>

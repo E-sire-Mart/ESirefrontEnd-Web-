@@ -366,21 +366,61 @@ const Signup: React.FC<SignupProps> = ({
                   </div>
                 </div>
               </div>
-              {/* Modal for reCAPTCHA */}
+              {/* Modern reCAPTCHA Modal */}
               <Modal
                 open={recaptchaModalVisible}
-                onCancel={() => 
-                  (false)}
+                onCancel={() => setRecaptchaModalVisible(false)}
                 footer={null}
                 centered
                 destroyOnClose
+                width={500}
+                className="recaptcha-modal"
+                maskStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+                styles={{
+                  body: { padding: 0 },
+                  content: { borderRadius: '16px', overflow: 'hidden' }
+                }}
+                closeIcon={
+                  <div className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200">
+                    <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </div>
+                }
               >
-                <div style={{ textAlign: "center", padding: 24 }}>
-                  <h3>Please confirm you're not a robot.</h3>
-                  <ReCAPTCHA
-                    sitekey={SITE_KEY}
-                    onChange={handleRecaptchaSuccess}
-                  />
+                <div className="flex flex-col items-center justify-center px-8 py-12 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl">
+                  {/* Header Section */}
+                  <div className="mb-8 text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
+                      <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Security Verification</h2>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      To ensure the security of our platform, please complete this quick verification step to confirm you're not a robot.
+                    </p>
+                  </div>
+                  
+                  {/* reCAPTCHA Container */}
+                  <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 mb-6 transform transition-all duration-300 hover:shadow-lg">
+                    <ReCAPTCHA
+                      sitekey={SITE_KEY}
+                      onChange={handleRecaptchaSuccess}
+                      theme="light"
+                      size="normal"
+                    />
+                  </div>
+                  
+                  {/* Footer */}
+                  <div className="text-center">
+                    <p className="text-xs text-gray-500 flex items-center justify-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                      </svg>
+                      Protected by reCAPTCHA · Secure & Private
+                    </p>
+                  </div>
                 </div>
               </Modal>
 

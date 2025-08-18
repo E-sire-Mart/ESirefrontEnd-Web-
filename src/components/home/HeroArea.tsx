@@ -5,6 +5,8 @@ import firstHeder from "../../assets/images/ad-1.png";
 import secondHeder from "../../assets/images/ad-small-1.png";
 import icon from "../../assets/images/ad-small-2.png";
 import image from "../../assets/images/ad-21.png";
+import ExitingOffer from "./ExitingOffer";
+import TodayDeal from "./TodayDeal";
 const HeroArea: React.FC = () => {
   const [isMobileView, setIsMobileView] = useState<boolean>(
     window.innerWidth <= 639
@@ -54,6 +56,9 @@ const HeroArea: React.FC = () => {
           </div>
         </>
       )}
+      
+      <ExitingOffer />
+      <TodayDeal />
     </div>
   );
 };

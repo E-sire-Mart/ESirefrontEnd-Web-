@@ -25,7 +25,7 @@ const Layout = ({ noFooter, component, onSearch }: any) => {
     <>
       <div>
         <Header onSearch={onSearch}/>
-        <main className="pt-28 sm:pt-24">{component}</main>
+        <main className="pt-28 sm:pt-24 px-2 sm:px-0">{component}</main>
         {!noFooter && (
           <>
             <BrandPromotion />

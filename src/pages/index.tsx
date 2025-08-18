@@ -3,5 +3,6 @@ import ProductView from './ProductView';
 import Error404 from './Error404';
 import EmailVerification from './EmailVerification';
 import Profile from './Profile';
+import RegisterStore from './RegisterStore';
 
-export { Home, ProductView, Error404, EmailVerification, Profile };
+export { Home, ProductView, Error404, EmailVerification, Profile, RegisterStore };

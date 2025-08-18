@@ -4,7 +4,7 @@ import Layout from "./components/Layout";
 import ProductViewAll from "./components/Products/ProductViewall";
 import ProductViewAllByCategory from "./components/Products/ProductViewAllByCategory";
 import { Loader } from "./components/shared";
-import { Error404, Home, Profile } from "./pages";
+import { Error404, Home, Profile, RegisterStore } from "./pages";
 import ResetPassword from "./components/auth/ResetPass";
 import EmailVerification from "./pages/EmailVerification";
 
@@ -21,6 +21,7 @@ const AppWithRouting = () => {
     <Routes>
       <Route path="/" element={<Layout component={<Home searchText={searchText}/>} onSearch={onSearch} />} />
       <Route path="/profile" element={<Layout component={<Profile />} onSearch={onSearch} />} />
+      <Route path="/register-store" element={<Layout component={<RegisterStore />} onSearch={onSearch} />} />
       <Route path="/ResetPassword" element={<ResetPassword />} />
       <Route path="/verify-email" element={<EmailVerification />} />
       <Route

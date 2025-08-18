@@ -34,17 +34,21 @@ const CategoriesList = (props: Props) => {
   }
 
   return (
-    <section className="my-4">
-      <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 my-2">
+    <section className="my-6">
+      <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
         {categories.map((category, index) => (
-          <div key={index} className="h-48 cursor-pointer"
-           onClick={() => handleClick(category.name)}
-           >
-            <img
-              src={`categories/${category.icon}`}
-              className="mx-auto h-full w-full object-contain"
-              alt={category.name}
-            />
+          <div
+            key={index}
+            className="group cursor-pointer rounded-xl bg-white/95 backdrop-blur-sm p-4 border border-gray-100 hover:border-indigo-200 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center"
+            onClick={() => handleClick(category.name)}
+          >
+            <div className="h-28 sm:h-36 w-full flex items-center justify-center">
+              <img
+                src={`/categories/${category.icon}`}
+                className="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                alt={category.name}
+              />
+            </div>
           </div>
         ))}
       </div>
