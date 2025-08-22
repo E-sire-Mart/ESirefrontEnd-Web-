@@ -207,9 +207,8 @@ const Profile: React.FC = () => {
   const navigate = useNavigate();
 
   const handleRegisterStore = () => {
-    const authServer = (import.meta as any).env?.VITE_AUTH_SERVER_URL || 'http://localhost:3003';
-    const url = `${authServer.replace(/\/$/, '')}/api/v1/auth/gotomyshop`;
-    window.location.href = url;
+    // Redirect to vendor portal on the same domain
+    window.location.href = '/vendor';
   };
 
   // Membership removed
