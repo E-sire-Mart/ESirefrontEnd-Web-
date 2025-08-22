@@ -3,7 +3,17 @@
 // export const GOOGLE_MAP_API_KEY = "AIzaSyCoISnyV76a5pQ94mzu-lbLoXn2wcFxwTo";
 // export const CompanyName = "Your Company";
 // export const ComapnyDescription = "Test transaction";
-export const SERVER_URL = import.meta.env.VITE_SERVER_URL; // Update your server url
+
+// Determine the base URL based on environment
+const getBaseURL = () => {
+  if (import.meta.env.DEV) {
+    return 'http://localhost:5000'; // Development
+  }
+  // Production - use the new domain structure
+  return 'https://e-siremart.com/api';
+};
+
+export const SERVER_URL = getBaseURL();
 const env = import.meta.env;
 console.log(env)
 console.log("$$$$$$$", SERVER_URL)
