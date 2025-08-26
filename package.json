@@ -20,6 +20,7 @@
     "axios": "^1.10.0",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
+    "path": "^0.12.7",
     "razorpay": "^2.9.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -36,6 +37,7 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "@types/node": "^24.3.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@types/react-google-recaptcha": "^2.1.9",
