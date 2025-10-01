@@ -1,11 +1,19 @@
 .signin-card {
     position: absolute;
-    top: 100%;
-    background: #f1f1f1;
-    right: 0px;
-    width: 235px;
-    /* padding: 10px 0px; */
-    border-radius: 3px 0px 3px 3px;
+    top: calc(100% + 8px);
+    width: 260px;
+    background: #ffffff;
+    border: 1px solid var(--border-muted-color);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    padding: 6px;
+    color: #111827;
+}
+
+.dark .signin-card {
+    background: #1f2937;
+    border-color: var(--border-default-color);
+    color: #e5e7eb;
 }
 
 .signin-card ul {
@@ -14,11 +22,20 @@
 
 .signin-card ul li {
     font-size: 14px;
-    padding: 5px 20px;
+    padding: 10px 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 16px;
+    gap: 10px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.signin-card ul li:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.dark .signin-card ul li:hover {
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .signin-card p:first-of-type {
@@ -33,17 +50,22 @@
 }
 
 .signin-card button {
-    width: 90%;
+    width: 100%;
     outline: none;
-    border: none;
-    border-radius: 3px;
-    background: #e40046;
+    border: 1px solid var(--border-muted-color);
+    border-radius: 8px;
+    background: #0c831f;
     color: #fff;
-    padding: 5px 10px;
-    margin: 0 auto;
+    padding: 10px 12px;
     display: block;
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 8px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.signin-card button:hover {
+    background: #0a6f1a;
+    border-color: #0a6f1a;
 }
 
 .signicon {

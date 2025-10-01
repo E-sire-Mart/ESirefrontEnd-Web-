@@ -28,6 +28,7 @@ const ProductView: React.FC = () => {
   }, [id]);
 
   if (loading) {
+    const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
     return (
       <div
         style={{
@@ -39,7 +40,7 @@ const ProductView: React.FC = () => {
           alignItems: "center",
           width: "100%",
           height: "100%",
-          background:'white',
+          background: isDark ? '#111827' : 'white',
           zIndex: "100",
         }}
       >

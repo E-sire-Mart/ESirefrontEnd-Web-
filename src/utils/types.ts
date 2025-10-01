@@ -196,3 +196,97 @@ export type CartItem = {
   product: CartProduct;
   quantity: number;
 };
+
+// Review and Rating Types
+export interface ReviewMedia {
+  filename: string;
+  originalName: string;
+  size: number;
+  mimetype: string;
+  uploadedAt: string;
+}
+
+export interface Review {
+  _id: string;
+  user: {
+    _id: string;
+    username: string;
+    email: string;
+    avatar?: string;
+    first_name?: string;
+    last_name?: string;
+  };
+  product: string;
+  rating: number;
+  comment: string;
+  isVerified: boolean;
+  helpful: number;
+  media?: {
+    videos: ReviewMedia[];
+    photos: ReviewMedia[];
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReviewStats {
+  averageRating: number;
+  totalReviews: number;
+}
+
+export interface ReviewResponse {
+  success: boolean;
+  reviews: Review[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalReviews: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+  ratingStats: ReviewStats;
+}
+
+// Recommendation Types
+export interface Recommendation {
+  _id: string;
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  product: {
+    _id: string;
+    name: string;
+    image: string[];
+    price: number;
+    description?: string;
+  };
+  recommendedTo: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  message: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface RecommendationResponse {
+  success: boolean;
+  recommendations: Recommendation[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalRecommendations: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
+// Updated ProductItem to include rating fields
+export interface ProductItemWithRating extends ProductItem {
+  averageRating?: number;
+  totalReviews?: number;
+  totalRecommendations?: number;
+}

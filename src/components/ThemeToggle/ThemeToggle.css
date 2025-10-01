@@ -1,0 +1,45 @@
+.theme-toggle-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  background: transparent;
+  color: #666;
+}
+
+.theme-toggle-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #d9d9d9;
+  color: #333;
+  transform: scale(1.05);
+}
+
+.theme-toggle-button:active {
+  transform: scale(0.95);
+}
+
+/* Dark mode adjustments */
+.dark .theme-toggle-button {
+  color: #b0b0b0;
+}
+
+.dark .theme-toggle-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #4c4c4c;
+  color: #ffffff;
+}
+
+/* Light mode adjustments */
+.light .theme-toggle-button {
+  color: #666;
+}
+
+.light .theme-toggle-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #d9d9d9;
+  color: #333;
+}

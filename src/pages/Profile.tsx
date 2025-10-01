@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import DashboardLayout from "../components/DashboardLayout";
+import ChatComponent from "../components/Chat";
+import ThemeToggle from "../components/ThemeToggle";
 import { 
   UserOutlined, 
   MailOutlined, 
@@ -26,14 +29,16 @@ import {
   EyeInvisibleOutlined,
   PlusCircleOutlined,
   ShoppingCartOutlined,
-  ShopOutlined
+  ShopOutlined,
+  ProfileOutlined,
+  CommentOutlined,
+  MessageOutlined
 } from "@ant-design/icons";
 import { 
   notification, 
   Button, 
   Input, 
   Modal, 
-  Tabs, 
   Avatar, 
   Card, 
   Divider, 
@@ -50,7 +55,9 @@ import {
   InputNumber,
   Drawer,
   List,
-  Spin
+  Spin,
+  Alert,
+  Rate
 } from "antd";
 import { getOrders } from "../services/api/order";
 import { getUserProfile, updateUserProfile, uploadAvatar, getAvatarUrl } from "../services/api/user";
@@ -61,10 +68,10 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { addItem, removeItem, setCartItems, setTotalQuantity, setBillAmount } from "../store/cart";
 import { useCart } from "../hooks/useCart";
+import { useTheme } from "../contexts/ThemeContext";
 import "./style.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-const { TabPane } = Tabs;
 const { Option } = Select;
 
 interface UserProfile {
@@ -117,6 +124,9 @@ interface Address {
 }
 
 const Profile: React.FC = () => {
+  const { mode } = useTheme();
+  const isDark = mode === 'dark';
+  
   const [userProfile, setUserProfile] = useState<UserProfile>({
     firstName: "",
     lastName: "",
@@ -127,7 +137,9 @@ const Profile: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
-  const [activeTab, setActiveTab] = useState("profile");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = searchParams.get('tab') || 'profile';
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [originalUserData, setOriginalUserData] = useState<UserProfile | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
@@ -177,6 +189,49 @@ const Profile: React.FC = () => {
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
   const [addressForm] = Form.useForm();
 
+  // Comments state
+  interface CommentFormState {
+    title: string;
+    message: string;
+    type: 'general' | 'bug' | 'feature' | 'complaint' | 'compliment';
+    priority: 'low' | 'medium' | 'high' | 'urgent';
+    rating: number;
+  }
+  const [commentData, setCommentData] = useState<CommentFormState>({
+    title: '',
+    message: '',
+    type: 'general',
+    priority: 'medium',
+    rating: 0
+  });
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [commentStatus, setCommentStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [stores, setStores] = useState<Array<{ id: string; name: string }>>([]);
+  const [myComments, setMyComments] = useState<any[]>([]);
+  const [isLoadingMyComments, setIsLoadingMyComments] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showAntiNotification, setShowAntiNotification] = useState(false);
+  const [antiNotificationMessage, setAntiNotificationMessage] = useState('');
+
+  useEffect(() => {
+    // Load stores list for selector
+    (async () => {
+      try {
+        const base = (import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003';
+        const userData = localStorage.getItem('user');
+        const token = userData ? JSON.parse(userData).access_token : localStorage.getItem('token');
+        const res = await fetch(`${base}/api/v1/shop/list-basic`, {
+          headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) }
+        });
+        const data = await res.json();
+        const rawList = Array.isArray(data?.data) ? data.data : [];
+        setStores(rawList.map((s: any) => ({ id: s.id, name: s.name })));
+      } catch {}
+    })();
+  }, []);
+
   const openAddressModal = (address: Address | null = null) => {
     setEditingAddress(address);
     setAddressModalVisible(true);
@@ -200,15 +255,166 @@ const Profile: React.FC = () => {
     setAddresses((prev: Address[]) => prev.filter((addr: Address) => addr.key !== key));
   };
 
+  const fetchMyComments = async () => {
+    try {
+      setIsLoadingMyComments(true);
+      const base = (import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003';
+      const userData = localStorage.getItem('user');
+      const token = userData ? JSON.parse(userData).access_token : localStorage.getItem('token');
+      
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+      
+      // For now, we'll fetch all comments for the current user's role
+      // The backend will filter based on the authenticated user's ID from the token
+      const res = await fetch(`${base}/api/v1/comments`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        setMyComments(data.data || []);
+      }
+    } catch (error) {
+      console.error('Failed to fetch comments:', error);
+    } finally {
+      setIsLoadingMyComments(false);
+    }
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const base = (import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003';
+      const userData = localStorage.getItem('user');
+      const token = userData ? JSON.parse(userData).access_token : localStorage.getItem('token');
+      
+      if (!token) return;
+      
+      const res = await fetch(`${base}/api/v1/notification/comments`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data.data || []);
+        setUnreadCount(data.data?.filter((n: any) => !n.isRead).length || 0);
+      }
+    } catch (error) {
+      console.error('Failed to fetch notifications:', error);
+    }
+  };
+
+  const markNotificationAsRead = async (notificationId: string) => {
+    try {
+      const base = (import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003';
+      const userData = localStorage.getItem('user');
+      const token = userData ? JSON.parse(userData).access_token : localStorage.getItem('token');
+      
+      if (!token) return;
+      
+      const res = await fetch(`${base}/api/v1/notification/comments/${notificationId}/read`, {
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (res.ok) {
+        setNotifications(prev => prev.map(n => n._id === notificationId ? { ...n, isRead: true } : n));
+        setUnreadCount(prev => Math.max(0, prev - 1));
+      }
+    } catch (error) {
+      console.error('Failed to mark notification as read:', error);
+    }
+  };
+
+  // Unified notification: use Ant Design notification instead of custom toast
+  const triggerAntiNotification = (message: string) => {
+    notification.success({
+      message: 'Comment posted',
+      description: message || 'Your comment was sent successfully.',
+      placement: 'topRight',
+    });
+  };
+
   // Get cart items from Redux store
   const { cartItems, totalQuantity, billAmount } = useAppSelector((state) => state.cart);
   const { addToCart, decreaseQuantity, removeFromCart } = useCart();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleRegisterStore = () => {
-    // Redirect to vendor portal on the same domain
-    window.location.href = '/vendor';
+  const handleRegisterStore = async () => {
+    try {
+      const authServer = (import.meta as any).env?.VITE_AUTH_SERVER_URL || 'http://localhost:3000';
+      const baseUrl = authServer.replace(/\/$/, '');
+      
+      // Check if user is already a store owner
+      const checkStoreResponse = await fetch(`${baseUrl}/api/v1/auth/check-store-status`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (checkStoreResponse.ok) {
+        const data = await checkStoreResponse.json();
+        if (data.isStoreOwner) {
+          if (data.isApproved) {
+            // User is an approved store owner, redirect to store dashboard
+            notification.info({
+              message: "Store Owner",
+              description: "You are an approved store owner. Redirecting to store dashboard...",
+              placement: "topRight",
+              duration: 3,
+            });
+            window.location.href = `${baseUrl}/dashboard`;
+          } else {
+            // User is a store owner but pending approval
+            notification.warning({
+              message: "Store Pending Approval",
+              description: "Your store registration is pending admin approval. You will be notified once approved.",
+              placement: "topRight",
+              duration: 5,
+            });
+            // Don't redirect, just show the message
+          }
+        } else {
+          // User is not a store owner, redirect to register with user data
+          const userData = {
+            email: userProfile.email,
+            firstName: userProfile.firstName,
+            lastName: userProfile.lastName,
+            phoneNumber: userProfile.phoneNumber
+          };
+          const queryParams = new URLSearchParams(userData).toString();
+          window.location.href = `${baseUrl}/auth/register?${queryParams}`;
+        }
+      } else {
+        // If check fails, default to register with user data
+        const userData = {
+          email: userProfile.email,
+          firstName: userProfile.firstName,
+          lastName: userProfile.lastName,
+          phoneNumber: userProfile.phoneNumber
+        };
+        const queryParams = new URLSearchParams(userData).toString();
+        window.location.href = `${baseUrl}/auth/register?${queryParams}`;
+      }
+    } catch (error) {
+      console.error('Error checking store status:', error);
+      // If there's an error, default to register with user data
+      const authServer = (import.meta as any).env?.VITE_AUTH_SERVER_URL || 'http://localhost:3000';
+      const baseUrl = authServer.replace(/\/$/, '');
+      const userData = {
+        email: userProfile.email,
+        firstName: userProfile.firstName,
+        lastName: userProfile.lastName,
+        phoneNumber: userProfile.phoneNumber
+      };
+      const queryParams = new URLSearchParams(userData).toString();
+      window.location.href = `${baseUrl}/auth/register?${queryParams}`;
+    }
   };
 
   // Membership removed
@@ -237,6 +443,14 @@ const Profile: React.FC = () => {
     console.log("userProfile.firstName:", userProfile.firstName);
     console.log("userProfile.email:", userProfile.email);
   }, [userProfile]);
+
+  // Fetch user's comments and notifications after profile is loaded
+  useEffect(() => {
+    if (userProfile.email) { // Only fetch when we have user data
+      fetchMyComments();
+      fetchNotifications();
+    }
+  }, [userProfile.email]);
 
   const loadUserProfile = async () => {
     try {
@@ -1057,7 +1271,7 @@ const Profile: React.FC = () => {
               <h3 className="text-lg font-semibold">Cart Items ({totalQuantity})</h3>
               <div className="text-right">
                 <p className="text-sm text-gray-500">Total Amount</p>
-                <p className="text-xl font-bold text-green-600">₹{billAmount}</p>
+                <p className="text-xl font-bold text-green-600">${billAmount}</p>
               </div>
             </div>
             
@@ -1135,11 +1349,11 @@ const Profile: React.FC = () => {
                            <div className="flex items-center space-x-2">
                              {item.product?.mrp && item.product?.newPrice && item.product.mrp > item.product.newPrice ? (
                                <>
-                                 <span className="text-lg font-bold text-green-600">₹{item.product.newPrice}</span>
-                                 <span className="text-gray-400 line-through text-sm">₹{item.product.mrp}</span>
+                                 <span className="text-lg font-bold text-green-600">AED {item.product.newPrice.toFixed(0)}</span>
+                                 <span className="text-gray-400 line-through text-sm">AED {item.product.mrp.toFixed(0)}</span>
                                </>
                              ) : (
-                               <span className="text-lg font-bold text-green-600">₹{item.product?.newPrice || item.product?.price}</span>
+                               <span className="text-lg font-bold text-green-600">AED {(item.product?.newPrice || item.product?.price).toFixed(0)}</span>
                              )}
                            </div>
                          </div>
@@ -1199,7 +1413,7 @@ const Profile: React.FC = () => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-3xl font-bold">₹{billAmount}</div>
+                      <div className="text-3xl font-bold">${billAmount}</div>
                       <div className="text-green-100 text-sm">Total Amount</div>
                     </div>
                   </div>
@@ -1226,7 +1440,7 @@ const Profile: React.FC = () => {
                 onClick={handleOrderFromCart}
                 className="bg-green-600 border-green-600 hover:bg-green-700"
               >
-                Order from Cart (₹{billAmount})
+                Order from Cart (${ '{'}billAmount{'}' })
               </Button>
             </div>
           </>
@@ -1281,7 +1495,7 @@ const Profile: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-gray-500">Total Amount:</span>
-                    <p className="font-medium text-green-600">₹{order.price}</p>
+                    <p className="font-medium text-green-600">${order.price}</p>
                   </div>
                 </div>
               </div>
@@ -1295,7 +1509,7 @@ const Profile: React.FC = () => {
                         <p className="font-medium">{product.productName}</p>
                         <p className="text-sm text-gray-500">Qty: {product.quantity}</p>
                       </div>
-                      <span className="text-green-600 font-medium">₹{product.price}</span>
+                      <span className="text-green-600 font-medium">${product.price}</span>
                     </div>
                   ))}
                 </div>
@@ -1399,13 +1613,368 @@ const Profile: React.FC = () => {
                   <p className="text-sm text-gray-500">{order.createdAt}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-semibold text-green-600">₹{order.price}</p>
+                  <p className="font-semibold text-green-600">${order.price}</p>
                   <Tag color={getPaymentStatusColor(order.paymentStatus)}>
                     {order.paymentStatus}
                   </Tag>
                 </div>
               </div>
             ))
+          )}
+        </div>
+      </Card>
+    </div>
+  );
+
+  const renderCommentsSection = () => (
+    <div className="space-y-6">
+      <Card className="shadow-sm border-0">
+        <div className="p-6">
+          <div className="flex items-center mb-4">
+            <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center mr-3">
+              <CommentOutlined className="text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold">Send Comments</h3>
+              <p className="text-gray-500 text-sm">Share your feedback, report issues, or request features</p>
+            </div>
+          </div>
+
+          {commentStatus && (
+            <Alert
+              type={commentStatus.type}
+              message={commentStatus.message}
+              closable
+              onClose={() => setCommentStatus(null)}
+              className="mb-4"
+            />
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="space-y-2">
+              <label className="text-sm text-gray-600 dark:text-gray-300">Comment Type</label>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { value: 'general', label: 'General' },
+                  { value: 'bug', label: 'Bug' },
+                  { value: 'feature', label: 'Feature' },
+                  { value: 'complaint', label: 'Complaint' },
+                  { value: 'compliment', label: 'Compliment' },
+                ].map((t) => (
+                  <Button
+                    key={t.value}
+                    size="small"
+                    type={commentData.type === (t.value as any) ? 'primary' : 'default'}
+                    onClick={() => setCommentData({ ...commentData, type: t.value as any })}
+                    className={commentData.type === (t.value as any) ? 'bg-green-600 border-green-600' : ''}
+                  >
+                    {t.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm text-gray-600 dark:text-gray-300">Priority</label>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { value: 'low', label: 'Low' },
+                  { value: 'medium', label: 'Medium' },
+                  { value: 'high', label: 'High' },
+                  { value: 'urgent', label: 'Urgent' },
+                ].map((p) => (
+                  <Button
+                    key={p.value}
+                    size="small"
+                    type={commentData.priority === (p.value as any) ? 'primary' : 'default'}
+                    onClick={() => setCommentData({ ...commentData, priority: p.value as any })}
+                    className={commentData.priority === (p.value as any) ? 'bg-green-600 border-green-600' : ''}
+                  >
+                    {p.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm text-gray-600 dark:text-gray-300">Store</label>
+              <Select
+                placeholder="Select a store"
+                value={(commentData as any).storeId || undefined}
+                onChange={(v) => setCommentData({ ...commentData, ...( { storeId: v } as any) })}
+                showSearch
+                options={stores.map(s => ({ label: s.name, value: s.id }))}
+                filterOption={(input, option) => (option?.label as string)?.toLowerCase().includes(input.toLowerCase())}
+              />
+              <p className="text-xs text-gray-500 dark:text-gray-400">Your comment will be sent to the selected store's admins.</p>
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">Overall Experience Rating</label>
+            <Rate value={commentData.rating} onChange={(v) => setCommentData({ ...commentData, rating: v })} />
+          </div>
+
+          <div className="mb-4">
+            <Input
+              placeholder="Title"
+              value={commentData.title}
+              onChange={(e) => setCommentData({ ...commentData, title: e.target.value })}
+              className="h-11"
+            />
+          </div>
+
+          <div className="mb-4">
+            <Input.TextArea
+              rows={4}
+              placeholder="Please provide detailed information about your comment, issue, or request..."
+              value={commentData.message}
+              onChange={(e) => setCommentData({ ...commentData, message: e.target.value })}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">Attachments</label>
+            <Upload
+              multiple
+              beforeUpload={() => false}
+              listType="picture"
+              accept="image/*"
+              maxCount={5}
+              onChange={(info) => {
+                // store files temporarily on component instance
+                (window as any).__commentFiles = (info.fileList || []).map(f => f.originFileObj).filter(Boolean);
+              }}
+            >
+              <Button>Upload Images (max 5)</Button>
+            </Upload>
+          </div>
+
+          <div className="flex justify-end">
+            <Button
+              type="primary"
+              loading={isSubmittingComment}
+              disabled={!commentData.title.trim() || !commentData.message.trim()}
+              className="bg-green-600 border-green-600"
+              onClick={async () => {
+                if (!commentData.title.trim() || !commentData.message.trim()) {
+                  setCommentStatus({ type: 'error', message: 'Please fill in all required fields.' });
+                  return;
+                }
+                setIsSubmittingComment(true);
+                try {
+                  const base = (import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003';
+                  const userData = localStorage.getItem('user');
+                  const token = userData ? JSON.parse(userData).access_token : localStorage.getItem('token');
+                  const form = new FormData();
+                  form.append('title', commentData.title);
+                  form.append('content', commentData.message);
+                  form.append('type', commentData.type);
+                  form.append('priority', commentData.priority);
+                  form.append('rating', String(commentData.rating));
+                  if ((commentData as any).storeId) form.append('storeId', String((commentData as any).storeId));
+                  form.append('toRole', 'vendor');
+                  const files: File[] = (window as any).__commentFiles || [];
+                  files.slice(0, 5).forEach(f => form.append('attachments', f));
+                  const res = await fetch(`${base}/api/v1/comments`, {
+                    method: 'POST',
+                    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+                    body: form
+                  });
+                  if (!res.ok) throw new Error('Failed to submit');
+                  setCommentStatus({ type: 'success', message: "Your comment has been sent successfully! We'll review it and get back to you soon." });
+                  setCommentData({ title: '', message: '', type: 'general', priority: 'medium', rating: 0 });
+                  // Show anti-design notification
+                  triggerAntiNotification('Comment posted! 🚀');
+                } catch (e) {
+                  setCommentStatus({ type: 'error', message: 'Failed to send comment. Please try again.' });
+                } finally {
+                  setIsSubmittingComment(false);
+                }
+              }}
+            >
+              Send Comment
+            </Button>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="shadow-sm border-0 bg-white dark:bg-gray-800">
+        <div className="p-6">
+          <h3 className="text-lg font-semibold mb-2">Comment Guidelines</h3>
+          <ul className="list-disc pl-5 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+            <li>Be specific and detailed</li>
+            <li>Include relevant order numbers</li>
+            <li>Provide screenshots if possible</li>
+            <li>Use appropriate priority levels</li>
+          </ul>
+        </div>
+      </Card>
+
+      {/* My Comments Section */}
+      <Card className="shadow-sm border-0 bg-white dark:bg-gray-800">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold">My Comments</h3>
+            <Button 
+              type="primary" 
+              size="small"
+              onClick={fetchMyComments}
+              loading={isLoadingMyComments}
+              className="bg-blue-600 border-blue-600"
+            >
+              Refresh
+            </Button>
+          </div>
+          
+          {isLoadingMyComments ? (
+            <div className="text-center py-8">
+              <Spin size="large" />
+              <p className="text-gray-500 dark:text-gray-400 mt-2">Loading your comments...</p>
+            </div>
+          ) : myComments.length === 0 ? (
+            <div className="text-center py-8">
+              <CommentOutlined className="text-4xl text-gray-300 mb-3" />
+              <h4 className="text-gray-600 dark:text-gray-300 font-medium mb-2">No Comments Yet</h4>
+              <p className="text-sm text-gray-500 dark:text-gray-400">You haven't submitted any comments yet.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {myComments.map((comment) => (
+                <div key={comment._id || comment.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 relative min-h-0 bg-white dark:bg-gray-900">
+                  {/* Resolved Indicator */}
+                  {(comment.isResolved || comment.status === 'resolved') && (
+                    <div className="absolute top-2 left-2 z-10">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200 shadow-sm">
+                        ✓ Resolved
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex items-start justify-between mb-3 min-w-0">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2 flex-wrap min-w-0 flex-1">
+                          <h4 className="font-medium text-gray-800 dark:text-gray-100 truncate min-w-0 flex-1">{comment.title}</h4>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <Tag color={comment.type === 'bug' ? 'red' : comment.type === 'feature' ? 'blue' : 'green'}>
+                              {comment.type}
+                            </Tag>
+                            <Tag color={comment.priority === 'urgent' ? 'red' : comment.priority === 'high' ? 'orange' : 'default'}>
+                              {comment.priority}
+                            </Tag>
+                            {comment.rating > 0 && (
+                              <div className="flex items-center gap-1">
+                                <Rate disabled defaultValue={comment.rating} />
+                                <span className="text-sm text-gray-500 dark:text-gray-400">({comment.rating})</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        {/* Delete Button for User's Own Comments */}
+                        <Button
+                          type="text"
+                          size="small"
+                          danger
+                          className="flex-shrink-0 ml-2"
+                          onClick={async () => {
+                            if (window.confirm('Are you sure you want to delete this comment?')) {
+                              try {
+                                const base = (import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003';
+                                const userData = localStorage.getItem('user');
+                                const token = userData ? JSON.parse(userData).access_token : localStorage.getItem('token');
+                                
+                                const res = await fetch(`${base}/api/v1/comments/${comment._id || comment.id}`, {
+                                  method: 'DELETE',
+                                  headers: { Authorization: `Bearer ${token}` }
+                                });
+                                
+                                if (res.ok) {
+                                  // Remove comment from local state
+                                  setMyComments(prev => prev.filter(c => (c._id || c.id) !== (comment._id || comment.id)));
+                                  // Show anti-design notification
+                                  triggerAntiNotification('Comment deleted! 🗑️');
+                                }
+                              } catch (error) {
+                                console.error('Failed to delete comment:', error);
+                              }
+                            }
+                          }}
+                        >
+                          <DeleteOutlined />
+                        </Button>
+                      </div>
+
+                      <div className="text-gray-600 mb-2 break-words overflow-hidden" style={{ wordBreak: 'break-word', wordWrap: 'break-word' }}>
+                        {String(comment.content || '')}
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-gray-500 flex-wrap">
+                        <span className="whitespace-nowrap">To: {comment.toRole === 'vendor' ? 'Store Admin' : 'Administrator'}</span>
+                        <span className="whitespace-nowrap">Status: {(comment.isResolved || comment.status === 'resolved') ? 'Resolved' : 'Open'}</span>
+                        <span className="whitespace-nowrap">{new Date(comment.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Attachments */}
+                  {comment.attachments && comment.attachments.length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-sm text-gray-600 mb-2">Attachments:</p>
+                      <div className="flex gap-2 flex-wrap">
+                        {comment.attachments.map((attachment: string, idx: number) => (
+                          <img
+                            key={idx}
+                            src={`${((import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003').replace(/\/+$/,'')}/${String(attachment).replace(/^\/+/, '')}`}
+                            alt={`Attachment ${idx + 1}`}
+                            className="w-16 h-16 object-cover rounded border cursor-pointer flex-shrink-0"
+                            onClick={() => window.open(`${((import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003').replace(/\/+$/,'')}/${String(attachment).replace(/^\/+/, '')}`, '_blank')}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Replies */}
+                  {comment.replies && comment.replies.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-gray-100">
+                      <h5 className="text-sm font-medium text-gray-700 mb-2">Replies:</h5>
+                      <div className="space-y-2">
+                        {comment.replies.map((reply: any, idx: number) => (
+                          <div key={idx} className="bg-gray-50 rounded p-3 min-w-0">
+                            <div className="flex items-center justify-between mb-1 min-w-0">
+                              <span className="text-sm font-medium text-gray-700 truncate min-w-0 flex-1">
+                                {(reply.authorName || reply.authorEmail) ? `${reply.authorName || reply.authorEmail} (${reply.authorRole === 'vendor' ? 'Store Admin' : reply.authorRole === 'admin' ? 'Administrator' : 'User'})` : (reply.authorRole === 'vendor' ? 'Store Admin' : reply.authorRole === 'admin' ? 'Administrator' : 'User')}
+                              </span>
+                              <span className="text-xs text-gray-500 flex-shrink-0 ml-2">
+                                {new Date(reply.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                            <div className="text-sm text-gray-600 break-words" style={{ wordBreak: 'break-word', wordWrap: 'break-word' }}>
+                              {String(reply.content || '')}
+                            </div>
+                            
+                            {/* Reply Attachments */}
+                            {reply.attachments && reply.attachments.length > 0 && (
+                              <div className="mt-2">
+                                <div className="flex gap-2 flex-wrap">
+                                  {reply.attachments.map((attachment: string, idx2: number) => (
+                                    <img
+                                      key={idx2}
+                                      src={`${((import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003').replace(/\/+$/,'')}/${String(attachment).replace(/^\/+/, '')}`}
+                                      alt={`Reply attachment ${idx2 + 1}`}
+                                      className="w-12 h-12 object-cover rounded border cursor-pointer flex-shrink-0"
+                                      onClick={() => window.open(`${((import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003').replace(/\/+$/,'')}/${String(attachment).replace(/^\/+/, '')}`, '_blank')}
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </Card>
@@ -1473,89 +2042,64 @@ const Profile: React.FC = () => {
     </div>
   );
 
+  const sidebarItems = [
+    { key: 'profile', label: 'My Profile', icon: <ProfileOutlined /> },
+    { key: 'cart', label: 'Cart', count: totalQuantity, icon: <ShoppingCartOutlined /> },
+    { key: 'orders', label: 'Orders', count: orders.length, icon: <ShoppingOutlined /> },
+    { key: 'payments', label: 'Payments', icon: <CreditCardOutlined /> },
+    { key: 'comments', label: 'Comments', icon: <CommentOutlined /> },
+    { key: 'chat', label: 'Chat', icon: <MessageOutlined /> },
+    { key: 'settings', label: 'Settings', icon: <SecurityScanOutlined /> },
+  ];
+
+  const handleSidebarSelect = (key: string) => {
+    setActiveTab(key);
+    const next = new URLSearchParams(searchParams);
+    next.set('tab', key);
+    setSearchParams(next, { replace: false });
+  };
+
+  // Keep state in sync if the URL changes (e.g., back/forward)
+  useEffect(() => {
+    const urlTab = searchParams.get('tab');
+    if (urlTab && urlTab !== activeTab) {
+      setActiveTab(urlTab);
+    }
+  }, [searchParams]);
+
   return (
-    <div className="_container py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">My Profile</h1>
-          <p className="text-gray-600">Manage your account settings and preferences</p>
+    <DashboardLayout 
+      title="My Profile" 
+      sidebarItems={sidebarItems} 
+      activeItemKey={activeTab} 
+      onItemSelect={handleSidebarSelect}
+      notificationCount={unreadCount}
+      onNotificationClick={() => setShowNotifications(true)}
+    >
+      <div className="">
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className={`text-3xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-800'}`}>My Profile</h1>
+            <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Manage your account settings and preferences</p>
+          </div>
+          <ThemeToggle />
         </div>
 
-        <Tabs 
-          activeKey={activeTab} 
-          onChange={setActiveTab}
-          className="profile-tabs"
-          tabBarStyle={{ marginBottom: 24 }}
-          tabBarExtraContent={undefined}
-        >
-          <TabPane 
-            tab={
-              <span className="flex items-center">
-                <UserOutlined className="mr-2" />
-                Profile
-              </span>
-            } 
-            key="profile"
-          >
-            {renderProfileSection()}
-          </TabPane>
-          
-          <TabPane 
-            tab={
-              <span className="flex items-center">
-                <ShoppingOutlined className="mr-2" />
-                Cart
-                {totalQuantity > 0 && (
-                  <Badge count={totalQuantity} className="ml-2" />
-                )}
-              </span>
-            } 
-            key="cart"
-          >
-            {renderCartSection()}
-          </TabPane>
-          
-          <TabPane 
-            tab={
-              <span className="flex items-center">
-                <ShoppingOutlined className="mr-2" />
-                Orders
-                {orders.length > 0 && (
-                  <Badge count={orders.length} className="ml-2" />
-                )}
-              </span>
-            } 
-            key="orders"
-          >
-            {renderOrdersSection()}
-          </TabPane>
-          
-          <TabPane 
-            tab={
-              <span className="flex items-center">
-                <CreditCardOutlined className="mr-2" />
-                Payments
-              </span>
-            } 
-            key="payments"
-          >
-            {renderPaymentsSection()}
-          </TabPane>
-          
-          <TabPane 
-            tab={
-              <span className="flex items-center">
-                <SecurityScanOutlined className="mr-2" />
-                Settings
-              </span>
-            } 
-            key="settings"
-          >
-            {renderSettingsSection()}
-          </TabPane>
-        </Tabs>
+        {activeTab === 'profile' && renderProfileSection()}
+        {activeTab === 'cart' && renderCartSection()}
+        {activeTab === 'orders' && renderOrdersSection()}
+        {activeTab === 'payments' && renderPaymentsSection()}
+        {activeTab === 'comments' && renderCommentsSection()}
+        {activeTab === 'chat' && (
+          <Card className="shadow-sm border-0" bodyStyle={{ padding: 0, height: '72vh' }}>
+            <div style={{ height: '100%' }}>
+              <ChatComponent />
+            </div>
+          </Card>
+        )}
+        {activeTab === 'settings' && renderSettingsSection()}
       </div>
-
+      
       {/* Password Change Modal */}
       <Modal
         title="Change Password"
@@ -1832,16 +2376,16 @@ const Profile: React.FC = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Subtotal:</span>
-                <span className="font-semibold text-gray-800">₹{billAmount}</span>
+                <span className="font-semibold text-gray-800">${billAmount}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Delivery Fee:</span>
-                <span className="font-semibold text-gray-800">₹50</span>
+                <span className="font-semibold text-gray-800">$50</span>
               </div>
               <div className="border-t border-blue-200 pt-3 mt-3">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-semibold text-gray-800">Total Amount:</span>
-                  <span className="text-xl font-bold text-green-600">₹{billAmount + 50}</span>
+                  <span className="text-xl font-bold text-green-600">${billAmount + 50}</span>
                 </div>
               </div>
             </div>
@@ -1976,7 +2520,7 @@ const Profile: React.FC = () => {
               className="bg-green-600 border-green-600 h-12 px-8"
               size="large"
             >
-              Place Order (₹{billAmount + 50})
+              Place Order (${ '{'}billAmount + 50{'}' })
             </Button>
           </div>
         </div>
@@ -2108,7 +2652,86 @@ const Profile: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+
+      {/* Notifications Modal */}
+      <Modal
+        title="Notifications"
+        open={showNotifications}
+        onCancel={() => setShowNotifications(false)}
+        footer={null}
+        width={600}
+        centered
+      >
+        <div className="space-y-4">
+          {notifications.length === 0 ? (
+            <div className="text-center py-8">
+              <BellOutlined className="text-4xl text-gray-300 mb-3" />
+              <h4 className="text-gray-600 font-medium mb-2">No Notifications</h4>
+              <p className="text-sm text-gray-500">You're all caught up!</p>
+            </div>
+          ) : (
+            <>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-500">
+                  {notifications.length} notification{notifications.length !== 1 ? 's' : ''}
+                </span>
+                <Button 
+                  size="small" 
+                  onClick={() => {
+                    // Mark all as read functionality can be added here
+                    setShowNotifications(false);
+                  }}
+                >
+                  Close
+                </Button>
+              </div>
+              <div className="max-h-96 overflow-y-auto space-y-3">
+                {notifications.map((notification) => (
+                  <div 
+                    key={notification._id} 
+                    className={`p-3 rounded-lg border cursor-pointer transition-colors ${
+                      notification.isRead 
+                        ? 'bg-gray-50 border-gray-200' 
+                        : 'bg-blue-50 border-blue-200'
+                    }`}
+                    onClick={() => markNotificationAsRead(notification._id)}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h4 className={`font-medium text-sm ${
+                          notification.isRead ? 'text-gray-700' : 'text-blue-800'
+                        }`}>
+                          {notification.title}
+                        </h4>
+                        <p className={`text-sm mt-1 ${
+                          notification.isRead ? 'text-gray-600' : 'text-blue-700'
+                        }`}>
+                          {notification.message}
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Tag color={notification.isRead ? 'default' : 'blue'}>
+                            {notification.type === 'comment_reply' ? 'Reply' : 
+                             notification.type === 'new_comment' ? 'New Comment' : 'Resolved'}
+                          </Tag>
+                          <span className="text-xs text-gray-500">
+                            {new Date(notification.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                      </div>
+                      {!notification.isRead && (
+                        <div className="w-2 h-2 bg-blue-500 rounded-full ml-2"></div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </Modal>
+
+      {/* Removed custom toast; AntD notification is used via triggerAntiNotification */}
+          </DashboardLayout>
   );
 };
 

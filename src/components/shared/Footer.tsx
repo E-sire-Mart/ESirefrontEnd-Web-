@@ -1,15 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaChevronDown, FaChevronUp, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import AppStoreLogo from "../../assets/images/app-store.webp";
 import PlayStoreLogo from "../../assets/images/play-store.webp";
 import QrCodeImage from "../../assets/qr_code.png";
-import Categories from "../../lib/data/categories.json";
-import { getCategoryLink } from "../../utils/helper";
+import { categoriesService, type Category } from "../../services/api/categories";
 import "./Footer.css";
 
 const Footer = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await categoriesService.getRootCategories();
+        if (response.success && response.data) {
+          setCategories(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch categories for footer:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -17,173 +35,230 @@ const Footer = () => {
 
   const faqs = [
     {
-      question: "About Us",
+      question: "How do I place an order?",
       answers: [
-        "Welcome to e-Sire Mart e-commerce private limited, your one-stop destination for your products or services, e.g., groceries, essentials, electronics, etc., delivered to your doorstep with speed and convenience. Founded with a vision to simplify your shopping experience, we are committed to providing high-quality products, competitive prices, and exceptional customer service.",
-        "At e-Sire Mart, we believe in making everyday life easier by offering an efficient, user-friendly experience. We work with trusted brands and local suppliers to ensure our products are fresh, reliable, and of the highest standard. Your satisfaction is our priority, and we strive to make every order seamless and enjoyable.",
-        "Thank you for choosing e-Sire Mart. We look forward to serving you!",
+        "Browse our products, add items to cart, and proceed to checkout. Enter your delivery details and payment information to complete your order."
       ],
     },
     {
-      question: "Privacy Policy",
+      question: "What are your delivery options?",
       answers: [
-        "At e-Sire Mart, we value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you interact with our website or mobile application.",
-        "Personal information such as name, email, contact number, and address when you register or place an order. Payment details through secure, encrypted channels. Browsing data to improve your experience on our platform.",
-        "How We Use Your Information: To process and deliver your orders. To communicate updates regarding your order and special offers. To improve our website, services, and customer experience.",
-        "We do not sell or share your personal information with third parties, except as necessary to fulfill your order (such as delivery partners). Your data is protected with industry-standard security protocols.",
-        "For more details, please contact on: support@e-siremart.com.",
+        "We offer standard delivery (2-3 business days) and express delivery (same day/next day) in select areas. Delivery fees vary by location and order value."
       ],
     },
     {
-      question: "Shipping Policy",
+      question: "Can I return or exchange products?",
       answers: [
-        "We currently deliver to your city. You can check delivery availability by entering your zip code at checkout.",
-        "Orders are typically processed within processing time. For express delivery, items may arrive within 1 hour in selected areas.",
-        "We make every effort to ensure timely deliveries. However, during peak seasons or unforeseen circumstances, slight delays may occur. If you have any questions or concerns, feel free to contact us.",
+        "Yes, we accept returns within 7 days for most products. Items must be unused and in original packaging. Perishable goods have different return policies."
       ],
     },
     {
-      question: "Refund Policy",
+      question: "How do I track my order?",
       answers: [
-        "We want you to be completely satisfied with your purchase at e-Sire Mart. If you're not happy with a product, here's how we handle refunds and returns:",
-        "Products must be returned within 7 days from the date of purchase. Items must be unused, in original packaging, and with proof of purchase. Perishable goods (e.g., fresh produce, dairy, etc.) unless they are damaged or expired upon delivery. Gift cards and other promotional items.",
-        "Once your return is received and inspected, we will notify you of the approval or rejection of your refund. If approved, the refund will be processed within 7 days to your original payment method.",
-        "For more details on our refund process, please contact on: support@e-siremart.com.",
+        "You'll receive order confirmation and tracking updates via email and SMS. You can also track your order in your account dashboard."
       ],
     },
     {
-      question: "Terms and Conditions",
+      question: "What payment methods do you accept?",
       answers: [
-        "Welcome to e-Sire Mart. By accessing our website or mobile application, you agree to the following terms and conditions:",
-        "You must be at least 18 years old to use our services. You agree to provide accurate, up-to-date information when creating an account or placing an order. Unauthorized use of our platform, including hacking or data theft, is strictly prohibited.",
-        "All orders are subject to availability. We reserve the right to cancel or modify an order if an item is out of stock or if there are other unforeseen issues. Prices may vary and are subject to change without prior notice.",
-        "e-Sire Mart is not liable for any indirect, incidental, or consequential damages arising from the use of our service. While we strive for accuracy, we cannot guarantee that all product descriptions, pricing, and availability will be error-free.",
-        "By continuing to use our service, you agree to these terms. For more information or queries, please contact: support@e-siremart.com / 8625879347.",
+        "We accept all major credit/debit cards, digital wallets, and cash on delivery. All online payments are secured with SSL encryption."
       ],
     },
   ];
 
-  const allCategories = Categories.map((cat) => ({
-    id: cat.id,
-    text: cat.title,
-    link: getCategoryLink(cat),
-  }));
-
   return (
-    <footer className="bg-black text-white py-8 font-inter">
-      <div className="container mx-auto px-4">
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-4 py-12">
+        {/* Top Section - Company Info & Quick Links */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           
-          {/* Company & Subscribe Section */}
-          <div>
-                         <h3 className="font-display font-700 mb-4 text-2xl text-green-500 tracking-wide">e-SireMart</h3>
-                         <p className="text-gray-300 mb-2 hover:text-yellow-300 hover:cursor-pointer transition-colors font-500">
-               Subscribe
-             </p>
-             <p className="text-gray-300 mb-3 hover:text-yellow-300 hover:cursor-pointer transition-colors font-500">
-               Get 10% off your first order
-             </p>
-                         <input
-               type="email"
-               placeholder="Enter your email"
-               className="mt-2 p-3 w-full rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors font-inter text-sm"
-             />
-          </div>
-
-          {/* Support & Contact Section */}
-          <div>
-                         <h3 className="font-display font-600 mb-4 text-xl text-green-500 tracking-wide">Support</h3>
-            <p className="text-gray-300 mb-3 hover:text-yellow-300 hover:cursor-pointer transition-colors text-sm leading-relaxed">
-              Real Estate Corporation - Warehouse No. 3 King of - Al Quoz Al - Al Quoz Industrial Area 4 - Dubai - United Arab Emirates
+          {/* Company & Brand Section */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">e</span>
+              </div>
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+                SireMart
+              </h3>
+            </div>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Your trusted online marketplace for quality products. We bring convenience and reliability to your doorstep with our extensive range of products and exceptional service.
             </p>
-            <p className="text-gray-300 mb-2 hover:text-yellow-300 hover:cursor-pointer transition-colors">
-              info@e-siremart.com
-            </p>
-            <p className="text-gray-300 mb-2 hover:text-yellow-300 hover:cursor-pointer transition-colors">
-              +(91)-704-295-9398
-            </p>
+            
+            {/* Newsletter Subscription */}
+            <div className="space-y-3">
+              <p className="text-green-400 font-semibold text-sm">Subscribe for Updates</p>
+              <div className="flex">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all"
+                />
+                <button className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-r-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 font-medium">
+                  Subscribe
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Quick Links Section */}
-          <div>
-                         <h3 className="font-display font-600 mb-4 text-xl text-green-500 tracking-wide">Quick Links</h3>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-green-400 border-b border-green-500 pb-2">
+              Quick Links
+            </h3>
             <ul className="space-y-2">
-              <li className="hover:text-yellow-300 hover:cursor-pointer transition-colors">
-                Privacy Policy
+              <li>
+                <Link to="/about" className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm">
+                  About Us
+                </Link>
               </li>
-              <li className="hover:text-yellow-300 hover:cursor-pointer transition-colors">
-                Terms Of Use
+              <li>
+                <Link to="/contact" className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm">
+                  Contact Us
+                </Link>
               </li>
-              <li className="hover:text-yellow-300 hover:cursor-pointer transition-colors">
-                FAQ
+              <li>
+                <Link to="/privacy" className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm">
+                  Privacy Policy
+                </Link>
               </li>
-              <li className="hover:text-yellow-300 hover:cursor-pointer transition-colors">
-                About Us
+              <li>
+                <Link to="/terms" className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm">
+                  Terms of Service
+                </Link>
               </li>
-              <li className="hover:text-yellow-300 hover:cursor-pointer transition-colors">
-                Contact Us
+              <li>
+                <Link to="/shipping" className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm">
+                  Shipping Info
+                </Link>
+              </li>
+              <li>
+                <Link to="/returns" className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm">
+                  Returns & Refunds
+                </Link>
               </li>
             </ul>
           </div>
 
+          {/* Contact Information */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-green-400 border-b border-green-500 pb-2">
+              Contact Info
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-start space-x-3">
+                <FaMapMarkerAlt className="text-green-400 mt-1 flex-shrink-0" />
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Real Estate Corporation - Warehouse No. 3<br />
+                  King of Al Quoz, Al Quoz Industrial Area 4<br />
+                  Dubai, United Arab Emirates
+                </p>
+              </div>
+              <div className="flex items-center space-x-3">
+                <FaEnvelope className="text-green-400" />
+                <a href="mailto:info@e-siremart.com" className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm">
+                  info@e-siremart.com
+                </a>
+              </div>
+              <div className="flex items-center space-x-3">
+                <FaPhone className="text-green-400" />
+                <a href="tel:+917042959398" className="text-gray-300 hover:text-green-400 transition-colors duration-200 text-sm">
+                  +(91) 704-295-9398
+                </a>
+              </div>
+            </div>
+          </div>
+
           {/* Download App Section */}
-          <div>
-                         <h3 className="font-display font-600 mb-4 text-xl text-green-500 tracking-wide">Download App</h3>
-            <p className="text-gray-300 mb-3 hover:text-yellow-300 hover:cursor-pointer transition-colors">
-              Save $3 with App New User Only
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-green-400 border-b border-green-500 pb-2">
+              Download Our App
+            </h3>
+            <p className="text-gray-300 text-sm">
+              Get exclusive app-only deals and save up to $3 on your first order!
             </p>
-            <div className="flex items-center gap-4 mb-4">
+            <div className="space-y-3">
+              <img
+                src={PlayStoreLogo}
+                alt="Google Play Store"
+                className="w-32 hover:opacity-80 transition-opacity cursor-pointer"
+              />
+              <img
+                src={AppStoreLogo}
+                alt="Apple App Store"
+                className="w-32 hover:opacity-80 transition-opacity cursor-pointer"
+              />
+            </div>
+            <div className="text-center">
               <img
                 src={QrCodeImage}
                 alt="QR Code"
-                className="w-16 h-16 rounded-lg hover:cursor-pointer hover:opacity-80 transition-opacity"
+                className="w-16 h-16 mx-auto rounded-lg border-2 border-gray-600 hover:border-green-400 transition-colors cursor-pointer"
               />
-              <div className="space-y-2">
-                <img
-                  src={PlayStoreLogo}
-                  alt="Google Play"
-                  className="w-32 hover:cursor-pointer hover:opacity-80 transition-opacity"
-                />
-                <img
-                  src={AppStoreLogo}
-                  alt="App Store"
-                  className="w-32 hover:cursor-pointer hover:opacity-80 transition-opacity"
-                />
-              </div>
+              <p className="text-xs text-gray-400 mt-1">Scan to download</p>
             </div>
           </div>
         </div>
 
+        {/* Categories Section */}
+        {!loading && categories.length > 0 && (
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold text-center mb-8">
+              <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+                Shop by Category
+              </span>
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 max-w-7xl mx-auto">
+              {categories.slice(0, 21).map((category) => (
+                <Link
+                  key={category._id}
+                  to={`/products/category/${category.slug || category.name}`}
+                  className="group block p-3 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 hover:border-green-500 hover:from-gray-700 hover:to-gray-800 transition-all duration-300 text-center transform hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <span className="text-gray-300 group-hover:text-green-400 font-medium text-sm transition-colors duration-200">
+                    {category.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* FAQ Section */}
-        <div className="mb-8">
-                     <h3 className="font-display font-700 mb-6 text-2xl text-green-500 text-center tracking-wide">Frequently Asked Questions</h3>
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold text-center mb-8">
+            <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+              Frequently Asked Questions
+            </span>
+          </h3>
           <div className="max-w-4xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="bg-gray-900 rounded-lg border border-gray-700 overflow-hidden"
+                className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl border border-gray-700 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <button
-                  className="flex justify-between items-center w-full px-6 py-4 text-left text-white hover:bg-gray-800 transition-colors focus:outline-none"
+                  className="flex justify-between items-center w-full px-6 py-4 text-left text-white hover:bg-gray-700/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-inset"
                   onClick={() => toggleAccordion(index)}
                 >
-                                     <span className="font-display font-600 text-gray-100">{faq.question}</span>
+                  <span className="font-semibold text-gray-100">{faq.question}</span>
                   <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors">
                     {openIndex === index ? (
-                      <FaChevronUp className="text-gray-300 w-4 h-4" />
+                      <FaChevronUp className="text-green-400 w-4 h-4" />
                     ) : (
                       <FaChevronDown className="text-gray-300 w-4 h-4" />
                     )}
                   </div>
                 </button>
                 {openIndex === index && (
-                  <div className="px-6 pb-4">
+                  <div className="px-6 pb-4 animate-fadeIn">
                     <div className="pt-3 border-t border-gray-700">
                       {faq.answers.map((answer, idx) => (
                         <div
                           key={idx}
-                          className="text-gray-300 leading-relaxed mb-3 last:mb-0"
+                          className="text-gray-300 leading-relaxed text-sm"
                         >
                           {answer}
                         </div>
@@ -196,46 +271,33 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Categories Section */}
-        <div className="mb-8">
-                     <h3 className="font-display font-700 mb-6 text-2xl text-green-500 text-center tracking-wide">Shop by Category</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 max-w-6xl mx-auto">
-            {allCategories.map((cat) => (
-              <Link
-                key={cat.id}
-                to={cat.link}
-                className="group block p-3 rounded-lg bg-gray-900 border border-gray-700 hover:border-green-500 hover:bg-gray-800 transition-all duration-300 text-center"
-              >
-                                 <span className="text-gray-300 group-hover:text-green-400 font-inter font-500 text-sm transition-colors">
-                   {cat.text}
-                 </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Social Media & Copyright */}
+        {/* Bottom Section - Social Media & Copyright */}
         <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex justify-center md:justify-start gap-6 text-2xl">
-              <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
-                <FaFacebook />
+            {/* Social Media Links */}
+            <div className="flex justify-center md:justify-start gap-6">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-green-400 hover:bg-gray-700 transition-all duration-300">
+                <FaFacebook className="text-lg" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
-                <FaTwitter />
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-green-400 hover:bg-gray-700 transition-all duration-300">
+                <FaTwitter className="text-lg" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
-                <FaInstagram />
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-green-400 hover:bg-gray-700 transition-all duration-300">
+                <FaInstagram className="text-lg" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-green-500 transition-colors">
-                <FaLinkedin />
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:text-green-400 hover:bg-gray-700 transition-all duration-300">
+                <FaLinkedin className="text-lg" />
               </a>
             </div>
             
+            {/* Copyright */}
             <div className="text-center md:text-right">
-                             <p className="text-gray-400 text-sm font-inter font-400">
-                 © Copyright e-SireMart 2025. All rights reserved
-               </p>
+              <p className="text-gray-400 text-sm">
+                © {new Date().getFullYear()} e-SireMart. All rights reserved.
+              </p>
+              <p className="text-gray-500 text-xs mt-1">
+                Made with ❤️ for our customers
+              </p>
             </div>
           </div>
         </div>

@@ -92,7 +92,7 @@ const AddToCartButton = ({ product, size }: ButtonProps) => {
         className="flex items-center justify-center w-8"
         disabled={loading}
       >
-        <IoAddSharp size={18} className="text-white" />
+        <IoAddSharp size={14} className="text-white" />
       </button>
     </div>
   ) : (

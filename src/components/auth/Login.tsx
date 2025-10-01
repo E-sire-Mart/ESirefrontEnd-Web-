@@ -160,8 +160,8 @@ const Login: React.FC<LoginProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div className="max-w-screen-lg m-0 sm:m-28 bg-white shadow sm:rounded-lg flex justify-center flex-1 relative">
+      <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+        <div className="max-w-screen-lg m-0 sm:m-28 bg-white dark:bg-gray-900 shadow sm:rounded-lg flex justify-center flex-1 relative border border-gray-100 dark:border-gray-700">
           <button
             className="absolute top-4 right-4 text-gray-700 hover:text-gray-900 focus:outline-none"
             onClick={toggleLoginModal} // Close the modal when clicked
@@ -210,7 +210,7 @@ const Login: React.FC<LoginProps> = ({
             </div>
           </div>
 
-          <div className="lg:w-2/3 xl:w-7/12 p-8 bg-white rounded-lg py-24 flex justify-center items-center">
+          <div className="lg:w-2/3 xl:w-7/12 p-8 bg-white dark:bg-gray-900 rounded-lg py-24 flex justify-center items-center">
             <div className="max-w-md">
               <h2 className="text-3xl font-bold text-center text-[#06A67E] mb-6">
                 Sign In to Your Account
@@ -228,14 +228,14 @@ const Login: React.FC<LoginProps> = ({
                 </GoogleOAuthProvider>
               </div>
               <div className="flex items-center justify-center my-6">
-                <div className="flex-grow h-px bg-gray-300"></div>{" "}
-                <span className="px-3 text-gray-500 text-sm">or</span>{" "}
-                <div className="flex-grow h-px bg-gray-300"></div>{" "}
+                <div className="flex-grow h-px bg-gray-300 dark:bg-gray-700"></div>{" "}
+                <span className="px-3 text-gray-500 dark:text-gray-400 text-sm">or</span>{" "}
+                <div className="flex-grow h-px bg-gray-300 dark:bg-gray-700"></div>{" "}
               </div>
               <div className="space-y-4 flex justify-center items-center flex-col">
-                <div className="border border-gray-300 w-full rounded-lg">
+                <div className="border border-gray-300 dark:border-gray-700 w-full rounded-lg">
                   <input
-                    className="w-full px-5 py-4 rounded-lg font-medium bg-white border border-gray-300 placeholder-gray-500 text-sm focus:outline-none focus:border-[#06A67E]"
+                    className="w-full px-5 py-4 rounded-lg font-medium bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:border-[#06A67E]"
                     type="email"
                     placeholder="Email"
                     value={email}
@@ -244,9 +244,9 @@ const Login: React.FC<LoginProps> = ({
                     }}
                   />
                 </div>
-                <div className="border border-gray-300 w-full rounded-lg relative">
+                <div className="border border-gray-300 dark:border-gray-700 w-full rounded-lg relative">
                   <input
-                    className="w-full px-5 py-4 rounded-lg font-medium bg-white border border-gray-300 placeholder-gray-500 text-sm focus:outline-none focus:border-[#06A67E]"
+                    className="w-full px-5 py-4 rounded-lg font-medium bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:border-[#06A67E]"
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={password}
@@ -257,7 +257,7 @@ const Login: React.FC<LoginProps> = ({
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="absolute top-5 right-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    className="absolute top-5 right-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
                   >
                     {showPassword ? (
                       <FaEyeSlash className="w-5 h-5" />

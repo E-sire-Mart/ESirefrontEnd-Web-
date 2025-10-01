@@ -17,15 +17,15 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({ data }) => {
   useEffect(() => {
     startAutoAdvance();
     return () => {
-      if (intervalRef.current !== null) {
-        window.clearInterval(intervalRef.current);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
       }
     };
   }, []);
 
   const startAutoAdvance = () => {
-    if (intervalRef.current !== null) {
-      window.clearInterval(intervalRef.current);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
     }
     intervalRef.current = window.setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % data.length);

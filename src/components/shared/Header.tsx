@@ -5,6 +5,9 @@ import {
   LoginOutlined,
   LogoutOutlined,
   UserOutlined,
+  SunOutlined,
+  MoonOutlined,
+  ShopOutlined,
 } from "@ant-design/icons";
 import { notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
@@ -23,11 +26,13 @@ import "./style1.css";
 import { setLoginStatus } from "../../store/status";
 import { setCartItems, setTotalQuantity, setTotalAmount, setBillAmount } from "../../store/cart";
 import { useCart } from "../../hooks/useCart";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const Header = ({ onSearch }: any) => {
   const dispatch = useAppDispatch();
   const isLogin = useAppSelector((state) => state.status.isLogin);
   const { handleLogout: clearCart } = useCart();
+  const { mode, toggleTheme } = useTheme();
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
@@ -94,35 +99,51 @@ const Header = ({ onSearch }: any) => {
 
   return (
     <>
-      <header className="_nav px-3 sm:px-6 lg:px-8 z-30 bg-white shadow-sm border-b border-gray-100">
-        <div className="_header sm:flex h-full max-w-7xl mx-auto">
-          <div className="hidden sm:flex max-w-[200px] md:max-w-[250px] w-full cursor-pointer sm:hover:bg-gray-50 items-center justify-center border-r _border-light px-4">
+      <header className="_nav px-3 sm:px-6 lg:px-8 z-30 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-100 dark:border-gray-800">
+        <div className="_header sm:flex items-center h-[86px] max-w-7xl mx-auto">
+          <div className="hidden sm:flex max-w-[200px] md:max-w-[250px] w-full cursor-pointer sm:hover:bg-gray-50 dark:sm:hover:bg-gray-800 items-center justify-center border-r _border-light px-4 h-full">
             <Link to={"/"}>
               <span className="font-black text-[32px] md:text-[38px] text-yellow-400 tracking-tight flex justify-center items-center px-6">
                 <img src={image} alt="logo" style={{ width: "200px" }} />
               </span>
             </Link>
           </div>
-          <div className="w-full sm:w-[240px] xl:w-[320px] py-3 px-3 sm:px-6 _header_loc flex items-center sm:justify-center cursor-pointer sm:hover:bg-gray-50">
+          <div className="w-full sm:w-[240px] xl:w-[320px] px-3 sm:px-6 _header_loc flex items-center sm:justify-center cursor-pointer sm:hover:bg-gray-50 dark:sm:hover:bg-gray-800 h-full">
             <LocationPicker />
           </div>
-          <div className="flex-1 relative _header_search px-3 sm:px-6 mr-0 sm:mr-6">
+          <div className="flex-1 relative _header_search px-3 sm:px-6 mr-0 sm:mr-10 flex items-center h-full">
             <SearchBox onSearch={onSearch} />
           </div>
-          <div className="flex items-center _header_login justify-center cursor-pointer sm:hover:bg-gray-50 max-w-[120px] w-full group px-3">
+          {/* Theme Toggle Button */}
+          <div className="flex items-center justify-center max-w-[42px] w-full px-0 mr-1 h-full">
+            <button
+              aria-label="Toggle theme"
+              className="flex items-center justify-center rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-300 transition-all duration-150 h-9 w-9"
+              onClick={toggleTheme}
+              title={mode === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {mode === 'dark' ? (
+                <SunOutlined className="text-[18px] text-yellow-400" />
+              ) : (
+                <MoonOutlined className="text-[18px] text-gray-600" />
+              )}
+            </button>
+          </div>
+          
+          <div className={`flex items-center _header_login justify-center ${isLogin ? 'max-w-[56px]' : 'max-w-[120px]'} w-full group px-0 ml-1 h-full`}>
             <span className="font-medium _text-default block">
               {isLogin ? (
                 <div className="flex justify-center items-center relative">
-                  <div className="rounded-full flex justify-center items-center bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
-                    <HomeOutlined className="text-[20px] p-2" />
-                  </div>
-                  <div className="signin-card hidden group-hover:block absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-lg shadow-lg border border-gray-100 z-50 min-w-[180px]">
+                  <button aria-label="Home" className="rounded-full flex justify-center items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-300 transition-all duration-150 h-9 w-9">
+                    <HomeOutlined className="text-[18px]" />
+                  </button>
+                  <div className="signin-card hidden group-hover:block absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 z-50 min-w-[180px]">
                     <ul>
                       <li className="hover:bg-red-500 rounded p-2 transition-colors duration-200">
                         <p className="p-[5px]">
                           <Link
                             to="/profile"
-                            className="text-black flex items-center"
+                            className="text-gray-900 dark:text-gray-100 flex items-center"
                           >
                             <UserOutlined className="mr-1" />
                             My Profile
@@ -134,18 +155,29 @@ const Header = ({ onSearch }: any) => {
                           <a
                             href="#"
                             onClick={toggleOrderModal}
-                            className="text-black"
+                            className="text-gray-900 dark:text-gray-100"
                           >
                             <BorderOuterOutlined className="mr-1" />
                             My Orders
                           </a>
                         </p>
                       </li>
+                      <li className="hover:bg-red-500 rounded p-2 transition-colors duration-200">
+                        <p className="p-[5px]">
+                          <Link
+                            to="/products/category/all"
+                            className="text-gray-900 dark:text-gray-100 flex items-center"
+                          >
+                            <ShopOutlined className="mr-1" />
+                            Go to the Shop
+                          </Link>
+                        </p>
+                      </li>
                       <li
                         onClick={handleLogout}
                         className="hover:bg-red-500 rounded p-2 transition-colors duration-200 group"
                       >
-                        <p className="flex items-center text-black p-[5px] transition-colors duration-200">
+                        <p className="flex items-center text-gray-900 dark:text-gray-100 p-[5px] transition-colors duration-200">
                           <LogoutOutlined className="mr-1" />
                           Logout
                         </p>
@@ -161,7 +193,7 @@ const Header = ({ onSearch }: any) => {
               )}
             </span>
           </div>
-          <div className="py-2 hidden md:flex h-full items-center mr-2 sm:mr-4 ml-1 sm:ml-3 px-3 sm:px-4">
+          <div className="hidden md:flex h-full items-center mr-2 sm:mr-4 ml-1 sm:ml-3 px-3 sm:px-4">
             <CartButton />
           </div>
         </div>

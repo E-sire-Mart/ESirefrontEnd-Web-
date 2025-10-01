@@ -276,16 +276,16 @@ const OrderModal: React.FC<OrderModalProps> = ({
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal:</span>
-                <span className="font-medium">₹{billAmount}</span>
+                <span className="font-medium">${billAmount}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Delivery Fee:</span>
-                <span className="font-medium">₹{deliveryFee}</span>
+                <span className="font-medium">${deliveryFee}</span>
               </div>
               <Divider className="my-3" />
               <div className="flex justify-between">
                 <span className="text-lg font-semibold text-gray-800">Total Amount:</span>
-                <span className="text-lg font-bold text-green-600">₹{totalAmount}</span>
+                <span className="text-lg font-bold text-green-600">${totalAmount}</span>
               </div>
             </div>
           </Card>
@@ -323,7 +323,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
               className="bg-green-500 border-green-500"
               size="large"
             >
-              Confirm Order (₹{totalAmount})
+              Confirm Order (${totalAmount})
             </Button>
           </div>
         </div>

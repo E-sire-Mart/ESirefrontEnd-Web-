@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import image1 from "../../assets/home_transfer_images/3.png";
-import image2 from "../../assets/home_transfer_images/4.png";
-import image3 from "../../assets/home_transfer_images/3.webp";
-import image4 from "../../assets/home_transfer_images/6.png";
-import image5 from "../../assets/home_transfer_images/7.png";
-import image6 from "../../assets/home_transfer_images/8.png";
-import image7 from "../../assets/home_transfer_images/9.png";
-import image8 from "../../assets/home_transfer_images/10.png";
+import { useNavigate } from 'react-router-dom';
+import { listDiscountedProductsApi } from "../../services/api/products";
+import { SERVER_URL } from "../../services/url";
+import { calculateDiscountedPrice, hasActiveDiscount, convertTextToURLSlug } from "../../utils/helper";
 
 const Timer: React.FC = () => {
   const [time, setTime] = useState({
@@ -62,16 +58,14 @@ const Timer: React.FC = () => {
 };
 
 interface Product {
-  image: string;
-  timer: {
-    hours: number;
-    minutes: number;
-    seconds: number;
-  };
-  currentPrice: string;
-  originalPrice: string;
-  discount: string;
-  title: string;
+  _id: string;
+  name: string;
+  image: string[];
+  price: number;
+  compareAtPrice?: number;
+  discountPercent: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 interface ProductCardProps {
@@ -79,8 +73,28 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const navigate = useNavigate();
+  const isDiscountActive = hasActiveDiscount(product);
+  const discountedPrice = calculateDiscountedPrice(product.price, product.discountPercent);
+  const firstImage = Array.isArray(product.image) ? product.image[0] : product.image;
+
+  const handleProductClick = () => {
+    const pname = convertTextToURLSlug(product.name);
+    navigate(`/prn/${pname}/prid/${product._id}`);
+  };
+  
   return (
-    <div className="bg-white rounded-lg p-4">
+    <div 
+      className="bg-white rounded-lg p-4 relative cursor-pointer hover:shadow-lg transition-shadow"
+      onClick={handleProductClick}
+    >
+      {/* Discount Badge */}
+      {product.discountPercent > 0 && (
+        <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+          {product.discountPercent}% OFF
+        </div>
+      )}
+      
       {/* Replace static timer with Timer component */}
       <Timer />
 
@@ -88,9 +102,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Product Image */}
         <div className="w-1/2">
           <img 
-            src={product.image} 
-            alt={product.title} 
+            src={`${SERVER_URL}/${firstImage}`}
+            alt={product.name} 
             className="w-full h-32 object-contain"
+            onError={(e) => {
+              e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Crect width='150' height='150' fill='%23f0f0f0'/%3E%3Ctext x='75' y='75' text-anchor='middle' dy='.3em' fill='%23999' font-size='14'%3ENo Image%3C/text%3E%3C/svg%3E";
+            }}
           />
         </div>
 
@@ -100,19 +117,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div>
             <div className="flex items-center gap-1">
               <span className="text-red-500 text-sm">AED</span>
-              <span className="text-xl font-bold text-red-500">{product.currentPrice}</span>
+              <span className="text-xl font-bold text-red-500">{discountedPrice.toFixed(0)}</span>
             </div>
             <div className="text-gray-400 line-through text-sm">
-              AED {product.originalPrice}
+              AED {product.compareAtPrice || product.price}
             </div>
             <div className="text-red-500 font-bold">
-              {product.discount} Off
+              {product.discountPercent}% Off
             </div>
           </div>
           
           {/* Title */}
           <div className="text-sm text-gray-600 line-clamp-2">
-            {product.title}
+            {product.name}
           </div>
         </div>
       </div>
@@ -126,12 +143,23 @@ interface ProductSectionProps {
 }
 
 const ProductSection: React.FC<ProductSectionProps> = ({ title, products }) => {
+  const navigate = useNavigate();
+  
+  const handleViewAll = () => {
+    navigate('/discounted-products');
+  };
+
   return (
     <div className="bg-gradient-to-r from-pink-500 to-purple-600 p-4 rounded-xl lg:w-1/2 w-full">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-white">{title}</h2>
-        <button className="text-white hover:underline text-sm">View All</button>
+        <button 
+          onClick={handleViewAll}
+          className="text-white hover:underline text-sm bg-purple-700 hover:bg-purple-800 px-3 py-1 rounded transition-colors"
+        >
+          View All
+        </button>
       </div>
 
       {/* Grid of Products */}
@@ -145,116 +173,58 @@ const ProductSection: React.FC<ProductSectionProps> = ({ title, products }) => {
 };
 
 const DealsAndSavers: React.FC = () => {
-  const dealOfTheDay: Product[] = [
-    {
-      image: image1,
-      timer: {
-        hours: 4,
-        minutes: 30,
-        seconds: 0
-      },
-      currentPrice: "2776.00",
-      originalPrice: "3804.00",
-      discount: "27%",
-      title: "Samsung 55-Inch 4K Smart QLED TV (2024)"
-    },
-    {
-      image: image2,
-      timer: {
-        hours: 4,
-        minutes: 30,
-        seconds: 0
-      },
-      currentPrice: "1999.00",
-      originalPrice: "2899.00",
-      discount: "31%",
-      title: "Hamilton by Yoop X1 Lite Everyday Stroller"
-    },
-    {
-      image: image3,
-      timer: {
-        hours: 4,
-        minutes: 30,
-        seconds: 0
-      },
-      currentPrice: "69.00",
-      originalPrice: "104.00",
-      discount: "34%",
-      title: "Clikon CK2446 Two Slice Sandwich Maker 750W"
-    },
-    {
-      image: image4,
-      timer: {
-        hours: 4,
-        minutes: 30,
-        seconds: 0
-      },
-      currentPrice: "123.00",
-      originalPrice: "178.00",
-      discount: "31%",
-      title: "Olsenmark OMAF2430 Smart Air Fryer 1400W"
-    }
-  ];
+  const [dealOfTheDay, setDealOfTheDay] = useState<Product[]>([]);
+  const [saverZone, setSaverZone] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const saverZone: Product[] = [
-    {
-      image: image5,
-      timer: {
-        hours: 4,
-        minutes: 30,
-        seconds: 0
-      },
-      currentPrice: "65.00",
-      originalPrice: "139.00",
-      discount: "53%",
-      title: "Calvin Klein Ck Be EDT 200ml For Unisex"
-    },
-    {
-      image: image6,
-      timer: {
-        hours: 4,
-        minutes: 30,
-        seconds: 0
-      },
-      currentPrice: "69.00",
-      originalPrice: "139.00",
-      discount: "50%",
-      title: "Armaf Club De Nuit Urban Elixir Parfum"
-    },
-    {
-      image: image7,
-      timer: {
-        hours: 4,
-        minutes: 30,
-        seconds: 0
-      },
-      currentPrice: "506.00",
-      originalPrice: "665.00",
-      discount: "24%",
-      title: "Guess GW0598L2 Women 38mm Black G"
-    },
-    {
-      image: image8,
-      timer: {
-        hours: 3,
-        minutes: 20,
-        seconds: 0
-      },
-      currentPrice: "552.00",
-      originalPrice: "700.00",
-      discount: "21%",
-      title: "Ducati DTWGB0000701 Mens 40mm Analog Bla"
-    }
-  ];
+  useEffect(() => {
+    const loadDiscountedProducts = async () => {
+      try {
+        setLoading(true);
+        const products: Product[] = await listDiscountedProductsApi();
+        
+        // Split products into two groups
+        const half = Math.ceil(products.length / 2);
+        setDealOfTheDay(products.slice(0, half));
+        setSaverZone(products.slice(half));
+      } catch (error) {
+        console.error('Error loading discounted products:', error);
+        setDealOfTheDay([]);
+        setSaverZone([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDiscountedProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="first-carousel mx-auto pt-10 px-5">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-gray-600">Loading deals...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (dealOfTheDay.length === 0 && saverZone.length === 0) {
+    return null; // Don't render if no discounted products
+  }
 
   return (
     <div className="first-carousel mx-auto pt-10 px-5">
       <div className="flex gap-4 flex-col lg:flex-row justify-center items-center ">
         {/* Deal of the Day Section */}
-        <ProductSection title="DEAL OF THE DAY" products={dealOfTheDay} />
+        {dealOfTheDay.length > 0 && (
+          <ProductSection title="DEAL OF THE DAY" products={dealOfTheDay} />
+        )}
         
         {/* Saver Zone Section */}
-        <ProductSection title="SAVER ZONE" products={saverZone} />
+        {saverZone.length > 0 && (
+          <ProductSection title="SAVER ZONE" products={saverZone} />
+        )}
       </div>
     </div>
   );

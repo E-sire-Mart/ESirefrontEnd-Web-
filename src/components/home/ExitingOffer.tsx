@@ -1,103 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
-import image1 from "../../assets/home_transfer_images/6.png";
-import image2 from "../../assets/home_transfer_images/7.png";
-import image3 from "../../assets/home_transfer_images/9.png";
-import image4 from "../../assets/home_transfer_images/11.png";
-import image5 from "../../assets/home_transfer_images/14.png";
-import image6 from "../../assets/home_transfer_images/18.png";
-import image7 from "../../assets/home_transfer_images/20.png";
-import image8 from "../../assets/home_transfer_images/21.png";
+import { useNavigate } from "react-router-dom";
+import { convertTextToURLSlug } from "../../utils/helper";
+import { listDiscountedProductsApi } from "../../services/api/products";
+import { SERVER_URL } from "../../services/url";
 
-const newsItems = [
-  {
-    title: "Dr. Abdullah Abdullah's Presidential Election Campaign",
-    category: "Politics",
-    date: "25",
-    month: "May",
-    timer: Date.now(),
-    discountedPrice: "399",
-    originalPrice: "698",
-    discount: "43%",
-    image: image1,
-  },
-  {
-    title: "Afghanistan's President Ashraf Ghani Speaks At The Council",
-    category: "Politics",
-    date: "10",
-    month: "Mar",
-    timer: Date.now(),
-    discountedPrice: "399",
-    originalPrice: "698",
-    discount: "43%",
-    image: image2,
-  },
-  {
-    title: "Middle East Participants Gather In Warsaw",
-    category: "Politics",
-    date: "20",
-    month: "Jan",
-    timer: Date.now(),
-    discountedPrice: "399",
-    originalPrice: "698",
-    discount: "43%",
-    image: image3,
-  },
-  {
-    title: "Afghan President Ashraf Ghani Visits Jalalabad",
-    category: "Politics",
-    date: "25",
-    month: "May",
-    timer: Date.now(),
-    discountedPrice: "399",
-    originalPrice: "698",
-    discount: "43%",
-    image: image4
-  },
-  {
-    title: "Afghan President Ashraf Ghani Visits Jalalabad",
-    category: "Politics",
-    date: "25",
-    month: "May",
-    timer: Date.now(),
-    discountedPrice: "399",
-    originalPrice: "698",
-    discount: "43%",
-    image: image5
-  },
-  {
-    title: "Afghan President Ashraf Ghani Visits Jalalabad",
-    category: "Politics",
-    date: "25",
-    month: "May",
-    timer: Date.now(),
-    discountedPrice: "399",
-    originalPrice: "698",
-    discount: "43%",
-    image: image6,
-  },
-  {
-    title: "Afghan President Ashraf Ghani Visits Jalalabad",
-    category: "Politics",
-    date: "25",
-    month: "May",
-    timer: Date.now(),
-    discountedPrice: "399",
-    originalPrice: "698",
-    discount: "43%",
-    image: image7,
-  },
-  {
-    title: "Afghan President Ashraf Ghani Visits Jalalabad",
-    category: "Politics",
-    date: "25",
-    month: "May",
-    timer: Date.now(),
-    discountedPrice: "399",
-    originalPrice: "698",
-    discount: "43%",
-    image: image8,
-  },
-];
+type DiscountProduct = {
+  _id: string;
+  name: string;
+  image: string[];
+  price: number;
+  compareAtPrice?: number;
+  discountPercent: number;
+};
 
 const Timer: React.FC = () => {
   const [time, setTime] = useState({
@@ -152,13 +66,16 @@ const Timer: React.FC = () => {
 };
 
 const ExitingOffer: React.FC = () => {
+  const navigate = useNavigate();
   const carouselRef = useRef<HTMLDivElement>(null);
   const itemWidth = 320; // Adjust width as needed
+  const [items, setItems] = useState<DiscountProduct[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const scrollLeft = () => {
     if (carouselRef.current && carouselRef.current.scrollLeft === 0) {
       carouselRef.current.scrollTo({
-        left: newsItems.length * itemWidth,
+        left: items.length * itemWidth,
         behavior: "auto",
       });
     }
@@ -178,6 +95,21 @@ const ExitingOffer: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true);
+        const products: DiscountProduct[] = await listDiscountedProductsApi();
+        setItems(products || []);
+      } catch (e) {
+        setItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
+
   return (
     <div className="mx-auto relative first-carousel px-5">
       <style>
@@ -187,7 +119,10 @@ const ExitingOffer: React.FC = () => {
           }
         `}
       </style>
-      <p className="text-xl sm:text-2xl font-bold text-gray-800 pb-10 pt-4">Exiting Offer</p>
+      {items.length > 0 && (
+        <p className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white pb-10 pt-4">Exiting Offer</p>
+      )}
+      {items.length > 0 && (
       <div className="relative">
         <button
           onClick={scrollLeft}
@@ -203,40 +138,47 @@ const ExitingOffer: React.FC = () => {
             msOverflowStyle: 'none'
           }}
         >
-          {newsItems.map((item, index) => (
+          {items.map((item, index) => (
             <div
               key={index}
-              className="relative flex-none w-80 h-[250px] rounded-lg shadow-lg p-5"
+              onClick={() => navigate(`/prn/${convertTextToURLSlug(item.name)}/prid/${item._id}`)}
+              className="relative flex-none w-80 h-[250px] rounded-lg shadow-lg p-5 cursor-pointer hover:shadow-xl transition-shadow"
               style={{
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
               }}
             >
+              {/* Discount Badge */}
+              {item.discountPercent > 0 && (
+                <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold z-10">
+                  {item.discountPercent}% OFF
+                </div>
+              )}
               {/* Replace the static timer with the Timer component */}
               <Timer />
 
               {/* Price and Discount Info */}
               <div className="mt-4">
                 <div className="text-white text-2xl font-bold">
-                  AED {item.discountedPrice || "399"}
+                  AED {Math.max(0, Number(item.price) * (1 - (item.discountPercent || 0) / 100)).toFixed(0)}
                 </div>
                 <div className="text-white/80 line-through text-sm">
-                  AED {item.originalPrice || "698"}
+                  AED {item.compareAtPrice || item.price}
                 </div>
                 <div className="text-white text-xl font-bold mt-1">
-                  {item.discount || "43%"} Off
+                  {item.discountPercent}% Off
                 </div>
               </div>
 
               {/* Product Title */}
               <div className="text-white text-sm mt-2 truncate max-w-[150px]">
-                {item.title}
+                {item.name}
               </div>
 
               {/* Product Image */}
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-40 h-40 rounded-lg p-2">
                 <img
-                  src={item.image}
-                  alt={item.title}
+                  src={`${SERVER_URL}/${item.image?.[0]}`}
+                  alt={item.name}
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -251,6 +193,7 @@ const ExitingOffer: React.FC = () => {
           ▶
         </button>
       </div>
+      )}
     </div>
   );
 };

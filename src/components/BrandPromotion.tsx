@@ -38,18 +38,18 @@ export const allFeatures: Feature[] = [
 
 const PromoFeature = (props: Feature) => {
   return (
-    <div className="relative rounded-2xl bg-white/90 backdrop-blur-sm border border-gray-100 p-6 sm:p-7 flex flex-col items-center gap-3 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+    <div className="relative rounded-2xl bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-100 dark:border-gray-700 p-6 sm:p-7 flex flex-col items-center gap-3 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
       {/* soft accent blob */}
-      <div className="absolute -top-16 -right-8 w-40 h-40 rounded-full bg-gradient-to-tr from-indigo-100 to-pink-100 blur-2xl opacity-60" />
+      <div className="absolute -top-16 -right-8 w-40 h-40 rounded-full bg-gradient-to-tr from-indigo-100 to-pink-100 dark:from-indigo-900/20 dark:to-pink-900/20 blur-2xl opacity-60" />
 
-      <div className="relative w-24 h-24 rounded-full ring-1 ring-gray-200 bg-gradient-to-br from-indigo-50 to-pink-50 flex items-center justify-center">
+      <div className="relative w-24 h-24 rounded-full ring-1 ring-gray-200 dark:ring-gray-700 bg-gradient-to-br from-indigo-50 to-pink-50 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
         <img className="w-16 h-16 object-contain" src={props.imgSrc} alt="" />
       </div>
 
       <h5 className="text-center text-base font-bold bg-gradient-to-r from-indigo-600 to-fuchsia-600 bg-clip-text text-transparent">
         {props.text}
       </h5>
-      <p className="text-center text-sm text-gray-600 leading-relaxed">
+      <p className="text-center text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
         {props.description}
       </p>
     </div>
@@ -67,7 +67,7 @@ const BrandPromotion = () => {
             ))}
           </div>
           <div className="pt-2 pb-8">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               "e-Sire Mart" is owned & managed by "e-Sire Mart eCommerce Private
               Limited" and is not related, linked or interconnected with any
               other business service.

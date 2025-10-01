@@ -30,6 +30,94 @@
     rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
 }
 
+/* Dark mode variables */
+.dark {
+  color-scheme: dark;
+  
+  --green-shade-1: rgb(20, 40, 20);
+  --green-shade-2: rgb(15, 35, 15);
+  --border-default-color: rgb(75, 75, 75);
+  --border-muted-color: rgb(60, 60, 60);
+  
+  --nav-shadow: rgb(0 0 0 / 20%) 0px 0px 10px 0px;
+  --searchbox-shadow: rgb(0 0 0 / 25%) 0px 2px 8px;
+  --couponcard-shadow: rgb(0 0 0 / 30%) 0px 2px 4px;
+  --modal-shadow: 0 0 14px 0 rgb(0 0 0 / 50%);
+  --drawer-shadow: -4px 0 4px 0 rgb(0 0 0 / 30%);
+  --box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px;
+  --sticky-bottom-shadow: rgb(0 0 0 / 20%) 0px 0px 10px 0px;
+  --floatingBtn-shadow: rgb(0 0 0 / 40%) 0px 3px 5px -1px,
+    rgb(0 0 0 / 30%) 0px 6px 10px 0px, rgb(0 0 0 / 25%) 0px 1px 18px 0px;
+}
+
+/* Ant Design dark-mode tweaks for customer pages */
+.dark .ant-card,
+.dark .ant-card-bordered {
+  background-color: #121826 !important; /* deeper for contrast */
+  border-color: #2b3445 !important;     /* visible border */
+  color: #e5e7eb !important;            /* gray-200 */
+}
+
+.dark .ant-card-head,
+.dark .ant-card-body {
+  background-color: #1f2937 !important;
+  color: #e5e7eb !important;
+}
+
+.dark .ant-input,
+.dark .ant-input[disabled],
+.dark .ant-input-affix-wrapper,
+.dark .ant-input-number,
+.dark .ant-select-selector,
+.dark .ant-picker,
+.dark .ant-textarea {
+  background-color: #0b1220 !important; /* keep readable */
+  border-color: #2b3445 !important;
+  color: #e5e7eb !important;
+}
+
+.dark .ant-input::placeholder,
+.dark .ant-select-selection-placeholder,
+.dark .ant-input-affix-wrapper .ant-input::placeholder {
+  color: #9ca3af !important; /* gray-400 */
+}
+
+.dark .ant-select-dropdown,
+.dark .ant-picker-panel-container,
+.dark .ant-dropdown-menu {
+  background-color: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
+}
+
+.dark .ant-select-item-option-active,
+.dark .ant-select-item-option-selected,
+.dark .ant-dropdown-menu-item:hover {
+  background-color: rgba(255,255,255,0.06) !important;
+}
+
+.dark .ant-btn-default {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #e5e7eb !important;
+}
+
+.dark .ant-divider,
+.dark .ant-table,
+.dark .ant-table-container,
+.dark .ant-table-thead > tr > th,
+.dark .ant-table-tbody > tr > td {
+  border-color: #2b3445 !important;
+  background-color: #0f172a !important;
+  color: #e5e7eb !important;
+}
+
+/* Utility borders for sections in dark mode */
+.dark ._section-card {
+  border: 1px solid #2b3445;
+  background: #0f172a;
+}
+
 /* Base Typography System */
 @layer base {
   html {
@@ -43,6 +131,12 @@
     font-weight: 400;
     line-height: 1.6;
     color: #1f2937;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .dark body {
+    color: #f9fafb;
+    background-color: #111827;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -131,6 +225,14 @@ html {
   ._text-muted {
     @apply text-neutral-500 font-inter;
   }
+  /* Dark mode overrides for text utility classes */
+  /* Make dark mode use the same text colors as light to keep parity */
+  .dark ._text-default {
+    @apply text-neutral-700;
+  }
+  .dark ._text-muted {
+    @apply text-neutral-500;
+  }
   ._border {
     border-color: var(--border-default-color);
   }
@@ -142,11 +244,11 @@ html {
     box-shadow: var(--nav-shadow);
   }
   ._searchbox {
-    @apply bg-white border rounded-lg sm:absolute sm:max-w-[300px] md:max-w-[600px] w-full mx-auto lg:mx-2 pl-16 pr-6 flex items-center;
+    @apply bg-white border rounded-lg sm:absolute sm:max-w-[300px] md:max-w-[600px] w-full mx-auto lg:mx-2 pl-16 pr-8 flex items-center;
     border-color: var(--border-muted-color);
     box-shadow: var(--searchbox-shadow);
     top: 18px;
-    height: 50px;
+    height: 56px;
   }
   ._coupon:hover {
     box-shadow: var(--couponcard-shadow);
@@ -160,7 +262,7 @@ html {
     box-shadow: var(--drawer-shadow);
   }
   ._card {
-    @apply border _border-muted rounded-lg px-3 pb-3 flex flex-col bg-white transition;
+    @apply border _border-muted rounded-lg px-3 pb-3 flex flex-col bg-white transition dark:bg-gray-800 dark:border-gray-700;
   }
   ._card:hover {
     box-shadow: var(--box-shadow);

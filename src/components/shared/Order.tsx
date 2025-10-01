@@ -99,7 +99,7 @@ const Order: React.FC<OrderProps> = ({ toggleOrderModal, onOrderSuccess }) => {
       render: (items: ProductItem[]) =>
         items.map((item) => (
           <div key={item.productId} className="product-item">
-            {item.productName} - ₹{item.price} x {item.quantity}
+            {item.productName} - ${item.price} x {item.quantity}
           </div>
         )),
     },
@@ -108,7 +108,7 @@ const Order: React.FC<OrderProps> = ({ toggleOrderModal, onOrderSuccess }) => {
       dataIndex: "price",
       key: "price",
       align: "center",
-      render: (amount) => `₹${amount}`,
+      render: (amount) => `$${amount}`,
     },
     {
       title: "Status",

@@ -56,8 +56,8 @@ const responsive = {
 const ItemsCarousel = ({ items }: { items: any[] }) => {
 
   return (
-    <div className="max-h-[290px] mb-8 flex w-full relative">
-      <div className="flex-1 overflow-auto">
+    <div className="mb-6 sm:mb-8 w-full relative">
+      <div className="flex-1 overflow-x-hidden">
         <Carousel
           swipeable={false}
           draggable={false}
@@ -67,7 +67,8 @@ const ItemsCarousel = ({ items }: { items: any[] }) => {
           customButtonGroup={<CarouselButtonGroup />}
           shouldResetAutoplay={false}
           infinite={false}
-          itemClass="text-center"
+          containerClass="px-1 sm:px-0"
+          itemClass="text-center px-1 sm:px-2"
           partialVisible
         >
           {items?.map((item, i) => (

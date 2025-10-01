@@ -8,30 +8,17 @@ import {
 import ProductCard from "../ProductCard";
 import { Loader } from "../shared";
 import { Empty } from "antd";
+import { categoriesService, type Category } from "../../services/api/categories";
 
-const categories = [
-  { name: "All", icon: "0.webp" },
-  { name: "Fruits & Vegetables", icon: "1.avif" },
-  { name: "Dairy, Bread & Eggs", icon: "2.avif" },
-  { name: "Snacks & Munchies", icon: "3.avif" },
-  { name: "Bakery & Biscuits", icon: "4.avif" },
-  { name: "Breakfast & Instant Food", icon: "5.webp" },
-  { name: "Tea, Coffee & Health Drink", icon: "6.avif" },
-  { name: "Cold Drinks & Juices", icon: "7.avif" },
-  { name: "Sweet Tooth", icon: "8.avif" },
-  { name: "Atta, Rice & Dai", icon: "9.avif" },
-  { name: "Masala, Oil & More", icon: "10.avif" },
-  { name: "Sauces & Spreads", icon: "11.avif" },
-  { name: "Chicken, Meat & Fish", icon: "12.avif" },
-  { name: "Organic & Healthy Living", icon: "13.avif" },
-  { name: "Paan Corner", icon: "14.avif" },
-  { name: "Baby Care", icon: "15.avif" },
-  { name: "Pharma & Wellness", icon: "16.webp" },
-  { name: "Cleaning Essentials", icon: "17.avif" },
-  { name: "Home & Office", icon: "18.webp" },
-  { name: "Personal Care", icon: "19.webp" },
-  { name: "Pet Care", icon: "20.avif" },
-];
+// Build absolute URL for images coming from backend (uploads/filename)
+const getImageUrl = (path?: string | null) => {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  const base = (import.meta as any).env?.VITE_SERVER_URL || "http://localhost:3003";
+  const normalized = String(path).replace(/\\/g, "/").replace(/^\/+/, "");
+  const withUploads = normalized.startsWith("uploads/") ? normalized : `uploads/${normalized}`;
+  return `${String(base).replace(/\/+$/, "")}/${withUploads}`;
+};
 
 interface ProductViewAllProps {
   searchText: string;
@@ -41,9 +28,31 @@ const ProductViewAll: React.FC<ProductViewAllProps> = ({ searchText }) => {
   const param = useParams();
   const [shopId, setShopId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [category, setCategory] = useState(categories[0].name);
+  const [rootCategories, setRootCategories] = useState<Category[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
+  const [selectedCategoryName, setSelectedCategoryName] = useState<string>("All");
+  const [counts, setCounts] = useState<Record<string, number>>({});
   const [products, setProducts] = useState<any[]>([]);
+  const [visible, setVisible] = useState<number>(30);
   const [shopName, setShopName] = useState<string>("");
+
+  // Load top-level (root) categories from backend
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await categoriesService.getRootCategories();
+        if (res.success && res.data) {
+          setRootCategories(res.data);
+          // Do not preselect a category on initial load; show All products
+          setSelectedCategoryId("");
+          setSelectedCategoryName("All");
+        }
+      } catch (e) {
+        console.error("Failed to load root categories", e);
+      }
+    };
+    load();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,22 +61,46 @@ const ProductViewAll: React.FC<ProductViewAllProps> = ({ searchText }) => {
       const data: ProductSearchPayload = {
         searchText: searchText,
         shopId: param.shopId,
-        category: category,
+        category: selectedCategoryId, // send category id to backend
         nearby: false,
         page: 1,
         limit: 50,
       };
 
-      const response = await listProductsApi(data);
-      console.log(response);
-
-      setLoading(false);
-      setProducts(response[0].products);
-      setShopName(response[0].shopName);
+      try {
+        const response = await listProductsApi(data);
+        setLoading(false);
+        // Combine products from all shops when no specific shop/category is selected
+        const combined = Array.isArray(response)
+          ? response.flatMap((row: any) => row?.products || [])
+          : [];
+        setProducts(combined);
+        setVisible(30);
+        setShopName("");
+      } catch (e) {
+        console.error(e);
+        setLoading(false);
+      }
     };
 
-    fetchData();
-  }, [category, searchText]);
+    if (selectedCategoryId !== undefined) fetchData();
+  }, [selectedCategoryId, searchText, param.shopId]);
+
+  // Fetch product counts per category for the selected shop (keys may be ids or names)
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const base = import.meta.env.VITE_SERVER_URL;
+        const url = `${base}/api/v1/product/counts/by-category${param.shopId ? `?shopId=${param.shopId}` : ''}`;
+        const res = await fetch(url);
+        const json = await res.json();
+        setCounts(json.counts || {});
+      } catch (e) {
+        console.error('Failed to load category counts', e);
+      }
+    };
+    fetchCounts();
+  }, [param.shopId]);
 
   useEffect(() => {
     setShopId(param.shopId || "");
@@ -87,38 +120,52 @@ const ProductViewAll: React.FC<ProductViewAllProps> = ({ searchText }) => {
             scrollbarWidth: "none",
           }}
         >
-          {categories.map((cat) => (
+          {rootCategories.map((cat) => (
             <button
-              key={cat.name}
-              className={`category-button ${
-                category === cat.name ? "active" : ""
-              }`}
-              onClick={() => setCategory(cat.name)}
+              key={cat._id}
+              className={`category-button ${selectedCategoryId === cat._id ? "active" : ""}`}
+              onClick={() => {
+                setSelectedCategoryId(cat._id);
+                setSelectedCategoryName(cat.name);
+              }}
               style={{
                 display: "flex",
                 alignItems: "center",
                 padding: "0.75rem 1rem",
                 border: "none",
                 borderBottom: "1px solid #dddddd",
-                backgroundColor: category === cat.name ? "#F0F8E7" : "white",
-                borderLeft:
-                  category === cat.name
-                    ? "5px solid green"
-                    : "5px solid transparent",
+                backgroundColor: selectedCategoryId === cat._id ? "#F0F8E7" : "white",
+                borderLeft: selectedCategoryId === cat._id ? "5px solid green" : "5px solid transparent",
                 cursor: "pointer",
                 textAlign: "left",
+                justifyContent: 'space-between'
               }}
             >
               <img
-                src={`/categories/${cat.icon}`}
+                src={getImageUrl(cat.image) || ''}
                 alt={cat.name}
                 style={{
                   width: "50px",
                   height: "50px",
                   marginRight: "10px",
+                  borderRadius: 6,
+                  objectFit: 'cover'
                 }}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
-              <p className="font-normal">{cat.name}</p>
+              <p className="font-normal" style={{flex:1}}>{cat.name}</p>
+              <span
+                style={{
+                  background: '#e5f6eb',
+                  color: '#0c831f',
+                  borderRadius: '9999px',
+                  fontSize: '12px',
+                  padding: '2px 8px',
+                  marginLeft: '8px'
+                }}
+              >
+                {counts[cat._id] || counts[cat.name] || 0}
+              </span>
             </button>
           ))}
         </div>
@@ -130,10 +177,6 @@ const ProductViewAll: React.FC<ProductViewAllProps> = ({ searchText }) => {
             backgroundColor: "#F4F6FB",
             padding: 0,
             position: "relative",
-            // display:'flex',
-            // justifyContent:'center',
-            // alignItems:'center',
-            // flexDirection:'column'
           }}
         >
           {loading ? (
@@ -147,33 +190,48 @@ const ProductViewAll: React.FC<ProductViewAllProps> = ({ searchText }) => {
                   </h1>
                 )}
                 <p className="font-medium text-[#333]">
-                  Total: {products.length} products
+                  {selectedCategoryName} · Total: {products.length} products
                 </p>
               </div>
 
-              <div className="_container w-full flex justify-center p-2">
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {products.length > 0 ? (
-                    products.map((product) => (
-                      <ProductCard key={product.id} data={product} />
-                    ))
-                  ) : (
-                    <div
-                      style={{
-                        width: "100%",
-                        gap: "8px",
-                        padding: "8px",
-                        backgroundColor: "#F4F6FB",
-                        flexWrap: "wrap",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Empty />
+              <div className="_container w-full p-4">
+                {products.length > 0 ? (
+                  <>
+                    <div className="product-grid">
+                      {products.slice(0, visible).map((product) => (
+                        <ProductCard key={product.id || product._id} data={product} />
+                      ))}
                     </div>
-                  )}
-                </div>
+                    {products.length > visible && (
+                      <div style={{ display: 'flex', justifyContent: 'center', padding: '16px' }}>
+                        <button
+                          onClick={() => setVisible((v) => v + 30)}
+                          style={{
+                            background: '#0c831f', color: '#fff', border: 'none', borderRadius: 8,
+                            padding: '10px 16px', cursor: 'pointer'
+                          }}
+                        >
+                          View More
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      gap: "8px",
+                      padding: "8px",
+                      backgroundColor: "#F4F6FB",
+                      flexWrap: "wrap",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Empty />
+                  </div>
+                )}
               </div>
             </>
           )}

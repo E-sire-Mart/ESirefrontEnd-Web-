@@ -3,6 +3,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import CarouselButtonGroup from '../CarouselButtonGroup';
 import { ProductItemDetailed } from '../../utils/types';
+import { calculateDiscountedPrice, hasActiveDiscount } from '../../utils/helper';
 
 const responsive = {
   lgdesktop: {
@@ -35,15 +36,18 @@ const VarientItem = ({
   data: any;
   onSelect: () => void;
 }) => {
+  const isDiscountActive = hasActiveDiscount(data);
+  const discountedPrice = calculateDiscountedPrice(data.price, data.discountPercent || 0);
+  
   return (
     <div
       onClick={() => onSelect()}
       className={`rounded-lg max-w-[150px] border overflow-hidden leading-none ${
-        data.selected ? 'border-[#b1dc9c]' : '_border-muted'
+        data.selected ? 'border-[#b1dc9c]' : '_border-muted dark:border-gray-700'
       } ${
         data.out_of_stock
-          ? 'bg-gray-50 pointer-events-none'
-          : 'bg-white cursor-pointer'
+          ? 'bg-gray-50 dark:bg-gray-800 pointer-events-none'
+          : 'bg-white dark:bg-gray-700 cursor-pointer'
       }`}
     >
       <div className="py-2 px-3 flex items-center">
@@ -51,19 +55,26 @@ const VarientItem = ({
           <input type="radio" checked={data.selected} readOnly />
         </div>
         <div>
-          <p className="font-bold text-[15px]">{data.unit}</p>
+          <p className="font-bold text-[15px] text-gray-900 dark:text-gray-100">{data.unit}</p>
           {data.out_of_stock ? (
             <span className="text-[10px] text-red-500">Out of stock</span>
           ) : (
-            <span className="text-xs">
-              ₹{data.price}
-              <del className="ml-1 opacity-80">₹{data.mrp}</del>
-            </span>
+            <div className="text-xs text-gray-700 dark:text-gray-200">
+              {isDiscountActive ? (
+                <div>
+                  <div className="text-red-600 font-bold">AED {discountedPrice.toFixed(0)}</div>
+                  <del className="opacity-80 text-gray-400 dark:text-gray-400">AED {data.price.toFixed(0)}</del>
+                  <div className="text-[10px] text-red-600 font-bold">{data.discountPercent}% OFF</div>
+                </div>
+              ) : (
+                <span>AED {data.price.toFixed(0)}</span>
+              )}
+            </div>
           )}
         </div>
       </div>
       {data.selected && data.offer && (
-        <div className="text-[11px] text-center font-bold bg-[#ecffec] border-t border-[#b1dc9c] text-[#54b226] py-2 px-3">
+        <div className="text-[11px] text-center font-bold bg-[#ecffec] dark:bg-green-900/20 border-t border-[#b1dc9c] dark:border-green-700 text-[#54b226] dark:text-green-300 py-2 px-3">
           {data.offer}
         </div>
       )}

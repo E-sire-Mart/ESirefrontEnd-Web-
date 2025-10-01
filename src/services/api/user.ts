@@ -171,3 +171,72 @@ export const  uploadAvatar = async (file: File) => {
   console.log('Upload response data:', responseData);
   return responseData;
 }; 
+
+// Fetch all users with roles (admins, vendors, delivery, users)
+export const getAllUsersWithRoles = async (): Promise<Array<{
+  id: string;
+  name: string;
+  roles: string[];
+  role: string; // Keep for backward compatibility
+  email?: string;
+  avatar?: string;
+  isOnline?: boolean;
+}>> => {
+  const userDataFromStorage = localStorage.getItem('user');
+  let token: string | null = null;
+  if (userDataFromStorage) {
+    try {
+      const parsed = JSON.parse(userDataFromStorage);
+      token = parsed?.access_token || parsed?.token || null;
+    } catch {}
+  }
+
+  const base = (import.meta as any).env?.VITE_SERVER_URL || 'http://localhost:3003';
+  const endpoint = `${base}/api/v1/chat`;
+
+  let data: any = null;
+  try {
+    const res = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+    data = await res.json();
+  } catch (e) {
+    console.warn('Unable to fetch users list from backend', e);
+    return [];
+  }
+
+  const list = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : Array.isArray(data?.users) ? data.users : [];
+
+  const normalizeRoles = (user: any): string[] => {
+    // Map backend role fields to our role categories (users can have multiple roles)
+    const roles: string[] = [];
+    if (user.isAdmin) roles.push('admin');
+    if (user.is_owner) roles.push('vendor');
+    if (user.isDelivery) roles.push('delivery');
+    if (roles.length === 0) roles.push('user');
+    return roles;
+  };
+
+  return list.map((u: any) => {
+    const first = u.first_name || u.firstName || u.given_name || '';
+    const last = u.last_name || u.lastName || u.family_name || '';
+    const name = `${first} ${last}`.trim() || u.username || u.email || 'User';
+    
+    return {
+      id: u._id || u.id,
+      name,
+      roles: normalizeRoles(u),
+      role: normalizeRoles(u)[0], // Keep for backward compatibility
+      email: u.email,
+      avatar: u.avatar,
+      isOnline: Boolean(u.isOnline),
+    };
+  });
+};

@@ -9,6 +9,7 @@ import ResetPassword from "./components/auth/ResetPass";
 import EmailVerification from "./pages/EmailVerification";
 
 const ProductView = React.lazy(() => import("./pages/ProductView"));
+const DiscountedProducts = React.lazy(() => import("./pages/DiscountedProducts"));
 
 const AppWithRouting = () => {
   const [searchText, setSearchText] = useState<string>('');
@@ -39,6 +40,14 @@ const AppWithRouting = () => {
         element={
           <Suspense fallback={<Loader />}>
             <Layout component={<ProductView />} onSearch={onSearch}/>
+          </Suspense>
+        }
+      />
+      <Route
+        path="/discounted-products"
+        element={
+          <Suspense fallback={<Loader />}>
+            <Layout component={<DiscountedProducts />} onSearch={onSearch}/>
           </Suspense>
         }
       />

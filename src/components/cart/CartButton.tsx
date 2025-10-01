@@ -22,7 +22,7 @@ const CartButton = () => {
         ) : (
           <>
             <span className="tracking-tight">{loading ? '...' : totalQuantity} items</span>
-            <span className="tracking-tight mt-0.5">₹{loading ? '...' : formattedBillAmount}</span>
+            <span className="tracking-tight mt-0.5">${loading ? '...' : formattedBillAmount}</span>
           </>
         )}
       </div>

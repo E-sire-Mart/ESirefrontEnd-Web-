@@ -12,18 +12,18 @@ const ProductsRow = ({ shopName, shopId, products }: ProductRow) => {
   };
 
   return (
-    <section>
-      <div className="flex items-center justify-between h-16">
-        <h2 className="font-bold text-[26px] _text-default">{shopName}</h2>
-        {/* Add any additional logic or actions related to the shop */}
-        <div
-          style={{ fontSize: "20px", fontWeight: "bold", color: "#15803d", cursor: "pointer" }}
-          onClick={() => {
-            handleSeeAll(shopId);
-          }}
+    <section className="w-full">
+      <div className="flex items-center justify-between h-14 sm:h-16 px-1 sm:px-0">
+        <h2 className="_text-default font-extrabold text-[18px] sm:text-[22px] md:text-[26px] tracking-tight">
+          {shopName}
+        </h2>
+        <button
+          className="text-emerald-700 hover:text-emerald-800 text-sm sm:text-base font-semibold transition-colors"
+          onClick={() => handleSeeAll(shopId)}
+          type="button"
         >
           See all
-        </div>
+        </button>
       </div>
       <ItemsCarousel items={products} />
     </section>

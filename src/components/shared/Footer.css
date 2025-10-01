@@ -1,54 +1,94 @@
-/* Footer.css */
-.footer-section {
-    font-family: Arial, sans-serif;
+/* Footer.css - Modern Styling */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.4s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Footer hover effects */
+.footer-category-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-category-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Social media icons */
+.social-icon {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-icon:hover {
+  transform: translateY(-2px) scale(1.1);
+}
+
+/* Newsletter input focus */
+.newsletter-input:focus {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+/* FAQ accordion */
+.faq-accordion {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-accordion:hover {
+  transform: translateX(4px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-grid {
+    gap: 2rem;
   }
   
-  .content-container .faq-item {
-    margin-bottom: 1rem;
+  .footer-categories {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  .faq-question {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #333;
+}
+
+@media (max-width: 480px) {
+  .footer-categories {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .faq-answer-container {
-    padding: 10px 15px;
-  }
-  
-  .faq-answer {
-    line-height: 1.5;
-    color: #555;
-  }
-  
-  .faq-answer ul.list-style {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin-top: 5px;
-  }
-  
-  .faq-answer ul.list-style li {
-    margin-bottom: 8px;
-  }
-  
-  .footer-bottom {
-    background-color: #fcfcfc;
-  }
-  
-  .footer-bottom-content {
-    padding-top: 1rem;
-  }
-  
-  .category-link {
-    padding: 5px 10px;
-  }
-  
-  .social-links .social-icon {
-    transition: background 0.3s ease;
-  }
-  
-  .social-links .social-icon:hover {
-    background-color: #333;
-  }
+}
   

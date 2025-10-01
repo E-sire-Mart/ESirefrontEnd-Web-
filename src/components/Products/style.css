@@ -18,6 +18,25 @@
   height: 100%;
 }
 
+/* Dark mode variables for the category page */
+.dark .product-view-all {
+  --sidebar-bg: #0b1220; /* deeper dark for sidebar */
+  --sidebar-text: #e5e7eb; /* gray-200 */
+  --chip-bg: rgba(56,189,248,0.15); /* cyan tint */
+  --chip-fg: #7dd3fc; /* cyan-300 */
+  --content-bg: #0b1220; /* deep slate for content backdrop */
+  --content-heading: #e5e7eb;
+  --active-bg: rgba(34,197,94,0.18); /* green highlight for active */
+  --thumb-bg: #0b1220; /* thumb background to blend */
+  --thumb-border: #2b3445; /* thumb border in dark */
+}
+
+/* Ensure product container scrolls instead of overflowing the page */
+.product-view-all ._container {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
 header h1 {
   font-size: 24px;
   font-weight: bold;
@@ -32,6 +51,22 @@ header h2 {
   display: flex;
   /* gap: 10px; */
   box-shadow: var(--nav-shadow);
+}
+
+.dark .category-bar .category-button.active {
+  background-color: rgba(34,197,94,0.18) !important; /* slightly stronger to match light emphasis */
+}
+
+.dark .category-bar .category-button,
+.dark .category-button {
+  color: var(--sidebar-text) !important; /* keep same perceived brightness */
+}
+
+/* Ensure text within buttons respects sidebar text color variables */
+.category-bar .category-button p,
+.category-bar .category-button span,
+.category-bar .category-button .font-medium {
+  color: var(--sidebar-text, #111827) !important;
 }
 
 .category-button {
